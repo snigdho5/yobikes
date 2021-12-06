@@ -90,7 +90,7 @@ $dtime =  $now->format("Y-m-d H:i:s");
 define("dtime",$dtime);
 define('DT',date('Y-m-d'));
 
-define('comp_name','Loading Checklist Admin');
+define('comp_name','Yobikes Admin');
 define('api_accessKey','u$rc028aeb6aeae48bf6b41124076bcb55f');
 define('api_secretKey','1b311742e41ac2f88b54597ed0cf67870dad2e6e');
 define('capSiteKey','6Leqxq8ZAAAAALTvA0t1jmAC3iG55LooV-s647Vi');
