@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Companies extends CI_Controller
+class CNFEntry extends CI_Controller
 {
 
 	public function __construct()
@@ -13,13 +13,13 @@ class Companies extends CI_Controller
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			$this->data['page_title'] = 'Companies';
-			$custdata = $this->am->getCompanyData(array('status' => 1), TRUE);
+			$custdata = $this->am->getCNFEntryData(array('status' => 1), TRUE);
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
 					$this->data['comp_data'][] = array(
 						'dtime'  => $value->added_dtime,
-						'compid'  => encode_url($value->company_id),
-						'name'  => $value->company_name,
+						'compid'  => encode_url($value->entry_id),
+						'name'  => $value->name,
 						'status'  => $value->status,
 						'added_by'  => $value->added_by,
 						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
@@ -44,7 +44,7 @@ class Companies extends CI_Controller
 
 				$name = xss_clean($this->input->post('name'));
 
-				$if_exists = $this->am->getCompanyData(array('company_name' => $name), FALSE);
+				$if_exists = $this->am->getCNFEntryData(array('company_name' => $name), FALSE);
 				if ($if_exists) {
 					$return['if_exists'] = 1;
 				} else {
@@ -72,7 +72,7 @@ class Companies extends CI_Controller
 			$chkdata = array(
 				'company_id'  => $company_id
 			);
-			$getdata = $this->am->getCompanyData($chkdata, FALSE);
+			$getdata = $this->am->getCNFEntryData($chkdata, FALSE);
 			if ($getdata) {
 				$this->data['comp_data'] = array(
 					'dtime'  => $getdata->added_dtime,
@@ -97,14 +97,14 @@ class Companies extends CI_Controller
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
 			$this->data['page_title'] = 'Company';
-			$company_id = decode_url(xss_clean($this->input->post('comp_id')));
-			$chkdata = array('company_id'  => $company_id);
+			$entry_id = decode_url(xss_clean($this->input->post('comp_id')));
+			$chkdata = array('entry_id'  => $entry_id);
 
 			$name = xss_clean($this->input->post('name'));
 
 			// print_obj($upd_userdata);die;
 
-			$custdata = $this->am->getCompanyData($chkdata, FALSE);
+			$custdata = $this->am->getCNFEntryData($chkdata, FALSE);
 			if (!empty($custdata)) {
 				//update
 
@@ -114,7 +114,7 @@ class Companies extends CI_Controller
 					'edited_by'  => $this->session->userdata('userid')
 				);
 
-				$upduser = $this->am->updateCompany($upd_data, $chkdata);
+				$upduser = $this->am->updateCNFEntry($upd_data, $chkdata);
 				if ($upduser) {
 					$this->data['update_success'] = 'Successfully updated.';
 					//list
@@ -122,7 +122,7 @@ class Companies extends CI_Controller
 					$dataUpd = $this->am->getCompanyData($chkdata, FALSE);
 					$this->data['comp_data'] = array(
 						'dtime'  => $dataUpd->added_dtime,
-						'compid'  => encode_url($dataUpd->company_id),
+						'compid'  => encode_url($dataUpd->entry_id),
 						'name'  => $dataUpd->company_name,
 						'status'  => $dataUpd->status,
 						'added_by'  => $dataUpd->added_by,
@@ -167,7 +167,7 @@ class Companies extends CI_Controller
 
 					$name = xss_clean($this->input->post('name'));
 					$chkdata = array('company_name'  => $name);
-					$getdata = $this->am->getCompanyData($chkdata, FALSE);
+					$getdata = $this->am->getCNFEntryData($chkdata, FALSE);
 
 					if (!$getdata) {
 
@@ -178,7 +178,7 @@ class Companies extends CI_Controller
 							'added_by'  => $this->session->userdata('userid')
 						);
 						// print_obj($ins_data);die;
-						$addcust = $this->am->addCompany($ins_data);
+						$addcust = $this->am->addCNFEntry($ins_data);
 
 						if ($addcust) {
 							$return['added'] = 'success';
@@ -205,12 +205,12 @@ class Companies extends CI_Controller
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {
 			if ($this->input->is_ajax_request() && $this->input->server('REQUEST_METHOD') == 'POST') {
 
-				$company_id  = decode_url(xss_clean($this->input->post('delid')));
-				$getdata = $this->am->getCompanyData(array('company_id'  => $company_id), FALSE);
+				$entry_id  = decode_url(xss_clean($this->input->post('delid')));
+				$getdata = $this->am->getCNFEntryData(array('entry_id'  => $entry_id), FALSE);
 
 				if (!empty($getdata)) {
 					//del
-					$del = $this->am->delCompany(array('company_id' => $company_id));
+					$del = $this->am->delCNFEntry(array('entry_id' => $entry_id));
 
 					if ($del) {
 						$return['deleted'] = 'success';

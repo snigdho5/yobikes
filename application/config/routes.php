@@ -29,10 +29,10 @@ $route['enable2fa'] = 'Users/onGetTwoFACode';
 $route['set2fa'] = 'Users/onSet2FAuth';
 
 //Company management
-$route['companies'] = 'Companies/index';
-$route['duplicate_check_comp'] = 'Companies/onCheckDuplicateComp';
-$route['add-company'] = 'Companies/onCreateCompView';
-$route['createcompany'] = 'Companies/onCreateComp';
-$route['edit-company/(:any)'] = 'Companies/onGetCompEdit/$1';
-$route['changecompany'] = 'Companies/onChangeComp';
-$route['delcompany'] = 'Companies/onDeleteComp';
+$route['companies'] = 'CNFEntry/index';
+$route['duplicate_check_comp'] = 'CNFEntry/onCheckDuplicateComp';
+$route['add-company'] = 'CNFEntry/onCreateCompView';
+$route['createcompany'] = 'CNFEntry/onCreateComp';
+$route['edit-company/(:any)'] = 'CNFEntry/onGetCompEdit/$1';
+$route['changecompany'] = 'CNFEntry/onChangeComp';
+$route['delcompany'] = 'CNFEntry/onDeleteComp';
