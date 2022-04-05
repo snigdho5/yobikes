@@ -28,11 +28,11 @@ $route['deluser'] = 'Users/onDeleteUser';
 $route['enable2fa'] = 'Users/onGetTwoFACode';
 $route['set2fa'] = 'Users/onSet2FAuth';
 
-//Company management
-$route['companies'] = 'CNFEntry/index';
-$route['duplicate_check_comp'] = 'CNFEntry/onCheckDuplicateComp';
-$route['add-company'] = 'CNFEntry/onCreateCompView';
-$route['createcompany'] = 'CNFEntry/onCreateComp';
-$route['edit-company/(:any)'] = 'CNFEntry/onGetCompEdit/$1';
-$route['changecompany'] = 'CNFEntry/onChangeComp';
-$route['delcompany'] = 'CNFEntry/onDeleteComp';
+//cnf entries management
+$route['cnf/list'] = 'CNFEntry/index';
+$route['cnf/duplicate_check'] = 'CNFEntry/onCheckDuplicate';
+$route['cnf/add'] = 'CNFEntry/onCreateView';
+$route['cnf/create'] = 'CNFEntry/onCreate';
+$route['cnf/edit/(:any)'] = 'CNFEntry/onGetEdit/$1';
+$route['cnf/change'] = 'CNFEntry/onChange';
+$route['cnf/delete'] = 'CNFEntry/onDelete';

@@ -12,13 +12,13 @@ class CNFEntry extends CI_Controller
 	public function index()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
-			$this->data['page_title'] = 'Companies';
+			$this->data['page_title'] = 'CNF Entry';
 			$custdata = $this->am->getCNFEntryData(array('status' => 1), TRUE);
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
 					$this->data['comp_data'][] = array(
 						'dtime'  => $value->added_dtime,
-						'compid'  => encode_url($value->entry_id),
+						'rwid'  => encode_url($value->entry_id),
 						'name'  => $value->name,
 						'status'  => $value->status,
 						'added_by'  => $value->added_by,
@@ -31,13 +31,13 @@ class CNFEntry extends CI_Controller
 			} else {
 				$this->data['comp_data'] = '';
 			}
-			$this->load->view('companies/vw_company_list', $this->data, false);
+			$this->load->view('cnf/vw_list', $this->data, false);
 		} else {
 			redirect(base_url());
 		}
 	}
 
-	public function onCheckDuplicateComp()
+	public function onCheckDuplicate()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			if ($this->input->is_ajax_request() && $this->input->server('REQUEST_METHOD') == 'POST') {
@@ -63,27 +63,42 @@ class CNFEntry extends CI_Controller
 		}
 	}
 
-	public function onGetCompEdit()
+	public function onGetEdit()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
-			$this->data['page_title'] = 'Edit Company';
-			$company_id = decode_url(xss_clean($this->uri->segment(2)));
+			$this->data['page_title'] = 'Edit CNF Entry';
+			$entry_id = decode_url(xss_clean($this->uri->segment(3)));
 			$chkdata = array(
-				'company_id'  => $company_id
+				'entry_id'  => $entry_id
 			);
 			$getdata = $this->am->getCNFEntryData($chkdata, FALSE);
 			if ($getdata) {
 				$this->data['comp_data'] = array(
 					'dtime'  => $getdata->added_dtime,
-					'compid'  => encode_url($getdata->company_id),
-					'name'  => $getdata->company_name,
+					'rwid'  => encode_url($getdata->entry_id),
+					'name'  => $getdata->name,
+					'et_invoice_no'  => $getdata->et_invoice_no,
+					'et_invoice_date'  => $getdata->et_invoice_date,
+					'model'  => $getdata->model,
+					'color'  => $getdata->color,
+					'vin_no'  => $getdata->vin_no,
+					'motor_no'  => $getdata->motor_no,
+					'converter_no'  => $getdata->converter_no,
+					'controller_no'  => $getdata->controller_no,
+					'charger_no'  => $getdata->charger_no,
+					'battery_sl1'  => $getdata->battery_sl1,
+					'battery_sl2'  => $getdata->battery_sl2,
+					'battery_sl3'  => $getdata->battery_sl3,
+					'battery_sl4'  => $getdata->battery_sl4,
+					'battery_sl5'  => $getdata->battery_sl5,
+					'battery_sl6'  => $getdata->battery_sl6,
 					'status'  => $getdata->status,
 					'added_by'  => $getdata->added_by,
 					'edited_dtime'  => ($getdata->edited_dtime != '') ? $getdata->edited_dtime : 'NA'
 				);
 				//print_obj($this->data['comp_data']);die;
-				$this->load->view('companies/vw_company_edit', $this->data, false);
+				$this->load->view('cnf/vw_edit', $this->data, false);
 			} else {
 				redirect(base_url());
 			}
@@ -92,15 +107,30 @@ class CNFEntry extends CI_Controller
 		}
 	}
 
-	public function onChangeComp()
+	public function onChange()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
-			$this->data['page_title'] = 'Company';
-			$entry_id = decode_url(xss_clean($this->input->post('comp_id')));
+			$this->data['page_title'] = 'CNF Entry';
+			$entry_id = decode_url(xss_clean($this->input->post('rw_id')));
 			$chkdata = array('entry_id'  => $entry_id);
 
 			$name = xss_clean($this->input->post('name'));
+			$et_invoice_no = xss_clean($this->input->post('et_invoice_no'));
+			$et_invoice_date = xss_clean($this->input->post('et_invoice_date'));
+			$model = xss_clean($this->input->post('model'));
+			$color = xss_clean($this->input->post('color'));
+			$vin_no = xss_clean($this->input->post('vin_no'));
+			$motor_no = xss_clean($this->input->post('motor_no'));
+			$converter_no = xss_clean($this->input->post('converter_no'));
+			$controller_no = xss_clean($this->input->post('controller_no'));
+			$charger_no = xss_clean($this->input->post('charger_no'));
+			$battery_sl1 = xss_clean($this->input->post('battery_sl1'));
+			$battery_sl2 = xss_clean($this->input->post('battery_sl2'));
+			$battery_sl3 = xss_clean($this->input->post('battery_sl3'));
+			$battery_sl4 = xss_clean($this->input->post('battery_sl4'));
+			$battery_sl5 = xss_clean($this->input->post('battery_sl5'));
+			$battery_sl6 = xss_clean($this->input->post('battery_sl6'));
 
 			// print_obj($upd_userdata);die;
 
@@ -109,30 +139,29 @@ class CNFEntry extends CI_Controller
 				//update
 
 				$upd_data = array(
-					'company_name'  => $name,
+					'name'  => $name,
+					'et_invoice_no'  => $et_invoice_no,
+					'et_invoice_date'  => $et_invoice_date,
+					'model'  => $model,
+					'color'  => $color,
+					'vin_no'  => $vin_no,
+					'motor_no'  => $motor_no,
+					'converter_no'  => $converter_no,
+					'controller_no'  => $controller_no,
+					'charger_no'  => $charger_no,
+					'battery_sl1'  => $battery_sl1,
+					'battery_sl2'  => $battery_sl2,
+					'battery_sl3'  => $battery_sl3,
+					'battery_sl4'  => $battery_sl4,
+					'battery_sl5'  => $battery_sl5,
+					'battery_sl6'  => $battery_sl6,
 					'edited_dtime'  => dtime,
 					'edited_by'  => $this->session->userdata('userid')
 				);
 
 				$upduser = $this->am->updateCNFEntry($upd_data, $chkdata);
-				if ($upduser) {
-					$this->data['update_success'] = 'Successfully updated.';
-					//list
 
-					$dataUpd = $this->am->getCompanyData($chkdata, FALSE);
-					$this->data['comp_data'] = array(
-						'dtime'  => $dataUpd->added_dtime,
-						'compid'  => encode_url($dataUpd->entry_id),
-						'name'  => $dataUpd->company_name,
-						'status'  => $dataUpd->status,
-						'added_by'  => $dataUpd->added_by,
-						'edited_dtime'  => ($dataUpd->edited_dtime != '') ? $dataUpd->edited_dtime : 'NA'
-					);
-				} else {
-					$this->data['update_failure'] = 'Not updated!';
-				}
-
-				$this->load->view('companies/vw_company_edit', $this->data, false);
+				redirect(base_url('cnf/edit/' . encode_url($entry_id)));
 			} else {
 				redirect(base_url());
 			}
@@ -141,23 +170,33 @@ class CNFEntry extends CI_Controller
 		}
 	}
 
-	public function onCreateCompView()
+	public function onCreateView()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
-			$this->data['page_title'] = 'Company';
-			$this->load->view('companies/vw_company_add', $this->data, false);
+			$this->data['page_title'] = 'CNF Entry';
+			$this->load->view('cnf/vw_add', $this->data, false);
 		} else {
 			redirect(base_url());
 		}
 	}
 
-	public function onCreateComp()
+	public function onCreate()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			if ($this->input->is_ajax_request() && $this->input->server('REQUEST_METHOD') == 'POST') {
 
-				$this->form_validation->set_rules('name', 'Comapany Name', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('et_invoice_no', 'ET Invoice No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('et_invoice_date', 'ET Invoice Date', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('model', 'Model', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('color', 'Color', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('vin_no', 'Vin No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('motor_no', 'Motor No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('converter_no', 'Converter No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('controller_no', 'Controller No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('charger_no', 'Charger No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('battery_sl1', 'Battery Sl 1', 'trim|required|xss_clean|htmlentities');
 
 				if ($this->form_validation->run() == FALSE) {
 					$this->form_validation->set_error_delimiters('', '');
@@ -166,14 +205,45 @@ class CNFEntry extends CI_Controller
 				} else {
 
 					$name = xss_clean($this->input->post('name'));
-					$chkdata = array('company_name'  => $name);
+					$et_invoice_no = xss_clean($this->input->post('et_invoice_no'));
+					$et_invoice_date = xss_clean($this->input->post('et_invoice_date'));
+					$model = xss_clean($this->input->post('model'));
+					$color = xss_clean($this->input->post('color'));
+					$vin_no = xss_clean($this->input->post('vin_no'));
+					$motor_no = xss_clean($this->input->post('motor_no'));
+					$converter_no = xss_clean($this->input->post('converter_no'));
+					$controller_no = xss_clean($this->input->post('controller_no'));
+					$charger_no = xss_clean($this->input->post('charger_no'));
+					$battery_sl1 = xss_clean($this->input->post('battery_sl1'));
+					$battery_sl2 = xss_clean($this->input->post('battery_sl2'));
+					$battery_sl3 = xss_clean($this->input->post('battery_sl3'));
+					$battery_sl4 = xss_clean($this->input->post('battery_sl4'));
+					$battery_sl5 = xss_clean($this->input->post('battery_sl5'));
+					$battery_sl6 = xss_clean($this->input->post('battery_sl6'));
+
+					$chkdata = array('name'  => $name);
 					$getdata = $this->am->getCNFEntryData($chkdata, FALSE);
 
 					if (!$getdata) {
 
 						//add
 						$ins_data = array(
-							'company_name'  => $name,
+							'name'  => $name,
+							'et_invoice_no'  => $et_invoice_no,
+							'et_invoice_date'  => $et_invoice_date,
+							'model'  => $model,
+							'color'  => $color,
+							'vin_no'  => $vin_no,
+							'motor_no'  => $motor_no,
+							'converter_no'  => $converter_no,
+							'controller_no'  => $controller_no,
+							'charger_no'  => $charger_no,
+							'battery_sl1'  => $battery_sl1,
+							'battery_sl2'  => $battery_sl2,
+							'battery_sl3'  => $battery_sl3,
+							'battery_sl4'  => $battery_sl4,
+							'battery_sl5'  => $battery_sl5,
+							'battery_sl6'  => $battery_sl6,
 							'added_dtime'  => dtime,
 							'added_by'  => $this->session->userdata('userid')
 						);
@@ -200,7 +270,7 @@ class CNFEntry extends CI_Controller
 		}
 	}
 
-	public function onDeleteComp()
+	public function onDelete()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {
 			if ($this->input->is_ajax_request() && $this->input->server('REQUEST_METHOD') == 'POST') {

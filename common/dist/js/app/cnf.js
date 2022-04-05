@@ -18,7 +18,7 @@ $(document).ready(function () {
 
                     type: 'POST',
 
-                    url: BASE_URL + 'delcompany',
+                    url: BASE_URL + 'cnf/delete',
 
                     data: { delid: delid },
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Company deleted!',
+                                title: 'Deleted!',
                                 confirmButtonText: 'Close',
                                 confirmButtonColor: '#d33',
                                 allowOutsideClick: false,
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Company not exists!',
+                                title: 'Does not exists!',
                                 confirmButtonText: 'Close',
                                 confirmButtonColor: '#d33',
                                 allowOutsideClick: false,
@@ -71,7 +71,7 @@ $(document).ready(function () {
         if (name != '') {
             $.ajax({
                 type: "POST",
-                url: BASE_URL + 'duplicate_check_comp',
+                url: BASE_URL + 'cnf/duplicate_check',
                 data: {
                     name: name
                 },
@@ -193,17 +193,17 @@ $(document).ready(function () {
         }
     });
 
-    $("#create_company_form").submit(function (e) {
+    $("#create_form").submit(function (e) {
 
         e.preventDefault();
 
         $.ajax({
             type: 'POST',
-            url: BASE_URL + 'createcompany',
+            url: BASE_URL + 'cnf/create',
             cache: false,
-            data: $('#create_company_form').serialize(),
+            data: $('#create_form').serialize(),
             beforeSend: function () {
-                $('#company_btn_submit').html('Creating..').prop('disabled', true);
+                $('#btn_submit').html('Creating..').prop('disabled', true);
             },
             success: function (d) {
                 if (d.added == "rule_error") {
@@ -216,13 +216,13 @@ $(document).ready(function () {
                         confirmButtonColor: '#d33',
                         allowOutsideClick: false,
                     });
-                    $('#company_btn_submit').html('Submit').prop('disabled', false);
+                    $('#btn_submit').html('Submit').prop('disabled', false);
 
                 } else if (d.added == 'success') {
 
                     Swal.fire({
                         icon: 'success',
-                        title: 'Comapany added!',
+                        title: 'Added!',
                         confirmButtonText: 'Close',
                         confirmButtonColor: '#d33',
                         allowOutsideClick: false,
@@ -236,12 +236,12 @@ $(document).ready(function () {
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Comapany already exists!',
+                        title: 'Already exists!',
                         confirmButtonText: 'Close',
                         confirmButtonColor: '#d33',
                         allowOutsideClick: false,
                     });
-                    $('#company_btn_submit').html('Submit').prop('disabled', false);
+                    $('#btn_submit').html('Submit').prop('disabled', false);
 
                 } else {
                     Swal.fire({
@@ -251,7 +251,7 @@ $(document).ready(function () {
                         confirmButtonColor: '#d33',
                         allowOutsideClick: false,
                     });
-                    $('#company_btn_submit').html('Submit').prop('disabled', false);
+                    $('#btn_submit').html('Submit').prop('disabled', false);
                 }
             }
         });

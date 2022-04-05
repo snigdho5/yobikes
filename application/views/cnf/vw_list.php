@@ -54,37 +54,55 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="card">
-							<?php
-							if (isset($update_success) && $update_success != '') {
-								echo "<p><i class=\"icofont-tick-boxed\" style=\"color:green\"></i> Status: " . $update_success . "</p>";
-							} elseif (isset($update_failure) && $update_failure != '') {
-								echo "<p><i class=\"fas fa-exclamation-triangle\" style=\"color:yellow\"></i> Error: " . $update_failure . "</p>";
-							} else {
-								//echo "<p style='color:#f5f2f0'><i class=\"fas fa-exclamation-triangle\" style=\"color:yellow\"></i> Something went wrong!</p>";
-							}
-							?>
-							<form class="form-horizontal" method="post" action="<?php echo base_url() . 'changecompany'; ?>">
+							<div class="card-body">
+								<h5 class="card-title"><?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnf/add'; ?>'">Add <?Php echo $page_title; ?></button></h5>
+								<div class="table-responsive">
+									<table id="zero_config" class="table table-striped table-bordered">
+										<thead>
+											<tr class="textcen">
+												<th>Sl</th>
+												<th>Created On</th>
+												<th>Name</th>
+												<th>Edited On</th>
+												<th>Action</th>
 
-								<div class="card-body">
-									<h4 class="card-title"><?php echo $page_title; ?> Info</h4>
-
-									<div class="form-group row">
-										<label for="name" class="col-sm-3 text-right control-label col-form-label">Comapany Name</label>
-										<div class="col-sm-9">
-											<input type="hidden" name="comp_id" value="<?php echo ($comp_data) ? $comp_data['compid'] : ''; ?>">
-											<input type="text" class="form-control" name="name"  id="name" placeholder="Comapany Name.." value="<?php echo ($comp_data) ? $comp_data['name'] : ''; ?>" required="">
-											<label id="chk_name" style="display: none;"></label>
-										</div>
-									</div>
-
+											</tr>
+										</thead>
+										<tbody class="textcen">
+											<?php
+											if (!empty($comp_data)) {
+												// print_obj($comp_data);
+												$sl = 1;
+												foreach ($comp_data as $key => $val) {
+											?>
+													<tr>
+														<td><?php echo $sl; ?></td>
+														<td><?php echo $val['dtime']; ?></td>
+														<td><?php echo $val['name']; ?></td>
+														<td><?php echo $val['edited_dtime']; ?></td>
+														<td>
+															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {  ?>
+																<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button>
+																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['name']; ?>"><i class="fas fa-trash-alt"></i></button>
+															<?php } ?>
+														</td>
+													</tr>
+												<?php
+													$sl++;
+												}
+											} else {
+												?>
+												<tr>
+													<td colspan="5">No data found</td>
+												</tr>
+											<?php
+											}
+											?>
+										</tbody>
+									</table>
 								</div>
-								<div class="border-top">
-									<div class="card-body">
-										<button type="submit" id="submit" class="btn btn-primary customer_btn_submit">Submit</button>
-									</div>
-								</div>
-							</form>
 
+							</div>
 						</div>
 					</div>
 				</div>
@@ -112,7 +130,10 @@
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/datatable-checkbox-init.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/jquery.multicheck.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/DataTables/datatables.min.js'; ?>"></script>
-	<script src="<?php echo base_url() . 'common/dist/js/app/companies.js?v=' . random_strings(6); ?>"></script>
+	<script src="<?php echo base_url() . 'common/dist/js/app/cnf.js?v=' . random_strings(6); ?>"></script>
+	<script>
+		$('#zero_config').DataTable();
+	</script>
 
 </body>
 

@@ -146,7 +146,7 @@ class Users extends CI_Controller
 			if ($password != '') {
 				$upd_userdata = array(
 					'full_name'  => $fullname,
-					'user_group'  => $user_group,
+					// 'user_group'  => $user_group,
 					'user_name'  => $username,
 					'pass'  => encrypt_it($password),
 					'last_updated'  => dtime,
@@ -155,7 +155,7 @@ class Users extends CI_Controller
 			} else {
 				$upd_userdata = array(
 					'full_name'  => $fullname,
-					'user_group'  => $user_group,
+					// 'user_group'  => $user_group,
 					'user_name'  => $username,
 					'last_updated'  => dtime,
 					'updated_by'  => $this->session->userdata('userid')
@@ -231,7 +231,7 @@ class Users extends CI_Controller
 				} else {
 
 					$fullname = xss_clean($this->input->post('full_name'));
-					$user_group = '1'; //superadmin for all
+					$user_group = '3'; //dealer only
 					//$user_group = xss_clean($this->input->post('user_group'));
 					$username = xss_clean($this->input->post('user_name'));
 					$password = xss_clean($this->input->post('password'));
@@ -295,14 +295,14 @@ class Users extends CI_Controller
 							//$this->email->reply_to($replyemail);
 							$this->email->subject($subject);
 							$this->email->message($body);
-							if ($this->email->send()) {
-								$return['otp_status'] = 1;
-								$return['otp_msg'] = 'An e-mail with OTP has been sent to your email (' . $username . ').';
-							} else {
-								//echo $this->email->print_debugger();die;
-								$return['otp_status'] = 0;
-								$return['otp_msg'] = 'E-mail not sent to ' . $username . '!';
-							}
+							// if ($this->email->send()) {
+							// 	$return['otp_status'] = 1;
+							// 	$return['otp_msg'] = 'An e-mail with OTP has been sent to your email (' . $username . ').';
+							// } else {
+							// 	//echo $this->email->print_debugger();die;
+							// 	$return['otp_status'] = 0;
+							// 	$return['otp_msg'] = 'E-mail not sent to ' . $username . '!';
+							// }
 							$return['user_added'] = 'success';
 						} else {
 							$return['user_added'] = 'failure';

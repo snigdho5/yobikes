@@ -154,7 +154,7 @@
 								<div class="d-md-flex align-items-center">
 									<div>
 										<h4 class="card-title">Site Analysis</h4>
-										<h5 class="card-subtitle">Overview of SoorOsathi</h5>
+										<h5 class="card-subtitle">Overview of YoBikes</h5>
 									</div>
 								</div>
 								<div class="row">

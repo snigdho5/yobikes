@@ -61,10 +61,11 @@
 										<thead>
 											<tr class="textcen">
 												<th>Sl</th>
-												<th>Created On</th>
+												<th>CreatedOn</th>
 												<th>Name</th>
-												<th>Username</th>
-												<th>Last Login</th>
+												<th>UserName</th>
+												<th>UserType</th>
+												<th>LastLogin</th>
 												<th>Action</th>
 
 											</tr>
@@ -81,6 +82,17 @@
 														<td><?php echo $val['dtime']; ?></td>
 														<td><?php echo $val['fullname']; ?></td>
 														<td><?php echo $val['username']; ?></td>
+														<td><?php
+															if ($val['usergroup'] == 1) {
+																$usergname = 'Admin';
+															} else if ($val['usergroup'] == 2) {
+																$usergname = 'CNF';
+															} else if ($val['usergroup'] == 3) {
+																$usergname = 'Dealer';
+															} else {
+																$usergname = 'Unknown';
+															}
+															echo $usergname; ?></td>
 														<td><?php echo ($val['lastlogin'] != '') ? $val['lastlogin'] : 'Not logged in'; ?></td>
 														<td>
 															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {  ?>
