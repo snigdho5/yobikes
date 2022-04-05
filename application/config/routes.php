@@ -36,3 +36,12 @@ $route['cnf/create'] = 'CNFEntry/onCreate';
 $route['cnf/edit/(:any)'] = 'CNFEntry/onGetEdit/$1';
 $route['cnf/change'] = 'CNFEntry/onChange';
 $route['cnf/delete'] = 'CNFEntry/onDelete';
+
+//cnf billing management
+$route['cnfbilling/list'] = 'CNFBilling/index';
+$route['cnfbilling/duplicate_check'] = 'CNFBilling/onCheckDuplicate';
+$route['cnfbilling/add'] = 'CNFBilling/onCreateView';
+$route['cnfbilling/create'] = 'CNFBilling/onCreate';
+$route['cnfbilling/edit/(:any)'] = 'CNFBilling/onGetEdit/$1';
+$route['cnfbilling/change'] = 'CNFBilling/onChange';
+$route['cnfbilling/delete'] = 'CNFBilling/onDelete';
