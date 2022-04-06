@@ -13,7 +13,17 @@ class CNFBilling extends CI_Controller
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			$this->data['page_title'] = 'CNF Billing';
-			$custdata = $this->am->getCNFBillingList(null, TRUE);
+
+			if ($this->session->userdata('usergroup') == 1) {
+				$custdata = $this->am->getCNFBillingList(null, TRUE);
+			} else if ($this->session->userdata('usergroup') == 2) {
+				$custdata = $this->am->getCNFBillingList(array('cnf_user_id' => $this->session->userdata('userid')), TRUE);
+			} else if ($this->session->userdata('usergroup') == 3) {
+				$custdata = $this->am->getCNFBillingList(array('dealer_user_id' => $this->session->userdata('userid')), TRUE);
+			} else {
+				$custdata = [];
+			}
+
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
 					$cnf_user = $this->am->getUserData(array('user_id' => $value->cnf_user_id));
@@ -178,8 +188,12 @@ class CNFBilling extends CI_Controller
 			} else {
 				$this->data['bike_data'] = '';
 			}
+			if ($this->session->userdata('usergroup') == 2) {
+				$userdata = $this->am->getUserData(array('parent_id' => $this->session->userdata('userid'), 'user_group' => 3), TRUE);
+			} else {
+				$userdata = $this->am->getUserData(array('user_id !=' => 1, 'user_group' => 3), TRUE);
+			}
 
-			$userdata = $this->am->getUserData(array('user_id !=' => 1, 'user_group' => 3), TRUE);
 
 			if ($userdata) {
 				foreach ($userdata as $key => $value) {

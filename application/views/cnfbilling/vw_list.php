@@ -55,13 +55,21 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<h5 class="card-title"><?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/add'; ?>'">Add <?php echo $page_title; ?></button></h5>
+								<h5 class="card-title"><?php echo $page_title; ?>
+									<?php
+									if ($this->session->userdata('usergroup') != 3) {
+									?>
+										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/add'; ?>'">Add <?php echo $page_title; ?></button>
+									<?php
+									}
+									?>
+								</h5>
 								<div class="table-responsive">
 									<table id="zero_config" class="table table-striped table-bordered">
 										<thead>
 											<tr class="textcen">
 												<th>Sl</th>
-												<th>Created On</th>
+												<th>Billed On</th>
 												<th>Bike Name</th>
 												<th>Dealer Name</th>
 												<th>Billed By (CNF)</th>

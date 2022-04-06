@@ -13,14 +13,20 @@ class Users extends CI_Controller
 	public function index()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
-			if($this->session->userdata('userid') != ''){
-				$userdata = $this->am->getUserData(array('user_id !=' => 1, 'created_by' => $this->session->userdata('userid')), TRUE);	
-			}else{
+			if ($this->session->userdata('userid') != '') {
+				$userdata = $this->am->getUserData(array('user_id !=' => 1, 'created_by' => $this->session->userdata('userid')), TRUE);
+			} else {
 				$userdata = $this->am->getUserData(array('user_id !=' => 1), TRUE);
 			}
-			
+
 			if ($userdata) {
 				foreach ($userdata as $key => $value) {
+					if ($value->user_group == 3) {
+						$get_cnf_name = $this->am->getUserData(array('user_id' => $value->parent_id));
+						$cnf_name = (!empty($get_cnf_name)) ? $get_cnf_name->full_name : '';
+					} else {
+						$cnf_name = '';
+					}
 					$this->data['user_data'][] = array(
 						'dtime'  => $value->dtime,
 						'userid'  => $value->user_id,
@@ -28,6 +34,7 @@ class Users extends CI_Controller
 						'username'  => $value->user_name,
 						//'password'  => decrypt_it($value->pass),
 						'fullname'  => $value->full_name,
+						'cnf_name'  => $cnf_name,
 						'lastlogin'  => $value->last_login,
 						'lastloginip'  => $value->last_login_ip,
 						'lastupdated'  => $value->last_updated
@@ -206,6 +213,26 @@ class Users extends CI_Controller
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {
 
 			$this->data['page_title'] = 'User';
+
+			$userdata = $this->am->getUserData(array('user_group' => 2), TRUE);
+
+			if ($userdata) {
+				foreach ($userdata as $key => $value) {
+					$this->data['user_data'][] = array(
+						'dtime'  => $value->dtime,
+						'userid'  => $value->user_id,
+						'usergroup'  => $value->user_group,
+						'username'  => $value->user_name,
+						'fullname'  => $value->full_name
+					);
+				}
+
+				//print_obj($this->data['user_data']);die;
+
+			} else {
+				$this->data['user_data'] = '';
+			}
+
 			$this->load->view('users/vw_createuser', $this->data, false);
 		} else {
 			redirect(base_url());
@@ -223,7 +250,7 @@ class Users extends CI_Controller
 				$this->form_validation->set_rules('user_name', 'Username', 'trim|required|valid_email|xss_clean|htmlentities');
 				//$this->form_validation->set_rules('user_name', 'Username', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|htmlentities');
-
+				$this->form_validation->set_rules('parentid', 'CNF', 'trim|required|xss_clean|htmlentities');
 				if ($this->form_validation->run() == FALSE) {
 					$this->form_validation->set_error_delimiters('', '');
 					$return['errors'] = validation_errors();
@@ -235,6 +262,7 @@ class Users extends CI_Controller
 					//$user_group = xss_clean($this->input->post('user_group'));
 					$username = xss_clean($this->input->post('user_name'));
 					$password = xss_clean($this->input->post('password'));
+					$parent_id = xss_clean($this->input->post('parentid'));
 					// $phone = xss_clean($this->input->post('phone'));
 					// $email = xss_clean($this->input->post('email'));
 					$url = '';
@@ -248,6 +276,7 @@ class Users extends CI_Controller
 						$ins_userdata = array(
 							'full_name'  => $fullname,
 							'user_group'  => $user_group,
+							'parent_id'  => $parent_id,
 							'user_name'  => $username,
 							'pass'  => encrypt_it($password),
 							'dtime'  => dtime,

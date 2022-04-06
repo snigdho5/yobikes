@@ -69,9 +69,24 @@
 								<div class="card-body">
 									<h4 class="card-title">Create New User <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'users'; ?>'">Users List</button></h4>
 									<div class="form-group row">
-										<label for="full_name" class="col-sm-3 text-right control-label col-form-label">Full Name</label>
-										<div class="col-sm-9">
+										<label for="full_name" class="col-sm-2 text-right control-label col-form-label">Full Name</label>
+										<div class="col-sm-4">
 											<input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name..">
+										</div>
+										<label for="parentid" class="col-sm-2 text-right control-label col-form-label">Choose CNF</label>
+										<div class="col-sm-4">
+											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="parentid" name="parentid" required>
+												<option value="">Select</option>
+												<?php
+												if (!empty($user_data)) {
+													foreach ($user_data as $key => $value) {
+												?>
+														<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname']; ?></option>
+												<?php
+													}
+												}
+												?>
+											</select>
 										</div>
 									</div>
 									<div class="form-group row" style="display: none;">

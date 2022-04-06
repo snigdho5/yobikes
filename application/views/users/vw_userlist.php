@@ -88,7 +88,7 @@
 															} else if ($val['usergroup'] == 2) {
 																$usergname = 'CNF';
 															} else if ($val['usergroup'] == 3) {
-																$usergname = 'Dealer';
+																$usergname = 'Dealer ['.$val['cnf_name'].']';
 															} else {
 																$usergname = 'Unknown';
 															}

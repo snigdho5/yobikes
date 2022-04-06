@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    
+    $("#parentid").select2({
+        placeholder: "Select CNF",
+        allowClear: true
+    });
+
     $(document).on('click', '.del_user', function () {
 
         var user_id = $(this).attr('data-userid');
