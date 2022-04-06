@@ -63,7 +63,7 @@
 								//echo "<p style='color:#f5f2f0'><i class=\"fas fa-exclamation-triangle\" style=\"color:yellow\"></i> Something went wrong!</p>";
 							}
 							?>
-							<form class="form-horizontal" method="post" action="<?php echo base_url() . 'cnf/change'; ?>">
+							<form class="form-horizontal" method="post" action="<?php echo base_url() . 'cnfbilling/change'; ?>">
 
 								<div class="card-body">
 									<h4 class="card-title"><?php echo $page_title; ?> Info</h4>
@@ -82,91 +82,7 @@
 										</div>
 									</div>
 
-									<div class="form-group row">
-										<label for="et_invoice_date" class="col-sm-2 text-right control-label col-form-label">ET Invoice Date</label>
-										<div class="col-sm-4">
-											<input type="date" class="form-control" id="et_invoice_date" name="et_invoice_date" placeholder="ET Invoice Date.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['et_invoice_date'] : ''; ?>">
-										</div>
-
-										<label for="model" class="col-sm-2 text-right control-label col-form-label">Model Type</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="model" name="model" placeholder="Model Type.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['model'] : ''; ?>">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label for="color" class="col-sm-2 text-right control-label col-form-label">Color</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="color" name="color" placeholder="Color.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['color'] : ''; ?>">
-										</div>
-
-										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">Vin No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="Vin No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['vin_no'] : ''; ?>">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label for="motor_no" class="col-sm-2 text-right control-label col-form-label">Motor No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="motor_no" name="motor_no" placeholder="Motor No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['motor_no'] : ''; ?>">
-										</div>
-
-										<label for="converter_no" class="col-sm-2 text-right control-label col-form-label">Converter No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="converter_no" name="converter_no" placeholder="Converter No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['converter_no'] : ''; ?>">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label for="controller_no" class="col-sm-2 text-right control-label col-form-label">Controller No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="controller_no" name="controller_no" placeholder="Controller No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['controller_no'] : ''; ?>">
-										</div>
-
-										<label for="charger_no" class="col-sm-2 text-right control-label col-form-label">Charger No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="charger_no" name="charger_no" placeholder="Charger No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['charger_no'] : ''; ?>">
-										</div>
-									</div>
-
 									
-									<div class="form-group row">
-										<label for="battery_sl1" class="col-sm-2 text-right control-label col-form-label">Battery Sl 1</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl1" name="battery_sl1" placeholder="Battery Sl 1.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl1'] : ''; ?>">
-										</div>
-
-										<label for="battery_sl2" class="col-sm-2 text-right control-label col-form-label">Battery Sl 2</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl2" name="battery_sl2" placeholder="Battery Sl 2.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl2'] : ''; ?>">
-										</div>
-									</div>
-
-									
-									<div class="form-group row">
-										<label for="battery_sl3" class="col-sm-2 text-right control-label col-form-label">Battery Sl 3</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl3" name="battery_sl3" placeholder="Battery Sl 3.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl3'] : ''; ?>">
-										</div>
-
-										<label for="battery_sl14" class="col-sm-2 text-right control-label col-form-label">Battery Sl 4</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl4" name="battery_sl4" placeholder="Battery Sl 4.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl4'] : ''; ?>">
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="battery_sl5" class="col-sm-2 text-right control-label col-form-label">Battery Sl 5</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl5" name="battery_sl5" placeholder="Battery Sl 5.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl5'] : ''; ?>">
-										</div>
-
-										<label for="battery_sl6" class="col-sm-2 text-right control-label col-form-label">Battery Sl 6</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl6" name="battery_sl6" placeholder="Battery Sl 6.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl6'] : ''; ?>">
-										</div>
-									</div>
 
 								</div>
 								<div class="border-top">
@@ -203,7 +119,7 @@
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/datatable-checkbox-init.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/jquery.multicheck.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/DataTables/datatables.min.js'; ?>"></script>
-	<script src="<?php echo base_url() . 'common/dist/js/app/cnf.js?v=' . random_strings(6); ?>"></script>
+	<script src="<?php echo base_url() . 'common/dist/js/app/cnfbilling.js?v=' . random_strings(6); ?>"></script>
 
 </body>
 

@@ -43,7 +43,7 @@ class Auth_model extends MY_Model
 		return $this->remove($param);
 	}
 
-	//Company
+	//cnf
 	public function addCNFEntry($data)
 	{
 		$this->table = 'mt_cnf_entry';
@@ -72,6 +72,64 @@ class Auth_model extends MY_Model
 	{
 		$this->table = 'mt_cnf_entry';
 		return $this->remove($param);
+	}
+
+
+	//cnf billing
+	public function addCNFBilling($data)
+	{
+		$this->table = 'tbl_cnf_billing';
+		return $this->store($data);
+	}
+
+	public function getCNFBillingData($param = null, $many = FALSE, $order_by = 'billing_id', $order = 'DESC')
+	{
+		$this->table = 'tbl_cnf_billing';
+		if ($param != null && $many == FALSE) {
+			return $this->get_one($param);
+		} else if ($param != null && $many == TRUE) {
+			return $this->get_many($param, $order_by, $order, FALSE);
+		} else {
+			return $this->get_many(null, $order_by, $order, FALSE);
+		}
+	}
+
+	public function updateCNFBilling($data, $param)
+	{
+		$this->table = 'tbl_cnf_billing';
+		return $this->modify($data, $param);
+	}
+
+	public function delCNFBilling($param)
+	{
+		$this->table = 'tbl_cnf_billing';
+		return $this->remove($param);
+	}
+
+
+
+	public function getCNFBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_cnf_billing.billing_id')
+	{
+
+		$this->db->select('tbl_cnf_billing.*, mt_cnf_entry.name AS cnf_entry_name, users.full_name AS dealer_full_name');
+
+		$this->db->join('mt_cnf_entry', 'mt_cnf_entry.entry_id = tbl_cnf_billing.cnf_entry_id', 'inner');
+		$this->db->join('users', 'users.user_id = tbl_cnf_billing.dealer_user_id', 'inner');
+
+		if ($param != null) {
+			$this->db->where($param);
+		}
+
+		$this->db->order_by($order_by, $order);
+
+		$query = $this->db->get('tbl_cnf_billing');
+		// echo $this->db->last_query();die;
+
+		if ($many != TRUE) {
+			return $query->row();
+		} else {
+			return $query->result();
+		}
 	}
 
 
@@ -133,6 +191,4 @@ class Auth_model extends MY_Model
 		$this->table = 'tbl_checklists';
 		return $this->remove($param);
 	}
-
-	
 }

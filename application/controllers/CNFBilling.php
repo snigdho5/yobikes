@@ -13,15 +13,17 @@ class CNFBilling extends CI_Controller
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			$this->data['page_title'] = 'CNF Billing';
-			$custdata = $this->am->getCNFEntryData(array('status' => 1), TRUE);
+			$custdata = $this->am->getCNFBillingList(null, TRUE);
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
+					$cnf_user = $this->am->getUserData(array('user_id' => $value->cnf_user_id));
 					$this->data['comp_data'][] = array(
 						'dtime'  => $value->added_dtime,
-						'rwid'  => encode_url($value->entry_id),
-						'name'  => $value->name,
-						'status'  => $value->status,
-						'added_by'  => $value->added_by,
+						'rwid'  => encode_url($value->billing_id),
+						'name'  => $value->cnf_entry_name,
+						'dealer_full_name'  => $value->dealer_full_name,
+						'cnf_full_name'  => (!empty($cnf_user)) ? $cnf_user->full_name : '',
+						'added_by'  => $value->cnf_user_id,
 						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
 					);
 				}
@@ -31,7 +33,7 @@ class CNFBilling extends CI_Controller
 			} else {
 				$this->data['comp_data'] = '';
 			}
-			$this->load->view('cnf/vw_list', $this->data, false);
+			$this->load->view('cnfbilling/vw_list', $this->data, false);
 		} else {
 			redirect(base_url());
 		}
@@ -87,18 +89,12 @@ class CNFBilling extends CI_Controller
 					'converter_no'  => $getdata->converter_no,
 					'controller_no'  => $getdata->controller_no,
 					'charger_no'  => $getdata->charger_no,
-					'battery_sl1'  => $getdata->battery_sl1,
-					'battery_sl2'  => $getdata->battery_sl2,
-					'battery_sl3'  => $getdata->battery_sl3,
-					'battery_sl4'  => $getdata->battery_sl4,
-					'battery_sl5'  => $getdata->battery_sl5,
-					'battery_sl6'  => $getdata->battery_sl6,
 					'status'  => $getdata->status,
 					'added_by'  => $getdata->added_by,
 					'edited_dtime'  => ($getdata->edited_dtime != '') ? $getdata->edited_dtime : 'NA'
 				);
 				//print_obj($this->data['comp_data']);die;
-				$this->load->view('cnf/vw_edit', $this->data, false);
+				$this->load->view('cnfbilling/vw_edit', $this->data, false);
 			} else {
 				redirect(base_url());
 			}
@@ -126,11 +122,6 @@ class CNFBilling extends CI_Controller
 			$controller_no = xss_clean($this->input->post('controller_no'));
 			$charger_no = xss_clean($this->input->post('charger_no'));
 			$battery_sl1 = xss_clean($this->input->post('battery_sl1'));
-			$battery_sl2 = xss_clean($this->input->post('battery_sl2'));
-			$battery_sl3 = xss_clean($this->input->post('battery_sl3'));
-			$battery_sl4 = xss_clean($this->input->post('battery_sl4'));
-			$battery_sl5 = xss_clean($this->input->post('battery_sl5'));
-			$battery_sl6 = xss_clean($this->input->post('battery_sl6'));
 
 			// print_obj($upd_userdata);die;
 
@@ -149,19 +140,13 @@ class CNFBilling extends CI_Controller
 					'converter_no'  => $converter_no,
 					'controller_no'  => $controller_no,
 					'charger_no'  => $charger_no,
-					'battery_sl1'  => $battery_sl1,
-					'battery_sl2'  => $battery_sl2,
-					'battery_sl3'  => $battery_sl3,
-					'battery_sl4'  => $battery_sl4,
-					'battery_sl5'  => $battery_sl5,
-					'battery_sl6'  => $battery_sl6,
 					'edited_dtime'  => dtime,
 					'edited_by'  => $this->session->userdata('userid')
 				);
 
 				$upduser = $this->am->updateCNFEntry($upd_data, $chkdata);
 
-				redirect(base_url('cnf/edit/' . encode_url($entry_id)));
+				redirect(base_url('cnfbilling/edit/' . encode_url($entry_id)));
 			} else {
 				redirect(base_url());
 			}
@@ -175,7 +160,49 @@ class CNFBilling extends CI_Controller
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
 			$this->data['page_title'] = 'CNF Billing';
-			$this->load->view('cnf/vw_add', $this->data, false);
+			$bikedata = $this->am->getCNFEntryData(array('status' => 1), TRUE);
+			if (!empty($bikedata)) {
+				foreach ($bikedata as $key => $value) {
+					$this->data['bike_data'][] = array(
+						'dtime'  => $value->added_dtime,
+						'rwid'  => encode_url($value->entry_id),
+						'name'  => $value->name,
+						'status'  => $value->status,
+						'added_by'  => $value->added_by,
+						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
+					);
+				}
+
+				//print_obj($this->data['bike_data']);die;
+
+			} else {
+				$this->data['bike_data'] = '';
+			}
+
+			$userdata = $this->am->getUserData(array('user_id !=' => 1, 'user_group' => 3), TRUE);
+
+			if ($userdata) {
+				foreach ($userdata as $key => $value) {
+					$this->data['user_data'][] = array(
+						'dtime'  => $value->dtime,
+						'userid'  => encode_url($value->user_id),
+						'usergroup'  => $value->user_group,
+						'username'  => $value->user_name,
+						//'password'  => decrypt_it($value->pass),
+						'fullname'  => $value->full_name,
+						'lastlogin'  => $value->last_login,
+						'lastloginip'  => $value->last_login_ip,
+						'lastupdated'  => $value->last_updated
+					);
+				}
+
+				//print_obj($this->data['user_data']);die;
+
+			} else {
+				$this->data['user_data'] = '';
+			}
+
+			$this->load->view('cnfbilling/vw_add', $this->data, false);
 		} else {
 			redirect(base_url());
 		}
@@ -186,17 +213,9 @@ class CNFBilling extends CI_Controller
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			if ($this->input->is_ajax_request() && $this->input->server('REQUEST_METHOD') == 'POST') {
 
-				$this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('et_invoice_no', 'ET Invoice No', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('et_invoice_date', 'ET Invoice Date', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('model', 'Model', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('color', 'Color', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('vin_no', 'Vin No', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('motor_no', 'Motor No', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('converter_no', 'Converter No', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('controller_no', 'Controller No', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('charger_no', 'Charger No', 'trim|required|xss_clean|htmlentities');
-				$this->form_validation->set_rules('battery_sl1', 'Battery Sl 1', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('cnf_entry_id', 'Choose Bike', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('dealer_user_id', 'Choose Dealer', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('cnf_notes', 'CNF Notes', 'trim|required|xss_clean|htmlentities');
 
 				if ($this->form_validation->run() == FALSE) {
 					$this->form_validation->set_error_delimiters('', '');
@@ -204,60 +223,34 @@ class CNFBilling extends CI_Controller
 					$return['added'] = 'rule_error';
 				} else {
 
-					$name = xss_clean($this->input->post('name'));
-					$et_invoice_no = xss_clean($this->input->post('et_invoice_no'));
-					$et_invoice_date = xss_clean($this->input->post('et_invoice_date'));
-					$model = xss_clean($this->input->post('model'));
-					$color = xss_clean($this->input->post('color'));
-					$vin_no = xss_clean($this->input->post('vin_no'));
-					$motor_no = xss_clean($this->input->post('motor_no'));
-					$converter_no = xss_clean($this->input->post('converter_no'));
-					$controller_no = xss_clean($this->input->post('controller_no'));
-					$charger_no = xss_clean($this->input->post('charger_no'));
-					$battery_sl1 = xss_clean($this->input->post('battery_sl1'));
-					$battery_sl2 = xss_clean($this->input->post('battery_sl2'));
-					$battery_sl3 = xss_clean($this->input->post('battery_sl3'));
-					$battery_sl4 = xss_clean($this->input->post('battery_sl4'));
-					$battery_sl5 = xss_clean($this->input->post('battery_sl5'));
-					$battery_sl6 = xss_clean($this->input->post('battery_sl6'));
+					$cnf_entry_id = decode_url(xss_clean($this->input->post('cnf_entry_id')));
+					$dealer_user_id = decode_url(xss_clean($this->input->post('dealer_user_id')));
+					$cnf_notes = xss_clean($this->input->post('cnf_notes'));
 
-					$chkdata = array('name'  => $name);
-					$getdata = $this->am->getCNFEntryData($chkdata, FALSE);
+					// $chkdata = array('name'  => $name);
+					// $getdata = $this->am->getCNFEntryData($chkdata, FALSE);
 
-					if (!$getdata) {
+					// if (!$getdata) {
 
-						//add
-						$ins_data = array(
-							'name'  => $name,
-							'et_invoice_no'  => $et_invoice_no,
-							'et_invoice_date'  => $et_invoice_date,
-							'model'  => $model,
-							'color'  => $color,
-							'vin_no'  => $vin_no,
-							'motor_no'  => $motor_no,
-							'converter_no'  => $converter_no,
-							'controller_no'  => $controller_no,
-							'charger_no'  => $charger_no,
-							'battery_sl1'  => $battery_sl1,
-							'battery_sl2'  => $battery_sl2,
-							'battery_sl3'  => $battery_sl3,
-							'battery_sl4'  => $battery_sl4,
-							'battery_sl5'  => $battery_sl5,
-							'battery_sl6'  => $battery_sl6,
-							'added_dtime'  => dtime,
-							'added_by'  => $this->session->userdata('userid')
-						);
-						// print_obj($ins_data);die;
-						$addcust = $this->am->addCNFEntry($ins_data);
+					//add
+					$ins_data = array(
+						'cnf_entry_id'  => $cnf_entry_id,
+						'dealer_user_id'  => $dealer_user_id,
+						'cnf_notes'  => $cnf_notes,
+						'added_dtime'  => dtime,
+						'cnf_user_id'  => $this->session->userdata('userid')
+					);
+					// print_obj($ins_data);die;
+					$addcust = $this->am->addCNFBilling($ins_data);
 
-						if ($addcust) {
-							$return['added'] = 'success';
-						} else {
-							$return['added'] = 'failure';
-						}
+					if ($addcust) {
+						$return['added'] = 'success';
 					} else {
-						$return['added'] = 'already_exists';
+						$return['added'] = 'failure';
 					}
+					// } else {
+					// 	$return['added'] = 'already_exists';
+					// }
 				}
 
 				header('Content-Type: application/json');

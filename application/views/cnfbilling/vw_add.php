@@ -65,109 +65,58 @@
 							?>
 							<form class="form-horizontal" id="create_form" autocomplete="off">
 								<div class="card-body">
-									<h4 class="card-title">Create New <?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnf/list'; ?>'"><?php echo $page_title; ?>s List</button></h4>
+									<h4 class="card-title">Create New <?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/list'; ?>'"><?php echo $page_title; ?>s List</button></h4>
 
 									<div class="form-group row">
-										<label for="name" class="col-sm-2 text-right control-label col-form-label">Name</label>
+										<label for="cnf_entry_id" class="col-sm-2 text-right control-label col-form-label">Choose Bike</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Name.." autocomplete="off">
-											<label id="chk_name" style="display: none;"></label>
+											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="cnf_entry_id" name="cnf_entry_id" required>
+												<option value="">Select</option>
+												<?php
+												if (!empty($bike_data)) {
+													foreach ($bike_data as $key => $value) {
+												?>
+														<option value="<?php echo $value['rwid']; ?>"><?php echo $value['name']; ?></option>
+												<?php
+													}
+												}
+												?>
+											</select>
 										</div>
 
-										<label for="et_invoice_no" class="col-sm-2 text-right control-label col-form-label">ET Invoice No</label>
+										<label for="dealer_user_id" class="col-sm-2 text-right control-label col-form-label">Choose Dealer</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="et_invoice_no" name="et_invoice_no" placeholder="ET Invoice No.." autocomplete="off">
+											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="dealer_user_id" name="dealer_user_id" required>
+												<option value="">Select</option>
+												<?php
+												if (!empty($user_data)) {
+													foreach ($user_data as $key => $value) {
+												?>
+														<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname'] . ' [' . $value['username'] . ']'; ?></option>
+												<?php
+													}
+												}
+												?>
+											</select>
 										</div>
 									</div>
 
 									<div class="form-group row">
-										<label for="et_invoice_date" class="col-sm-2 text-right control-label col-form-label">ET Invoice Date</label>
+										<label for="cnf_notes" class="col-sm-2 text-right control-label col-form-label">CNF Notes</label>
 										<div class="col-sm-4">
-											<input type="date" class="form-control" id="et_invoice_date" name="et_invoice_date" placeholder="ET Invoice Date.." autocomplete="off">
+											<textarea class="form-control" id="cnf_notes" name="cnf_notes" placeholder="Notes.." autocomplete="off"></textarea>
 										</div>
 
-										<label for="model" class="col-sm-2 text-right control-label col-form-label">Model Type</label>
+										<!-- <label for="model" class="col-sm-2 text-right control-label col-form-label">Model Type</label>
 										<div class="col-sm-4">
 											<input type="text" class="form-control" id="model" name="model" placeholder="Model Type.." autocomplete="off">
-										</div>
+										</div> -->
 									</div>
 
-									<div class="form-group row">
-										<label for="color" class="col-sm-2 text-right control-label col-form-label">Color</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="color" name="color" placeholder="Color.." autocomplete="off">
-										</div>
-
-										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">Vin No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="Vin No.." autocomplete="off">
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label for="motor_no" class="col-sm-2 text-right control-label col-form-label">Motor No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="motor_no" name="motor_no" placeholder="Motor No.." autocomplete="off">
-										</div>
-
-										<label for="converter_no" class="col-sm-2 text-right control-label col-form-label">Converter No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="converter_no" name="converter_no" placeholder="Converter No.." autocomplete="off">
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="controller_no" class="col-sm-2 text-right control-label col-form-label">Controller No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="controller_no" name="controller_no" placeholder="Controller No.." autocomplete="off">
-										</div>
-
-										<label for="charger_no" class="col-sm-2 text-right control-label col-form-label">Charger No</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="charger_no" name="charger_no" placeholder="Charger No.." autocomplete="off">
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="battery_sl1" class="col-sm-2 text-right control-label col-form-label">Battery Sl 1</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl1" name="battery_sl1" placeholder="Battery Sl 1.." autocomplete="off">
-										</div>
-
-										<label for="battery_sl2" class="col-sm-2 text-right control-label col-form-label">Battery Sl 2</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl2" name="battery_sl2" placeholder="Battery Sl 2.." autocomplete="off">
-										</div>
-									</div>
-
-									
-									<div class="form-group row">
-										<label for="battery_sl3" class="col-sm-2 text-right control-label col-form-label">Battery Sl 3</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl3" name="battery_sl3" placeholder="Battery Sl 3.." autocomplete="off">
-										</div>
-
-										<label for="battery_sl4" class="col-sm-2 text-right control-label col-form-label">Battery Sl 4</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl4" name="battery_sl4" placeholder="Battery Sl 4.." autocomplete="off">
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="battery_sl5" class="col-sm-2 text-right control-label col-form-label">Battery Sl 5</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl5" name="battery_sl5" placeholder="Battery Sl 5.." autocomplete="off">
-										</div>
-
-										<label for="battery_sl6" class="col-sm-2 text-right control-label col-form-label">Battery Sl 6</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="battery_sl6" name="battery_sl6" placeholder="Battery Sl 6.." autocomplete="off">
-										</div>
-									</div>
 								</div>
 								<div class="border-top">
 									<div class="card-body">
-										<button type="submit" id="company_btn_submit" class="btn btn-primary btn_submit">Submit</button>
+										<button type="submit" id="btn_submit" class="btn btn-primary btn_submit">Submit</button>
 									</div>
 								</div>
 							</form>
@@ -198,7 +147,7 @@
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/datatable-checkbox-init.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/jquery.multicheck.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/DataTables/datatables.min.js'; ?>"></script>
-	<script src="<?php echo base_url() . 'common/dist/js/app/cnf.js?v=' . random_strings(6); ?>"></script>
+	<script src="<?php echo base_url() . 'common/dist/js/app/cnfbilling.js?v=' . random_strings(6); ?>"></script>
 
 </body>
 
