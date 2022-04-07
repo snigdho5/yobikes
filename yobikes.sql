@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2022 at 08:35 PM
+-- Generation Time: Apr 07, 2022 at 02:40 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.15
 
@@ -74,6 +74,12 @@ CREATE TABLE `tbl_cnf_billing` (
   `dealer_user_id` bigint(20) NOT NULL DEFAULT 0,
   `cnf_entry_id` bigint(20) NOT NULL DEFAULT 0,
   `cnf_notes` text DEFAULT NULL,
+  `rate` double(10,2) NOT NULL DEFAULT 0.00,
+  `qty` int(11) NOT NULL DEFAULT 1,
+  `subtotal` double(10,2) NOT NULL DEFAULT 0.00,
+  `gst` double(10,2) NOT NULL DEFAULT 0.00,
+  `gst_amt` double(10,2) NOT NULL DEFAULT 0.00,
+  `grand_total` double(10,2) NOT NULL DEFAULT 0.00,
   `added_dtime` datetime DEFAULT NULL,
   `edited_dtime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -82,10 +88,10 @@ CREATE TABLE `tbl_cnf_billing` (
 -- Dumping data for table `tbl_cnf_billing`
 --
 
-INSERT INTO `tbl_cnf_billing` (`billing_id`, `cnf_user_id`, `dealer_user_id`, `cnf_entry_id`, `cnf_notes`, `added_dtime`, `edited_dtime`) VALUES
-(1, 1, 32, 7, 's', '2022-04-06 20:43:10', NULL),
-(2, 1, 35, 10, 'test note', '2022-04-06 22:37:30', NULL),
-(3, 31, 35, 10, 'yestt', '2022-04-06 22:46:23', NULL);
+INSERT INTO `tbl_cnf_billing` (`billing_id`, `cnf_user_id`, `dealer_user_id`, `cnf_entry_id`, `cnf_notes`, `rate`, `qty`, `subtotal`, `gst`, `gst_amt`, `grand_total`, `added_dtime`, `edited_dtime`) VALUES
+(1, 1, 32, 7, 's', 0.00, 1, 0.00, 0.00, 0.00, 0.00, '2022-04-06 20:43:10', NULL),
+(2, 1, 35, 10, 'test note', 0.00, 1, 0.00, 0.00, 0.00, 0.00, '2022-04-06 22:37:30', NULL),
+(3, 31, 35, 10, 'yestt', 0.00, 1, 0.00, 0.00, 0.00, 0.00, '2022-04-06 22:46:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,6 +104,9 @@ CREATE TABLE `users` (
   `user_group` int(11) NOT NULL DEFAULT 0 COMMENT '1=admin, 2= cnf, 3=dealer',
   `parent_id` bigint(20) NOT NULL DEFAULT 0,
   `full_name` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `gst` varchar(15) NOT NULL,
+  `phone` varchar(15) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `pass` varchar(255) DEFAULT NULL,
   `twofa_enabled` int(11) NOT NULL DEFAULT 0,
@@ -116,16 +125,16 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_group`, `parent_id`, `full_name`, `user_name`, `pass`, `twofa_enabled`, `twofa_secret`, `dtime`, `created_by`, `last_login`, `last_login_ip`, `last_logout`, `last_updated`, `updated_by`, `user_blocked`) VALUES
-(1, 1, 0, 'Snigdho Upadhyay', 'admin@gmail.com', 'yHbKO56SIL5myftosVG/qw==', 0, NULL, '2020-04-30 11:44:10', 1, '2022-04-06 22:26:21', '::1', '2022-04-06 23:15:15', '2021-08-27 18:09:39', 1, 0),
-(27, 1, 0, 'Dibyendu Mukherjee', 'dibyendu@gmail.com', 'P3T+St+zpUp2sA9933VqDQ==', 0, NULL, '2022-02-13 21:08:56', 1, '2022-04-05 23:23:12', '::1', NULL, '2022-04-05 23:22:58', 1, 0),
-(28, 1, 0, 'Sujeet Jana', 'sujeet@gmail.com', 'BsNBqIN+0NJWlQJtyuyi8A==', 0, NULL, '2022-02-13 21:11:39', 1, NULL, NULL, NULL, NULL, 0, 0),
-(29, 1, 0, 'Tarun Karmakar', 'tarun@gmail.com', 'v0q8A68SGyGvfZThn7YhXQ==', 0, NULL, '2022-02-13 21:12:35', 1, '2022-02-13 21:17:16', '::1', '2022-02-13 21:17:26', '2022-02-13 21:16:54', 1, 0),
-(30, 2, 0, 'KanchraparaCNF', 'kanchraparacnf@gmail.com', 'h5pmHrnDLtOGm0KnY/kvSw==', 0, NULL, '2022-02-13 21:15:07', 1, NULL, NULL, NULL, '2022-04-05 23:31:41', 1, 0),
-(31, 2, 0, 'SiliguriCNF', 'siliguricnf@gmail.com', 'PB5J5auc8TwfaqrtfSzfkw==', 0, NULL, '2022-04-05 22:21:26', 1, '2022-04-06 22:39:02', '::1', '2022-04-06 22:59:36', '2022-04-06 22:38:57', 1, 0),
-(32, 3, 30, 'Hanshit', 'hanshit@gmail.com', 'cbfpq90zYzXd4JtpVdif6g==', 0, NULL, '2022-04-05 23:19:35', 1, '2022-04-06 20:50:24', '::1', NULL, '2022-04-06 20:50:19', 1, 0),
-(34, 3, 31, 'Test Cust', 'demo@email.com', 'UQyz7ja80MCE1ATGRcmfBg==', 0, NULL, '2022-04-06 21:44:26', 1, NULL, NULL, NULL, NULL, 0, 0),
-(35, 3, 31, 'dealer 1', 'dealer1@gmail.com', 'RgAagusgSk5NcWGjw8yMkw==', 0, NULL, '2022-04-06 22:23:30', 1, '2022-04-06 23:00:32', '::1', NULL, '2022-04-06 23:00:27', 1, 0);
+INSERT INTO `users` (`user_id`, `user_group`, `parent_id`, `full_name`, `address`, `gst`, `phone`, `user_name`, `pass`, `twofa_enabled`, `twofa_secret`, `dtime`, `created_by`, `last_login`, `last_login_ip`, `last_logout`, `last_updated`, `updated_by`, `user_blocked`) VALUES
+(1, 1, 0, 'Snigdho Upadhyay', NULL, '', '', 'admin@gmail.com', 'yHbKO56SIL5myftosVG/qw==', 0, NULL, '2020-04-30 11:44:10', 1, '2022-04-07 17:14:31', '::1', '2022-04-06 23:15:15', '2021-08-27 18:09:39', 1, 0),
+(27, 1, 0, 'Dibyendu Mukherjee', NULL, '', '', 'dibyendu@gmail.com', 'P3T+St+zpUp2sA9933VqDQ==', 0, NULL, '2022-02-13 21:08:56', 1, '2022-04-05 23:23:12', '::1', NULL, '2022-04-05 23:22:58', 1, 0),
+(28, 1, 0, 'Sujeet Jana', NULL, '', '', 'sujeet@gmail.com', 'BsNBqIN+0NJWlQJtyuyi8A==', 0, NULL, '2022-02-13 21:11:39', 1, NULL, NULL, NULL, NULL, 0, 0),
+(29, 1, 0, 'Tarun Karmakar', NULL, '', '', 'tarun@gmail.com', 'v0q8A68SGyGvfZThn7YhXQ==', 0, NULL, '2022-02-13 21:12:35', 1, '2022-02-13 21:17:16', '::1', '2022-02-13 21:17:26', '2022-02-13 21:16:54', 1, 0),
+(30, 2, 0, 'KanchraparaCNF', NULL, '', '', 'kanchraparacnf@gmail.com', 'h5pmHrnDLtOGm0KnY/kvSw==', 0, NULL, '2022-02-13 21:15:07', 1, NULL, NULL, NULL, '2022-04-05 23:31:41', 1, 0),
+(31, 2, 0, 'SiliguriCNF', NULL, '', '', 'siliguricnf@gmail.com', 'PB5J5auc8TwfaqrtfSzfkw==', 0, NULL, '2022-04-05 22:21:26', 1, '2022-04-06 22:39:02', '::1', '2022-04-06 22:59:36', '2022-04-06 22:38:57', 1, 0),
+(32, 3, 30, 'Hanshit', NULL, '', '', 'hanshit@gmail.com', 'cbfpq90zYzXd4JtpVdif6g==', 0, NULL, '2022-04-05 23:19:35', 1, '2022-04-06 20:50:24', '::1', NULL, '2022-04-06 20:50:19', 1, 0),
+(34, 3, 31, 'Test Cust', NULL, '', '', 'demo@email.com', 'UQyz7ja80MCE1ATGRcmfBg==', 0, NULL, '2022-04-06 21:44:26', 1, NULL, NULL, NULL, NULL, 0, 0),
+(35, 3, 31, 'dealer 1', NULL, '', '', 'dealer1@gmail.com', 'RgAagusgSk5NcWGjw8yMkw==', 0, NULL, '2022-04-06 22:23:30', 1, '2022-04-06 23:00:32', '::1', NULL, '2022-04-06 23:00:27', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -136,6 +145,7 @@ INSERT INTO `users` (`user_id`, `user_group`, `parent_id`, `full_name`, `user_na
 --
 ALTER TABLE `mt_cnf_entry`
   ADD PRIMARY KEY (`entry_id`),
+  ADD UNIQUE KEY `vin_no` (`vin_no`),
   ADD KEY `company_name` (`name`);
 
 --
@@ -171,7 +181,7 @@ ALTER TABLE `tbl_cnf_billing`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `user_id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

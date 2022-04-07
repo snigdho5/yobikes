@@ -44,7 +44,7 @@ class CNFEntry extends CI_Controller
 
 				$name = xss_clean($this->input->post('name'));
 
-				$if_exists = $this->am->getCNFEntryData(array('company_name' => $name), FALSE);
+				$if_exists = $this->am->getCNFEntryData(array('vin_no' => $name), FALSE);
 				if ($if_exists) {
 					$return['if_exists'] = 1;
 				} else {
@@ -176,6 +176,7 @@ class CNFEntry extends CI_Controller
 
 			$this->data['page_title'] = 'CNF Entry';
 			$this->load->view('cnf/vw_add', $this->data, false);
+
 		} else {
 			redirect(base_url());
 		}

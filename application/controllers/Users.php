@@ -117,6 +117,9 @@ class Users extends CI_Controller
 					'username'  => $userdata->user_name,
 					//'password'  => decrypt_it($userdata->pass),
 					'fullname'  => $userdata->full_name,
+					'address'  => $userdata->address,
+					'gst'  => $userdata->gst,
+					'phone'  => $userdata->phone,
 					'lastlogin'  => $userdata->last_login,
 					'lastloginip'  => $userdata->last_login_ip,
 					'twofa_enabled'  => $userdata->twofa_enabled,
@@ -149,6 +152,9 @@ class Users extends CI_Controller
 
 			$username = xss_clean($this->input->post('user_name'));
 			$password = xss_clean($this->input->post('password'));
+			$phone = xss_clean($this->input->post('phone'));
+			$gst = xss_clean($this->input->post('gst'));
+			$address = xss_clean($this->input->post('address'));
 
 			if ($password != '') {
 				$upd_userdata = array(
@@ -156,6 +162,9 @@ class Users extends CI_Controller
 					// 'user_group'  => $user_group,
 					'user_name'  => $username,
 					'pass'  => encrypt_it($password),
+					'phone'  => $phone,
+					'gst'  => $gst,
+					'address'  => $address,
 					'last_updated'  => dtime,
 					'updated_by'  => $this->session->userdata('userid')
 				);
@@ -164,6 +173,9 @@ class Users extends CI_Controller
 					'full_name'  => $fullname,
 					// 'user_group'  => $user_group,
 					'user_name'  => $username,
+					'phone'  => $phone,
+					'gst'  => $gst,
+					'address'  => $address,
 					'last_updated'  => dtime,
 					'updated_by'  => $this->session->userdata('userid')
 				);
@@ -187,6 +199,9 @@ class Users extends CI_Controller
 						'username'  => $usrdata->user_name,
 						//'password'  => decrypt_it($usrdata->pass),
 						'fullname'  => $usrdata->full_name,
+						'phone'  => $usrdata->phone,
+						'gst'  => $usrdata->gst,
+						'address'  => $usrdata->address,
 						'lastlogin'  => $usrdata->last_login,
 						'lastloginip'  => $usrdata->last_login_ip,
 						'twofa_enabled'  => $userdata->twofa_enabled,
@@ -263,6 +278,10 @@ class Users extends CI_Controller
 					$username = xss_clean($this->input->post('user_name'));
 					$password = xss_clean($this->input->post('password'));
 					$parent_id = xss_clean($this->input->post('parentid'));
+					$phone = xss_clean($this->input->post('phone'));
+					$gst = xss_clean($this->input->post('gst'));
+					$address = xss_clean($this->input->post('address'));
+
 					// $phone = xss_clean($this->input->post('phone'));
 					// $email = xss_clean($this->input->post('email'));
 					$url = '';
@@ -279,6 +298,9 @@ class Users extends CI_Controller
 							'parent_id'  => $parent_id,
 							'user_name'  => $username,
 							'pass'  => encrypt_it($password),
+							'phone'  => $phone,
+							'gst'  => $gst,
+							'address'  => $address,
 							'dtime'  => dtime,
 							'created_by'  => $this->session->userdata('userid')
 						);

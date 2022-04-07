@@ -95,12 +95,29 @@
                                     ?>
 
                                     <div class="form-group row">
-                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Email (User Name)</label>
-                                        <div class="col-sm-9">
+                                        <label for="lname" class="col-sm-2 text-right control-label col-form-label">Email (User Name)</label>
+                                        <div class="col-sm-4">
                                             <input type="email" class="form-control" id="user_name" name="user_name" placeholder="Email.." value="<?php echo ($user_data) ? $user_data['username'] : ''; ?>" required="">
                                             <label id="chk_username" style="display: none;"></label>
                                         </div>
+
+                                        <label for="phone" class="col-sm-2 text-right control-label col-form-label">Phone</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone.." value="<?php echo ($user_data) ? $user_data['phone'] : ''; ?>">
+                                        </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label for="gst" class="col-sm-2 text-right control-label col-form-label">GST</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="gst" name="gst" placeholder="GST.." value="<?php echo ($user_data) ? $user_data['phone'] : ''; ?>">
+                                        </div>
+                                        <label for="address" class="col-sm-2 text-right control-label col-form-label">Address</label>
+                                        <div class="col-sm-4">
+                                            <textarea class="form-control" id="address" name="address" placeholder="Address.."><?php echo ($user_data) ? $user_data['address'] : ''; ?></textarea>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group row">
                                         <label for="password" class="col-sm-3 text-right control-label col-form-label">Password</label>
                                         <div class="col-sm-7">

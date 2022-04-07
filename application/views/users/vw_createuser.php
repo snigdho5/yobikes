@@ -89,9 +89,10 @@
 											</select>
 										</div>
 									</div>
+
 									<div class="form-group row" style="display: none;">
-										<label for="user_group" class="col-sm-3 text-right control-label col-form-label">User Group</label>
-										<div class="col-sm-9">
+										<label for="user_group" class="col-sm-2 text-right control-label col-form-label">User Group</label>
+										<div class="col-sm-4">
 											<select class="form-control" id="user_group" name="user_group">
 												<option value="0">- Select -</option>
 												<option value="2">Admin</option>
@@ -99,13 +100,32 @@
 											</select>
 										</div>
 									</div>
+
+
 									<div class="form-group row">
-										<label for="user_name" class="col-sm-3 text-right control-label col-form-label">Email (User Name)</label>
-										<div class="col-sm-9">
+										<label for="user_name" class="col-sm-2 text-right control-label col-form-label">Email (User Name)</label>
+										<div class="col-sm-4">
 											<input type="email" class="form-control" id="user_name" name="user_name" placeholder="Email..">
 											<label id="chk_username" style="display: none;"></label>
 										</div>
+
+										<label for="phone" class="col-sm-2 text-right control-label col-form-label">Phone</label>
+										<div class="col-sm-4">
+											<input type="number" class="form-control" id="phone" name="phone" placeholder="Phone..">
+										</div>
 									</div>
+
+									<div class="form-group row">
+										<label for="gst" class="col-sm-2 text-right control-label col-form-label">GST</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="gst" name="gst" placeholder="GST..">
+										</div>
+										<label for="address" class="col-sm-2 text-right control-label col-form-label">Address</label>
+										<div class="col-sm-4">
+											<textarea class="form-control" id="address" name="address" placeholder="Address.."></textarea>
+										</div>
+									</div>
+
 									<div class="form-group row">
 										<label for="password" class="col-sm-3 text-right control-label col-form-label">Password</label>
 										<div class="col-sm-7">

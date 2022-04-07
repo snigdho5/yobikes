@@ -90,12 +90,12 @@ $(document).ready(function () {
                 success: function (d) {
                     if (d.if_exists == 1) {
                         $('#chk_name').show();
-                        $('#chk_name').html('<i class="icofont-close-squared-alt"></i> Comapany already exists..!!');
+                        $('#chk_name').html('<i class="icofont-close-squared-alt"></i> Already exists..!!');
                         $("#chk_name").css("color", "red");
                         return false;
                     } else {
                         $('#chk_name').show();
-                        $('#chk_name').html('<i class="icofont-tick-boxed"></i> Comapany available.');
+                        $('#chk_name').html('<i class="icofont-tick-boxed"></i> Available.');
                         $("#chk_name").css("color", "green");
                     }
                 }

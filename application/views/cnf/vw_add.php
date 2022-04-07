@@ -71,7 +71,6 @@
 										<label for="name" class="col-sm-2 text-right control-label col-form-label">Name</label>
 										<div class="col-sm-4">
 											<input type="text" class="form-control" id="name" name="name" placeholder="Name.." autocomplete="off">
-											<label id="chk_name" style="display: none;"></label>
 										</div>
 
 										<label for="et_invoice_no" class="col-sm-2 text-right control-label col-form-label">ET Invoice No</label>
@@ -101,6 +100,7 @@
 										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">Vin No</label>
 										<div class="col-sm-4">
 											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="Vin No.." autocomplete="off">
+											<label id="chk_name" style="display: none;"></label>
 										</div>
 									</div>
 
