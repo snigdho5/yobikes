@@ -67,50 +67,79 @@
 								<div class="card-body">
 									<h4 class="card-title">Create New <?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/list'; ?>'"><?php echo $page_title; ?>s List</button></h4>
 
-									<div class="form-group row">
-										<label for="cnf_entry_id" class="col-sm-2 text-right control-label col-form-label">Choose Bike</label>
-										<div class="col-sm-4">
-											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="cnf_entry_id" name="cnf_entry_id" required>
-												<option value="">Select</option>
-												<?php
-												if (!empty($bike_data)) {
-													foreach ($bike_data as $key => $value) {
-												?>
-														<option value="<?php echo $value['rwid']; ?>"><?php echo $value['name']; ?></option>
-												<?php
+									<?php
+									for ($sl = 1; $sl <= 3; $sl++) {
+									?>
+										<div class="form-group row">
+											<label for="cnf_entry_id_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label"><?php echo $sl; ?>. Choose VIN</label>
+											<div class="col-sm-4">
+												<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="cnf_entry_id_<?php echo $sl; ?>" name="cnf_entry_id_<?php echo $sl; ?>">
+													<option value="">Select</option>
+													<?php
+													if (!empty($bike_data)) {
+														foreach ($bike_data as $key => $value) {
+													?>
+															<option value="<?php echo $value['rwid']; ?>"><?php echo $value['name']; ?></option>
+													<?php
+														}
 													}
-												}
-												?>
+													?>
+												</select>
+											</div>
+
+											<label for="dealer_user_id_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">Choose Dealer</label>
+											<div class="col-sm-4">
+												<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="dealer_user_id_<?php echo $sl; ?>" name="dealer_user_id_<?php echo $sl; ?>">
+													<option value="">Select</option>
+													<?php
+													if (!empty($user_data)) {
+														foreach ($user_data as $key => $value) {
+													?>
+															<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname'] . ' [' . $value['username'] . ']'; ?></option>
+													<?php
+														}
+													}
+													?>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label for="cnf_notes_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">CNF Notes</label>
+											<div class="col-sm-4">
+												<textarea class="form-control" id="cnf_notes_<?php echo $sl; ?>" name="cnf_notes_<?php echo $sl; ?>" placeholder="Notes.." autocomplete="off"></textarea>
+											</div>
+
+											<label for="amount_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">Amount</label>
+											<div class="col-sm-4">
+												<input type="number" class="form-control" id="amount_<?php echo $sl; ?>" name="amount_<?php echo $sl; ?>" placeholder="Amount.." autocomplete="off">
+											</div>
+
+										</div>
+
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<hr>
+											</div>
+										</div>
+									<?php
+									}
+									?>
+
+									<div class="form-group row">
+										<label for="gst_per" class="col-sm-2 text-right control-label col-form-label">GST %</label>
+										<div class="col-sm-4">
+											<select class="form-control" style="width: 100%; height:36px;" id="gst_per" name="gst_per">
+												<option value="">Select</option>
+												<option value="5" selected>5</option>
+												<option value="10">10</option>
 											</select>
 										</div>
 
-										<label for="dealer_user_id" class="col-sm-2 text-right control-label col-form-label">Choose Dealer</label>
+										<label for="discount" class="col-sm-2 text-right control-label col-form-label">Discount</label>
 										<div class="col-sm-4">
-											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="dealer_user_id" name="dealer_user_id" required>
-												<option value="">Select</option>
-												<?php
-												if (!empty($user_data)) {
-													foreach ($user_data as $key => $value) {
-												?>
-														<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname'] . ' [' . $value['username'] . ']'; ?></option>
-												<?php
-													}
-												}
-												?>
-											</select>
+											<input type="number" class="form-control" id="discount" name="discount" placeholder="Discount.." value="0" autocomplete="off">
 										</div>
-									</div>
-
-									<div class="form-group row">
-										<label for="cnf_notes" class="col-sm-2 text-right control-label col-form-label">CNF Notes</label>
-										<div class="col-sm-4">
-											<textarea class="form-control" id="cnf_notes" name="cnf_notes" placeholder="Notes.." autocomplete="off"></textarea>
-										</div>
-
-										<!-- <label for="model" class="col-sm-2 text-right control-label col-form-label">Model Type</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" id="model" name="model" placeholder="Model Type.." autocomplete="off">
-										</div> -->
 									</div>
 
 								</div>

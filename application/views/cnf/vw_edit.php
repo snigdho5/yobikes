@@ -72,65 +72,70 @@
 										<label for="name" class="col-sm-2 text-right control-label col-form-label">Name</label>
 										<div class="col-sm-4">
 											<input type="hidden" name="rw_id" value="<?php echo ($comp_data) ? $comp_data['rwid'] : ''; ?>">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Name.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['name'] : ''; ?>">
+											<input type="text" class="form-control" id="name" name="name" placeholder="Name.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['name'] : ''; ?>">
 											<label id="chk_name" style="display: none;"></label>
 										</div>
 
 										<label for="et_invoice_no" class="col-sm-2 text-right control-label col-form-label">ET Invoice No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="et_invoice_no" name="et_invoice_no" placeholder="ET Invoice No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['et_invoice_no'] : ''; ?>">
+											<input type="text" class="form-control" id="et_invoice_no" name="et_invoice_no" placeholder="ET Invoice No.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['et_invoice_no'] : ''; ?>">
 										</div>
 									</div>
 
 									<div class="form-group row">
 										<label for="et_invoice_date" class="col-sm-2 text-right control-label col-form-label">ET Invoice Date</label>
 										<div class="col-sm-4">
-											<input type="date" class="form-control" id="et_invoice_date" name="et_invoice_date" placeholder="ET Invoice Date.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['et_invoice_date'] : ''; ?>">
+											<input type="date" class="form-control" id="et_invoice_date" name="et_invoice_date" placeholder="ET Invoice Date.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['et_invoice_date'] : ''; ?>">
 										</div>
 
 										<label for="model" class="col-sm-2 text-right control-label col-form-label">Model Type</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="model" name="model" placeholder="Model Type.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['model'] : ''; ?>">
+											<select class="form-control" style="width: 100%; height:36px;" id="model" name="model">
+												<option value="">Select</option>
+												<option value="vrla" <?php echo (isset($comp_data) && $comp_data['model'] == 'vrla') ? 'selected' : ''; ?>>VRLA</option>
+												<option value="li" <?php echo (isset($comp_data) && $comp_data['model'] == 'li') ? 'selected' : ''; ?>>LI</option>
+												<option value="dli" <?php echo (isset($comp_data) && $comp_data['model'] == 'dli') ? 'selected' : ''; ?>>D-Li</option>
+											</select>
 										</div>
 									</div>
 
 									<div class="form-group row">
 										<label for="color" class="col-sm-2 text-right control-label col-form-label">Color</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="color" name="color" placeholder="Color.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['color'] : ''; ?>">
+											<input type="text" class="form-control" id="color" name="color" placeholder="Color.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['color'] : ''; ?>">
 										</div>
 
-										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">Vin No</label>
+										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">VIN No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="Vin No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['vin_no'] : ''; ?>">
+											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="VIN No.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['vin_no'] : ''; ?>">
 										</div>
 									</div>
 
 									<div class="form-group row">
 										<label for="motor_no" class="col-sm-2 text-right control-label col-form-label">Motor No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="motor_no" name="motor_no" placeholder="Motor No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['motor_no'] : ''; ?>">
+											<input type="text" class="form-control" id="motor_no" name="motor_no" placeholder="Motor No.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['motor_no'] : ''; ?>">
 										</div>
 
 										<label for="converter_no" class="col-sm-2 text-right control-label col-form-label">Converter No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="converter_no" name="converter_no" placeholder="Converter No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['converter_no'] : ''; ?>">
+											<input type="text" class="form-control" id="converter_no" name="converter_no" placeholder="Converter No.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['converter_no'] : ''; ?>">
 										</div>
 									</div>
 
 									<div class="form-group row">
 										<label for="controller_no" class="col-sm-2 text-right control-label col-form-label">Controller No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="controller_no" name="controller_no" placeholder="Controller No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['controller_no'] : ''; ?>">
+											<input type="text" class="form-control" id="controller_no" name="controller_no" placeholder="Controller No.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['controller_no'] : ''; ?>">
 										</div>
 
 										<label for="charger_no" class="col-sm-2 text-right control-label col-form-label">Charger No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="charger_no" name="charger_no" placeholder="Charger No.." autocomplete="off"  value="<?php echo ($comp_data) ? $comp_data['charger_no'] : ''; ?>">
+											<input type="text" class="form-control" id="charger_no" name="charger_no" placeholder="Charger No.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['charger_no'] : ''; ?>">
 										</div>
 									</div>
 
-									
+
 									<div class="form-group row">
 										<label for="battery_sl1" class="col-sm-2 text-right control-label col-form-label">Battery Sl 1</label>
 										<div class="col-sm-4">
@@ -143,7 +148,7 @@
 										</div>
 									</div>
 
-									
+
 									<div class="form-group row">
 										<label for="battery_sl3" class="col-sm-2 text-right control-label col-form-label">Battery Sl 3</label>
 										<div class="col-sm-4">
@@ -155,7 +160,7 @@
 											<input type="text" class="form-control" id="battery_sl4" name="battery_sl4" placeholder="Battery Sl 4.." autocomplete="off" value="<?php echo ($comp_data) ? $comp_data['battery_sl4'] : ''; ?>">
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label for="battery_sl5" class="col-sm-2 text-right control-label col-form-label">Battery Sl 5</label>
 										<div class="col-sm-4">

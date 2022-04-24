@@ -87,7 +87,12 @@
 
 										<label for="model" class="col-sm-2 text-right control-label col-form-label">Model Type</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="model" name="model" placeholder="Model Type.." autocomplete="off">
+											<select class="form-control" style="width: 100%; height:36px;" id="model" name="model">
+												<option value="">Select</option>
+												<option value="vrla">VRLA</option>
+												<option value="li">LI</option>
+												<option value="dli">D-Li</option>
+											</select>
 										</div>
 									</div>
 
@@ -97,9 +102,9 @@
 											<input type="text" class="form-control" id="color" name="color" placeholder="Color.." autocomplete="off">
 										</div>
 
-										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">Vin No</label>
+										<label for="vin_no" class="col-sm-2 text-right control-label col-form-label">VIN No</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="Vin No.." autocomplete="off">
+											<input type="text" class="form-control" id="vin_no" name="vin_no" placeholder="VIN No.." autocomplete="off">
 											<label id="chk_name" style="display: none;"></label>
 										</div>
 									</div>

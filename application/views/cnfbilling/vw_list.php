@@ -61,6 +61,10 @@
 									?>
 										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/add'; ?>'">Add <?php echo $page_title; ?></button>
 									<?php
+									}else{
+										?>
+										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/dealer-billing'; ?>'">New Deeler Billing</button>
+										<?php
 									}
 									?>
 								</h5>
@@ -71,6 +75,7 @@
 												<th>Sl</th>
 												<th>Billed On</th>
 												<th>Bike Name</th>
+												<th>VIN</th>
 												<th>Dealer Name</th>
 												<th>Billed By (CNF)</th>
 												<th>Action</th>
@@ -88,14 +93,25 @@
 														<td><?php echo $sl; ?></td>
 														<td><?php echo $val['dtime']; ?></td>
 														<td><?php echo $val['name']; ?></td>
+														<td><?php echo $val['vin_no']; ?></td>
 														<td><?php echo $val['dealer_full_name']; ?></td>
 														<td><?php echo $val['cnf_full_name']; ?></td>
 														<td>
-															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {  ?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/invoice/' . $val['rwid']; ?>'"><i class="icofont-copy-invert"></i></button>
-																<!-- <button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button> -->
-																<!-- <button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['name']; ?>"><i class="fas fa-trash-alt"></i></button> -->
+															<?php if ($this->session->userdata('usergroup') != 3) {  ?>
+																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="Invoice"><i class="icofont-copy-invert"></i></button>
+
+																<!-- <button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button> -->
+
+																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['name']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
 															<?php } ?>
+															<?php
+															if ($this->session->userdata('usergroup') == 3) {
+															?>
+																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="CNF Invoice"><i class="icofont-copy-invert"></i></button>
+
+															<?php
+															}
+															?>
 														</td>
 													</tr>
 												<?php

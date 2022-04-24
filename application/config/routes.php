@@ -36,7 +36,6 @@ $route['cnf/create'] = 'CNFEntry/onCreate';
 $route['cnf/edit/(:any)'] = 'CNFEntry/onGetEdit/$1';
 $route['cnf/change'] = 'CNFEntry/onChange';
 $route['cnf/delete'] = 'CNFEntry/onDelete';
-$route['cnf/invoice/(:any)'] = 'CNFEntry/onGetInvoice/$1';
 
 //cnf billing management
 $route['cnfbilling/list'] = 'CNFBilling/index';
@@ -46,3 +45,6 @@ $route['cnfbilling/create'] = 'CNFBilling/onCreate';
 $route['cnfbilling/edit/(:any)'] = 'CNFBilling/onGetEdit/$1';
 $route['cnfbilling/change'] = 'CNFBilling/onChange';
 $route['cnfbilling/delete'] = 'CNFBilling/onDelete';
+$route['cnfbilling/invoice/(:any)'] = 'CNFBilling/onGetInvoice/$1';
+$route['cnfbilling/dealer-billing'] = 'CNFBilling/onGetDealerBilling';
+$route['cnfbilling/create_dealer_billing'] = 'CNFBilling/onCreateDealerBilling';

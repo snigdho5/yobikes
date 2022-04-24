@@ -20,6 +20,7 @@ class CNFEntry extends CI_Controller
 						'dtime'  => $value->added_dtime,
 						'rwid'  => encode_url($value->entry_id),
 						'name'  => $value->name,
+						'vin_no'  => $value->vin_no,
 						'status'  => $value->status,
 						'added_by'  => $value->added_by,
 						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'

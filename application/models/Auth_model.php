@@ -111,7 +111,7 @@ class Auth_model extends MY_Model
 	public function getCNFBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_cnf_billing.billing_id')
 	{
 
-		$this->db->select('tbl_cnf_billing.*, mt_cnf_entry.name AS cnf_entry_name, users.full_name AS dealer_full_name');
+		$this->db->select('tbl_cnf_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name');
 
 		$this->db->join('mt_cnf_entry', 'mt_cnf_entry.entry_id = tbl_cnf_billing.cnf_entry_id', 'inner');
 		$this->db->join('users', 'users.user_id = tbl_cnf_billing.dealer_user_id', 'inner');

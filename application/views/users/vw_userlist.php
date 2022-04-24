@@ -96,8 +96,9 @@
 														<td><?php echo ($val['lastlogin'] != '') ? $val['lastlogin'] : 'Not logged in'; ?></td>
 														<td>
 															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {  ?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'profile/' . encode_url($val['userid']); ?>'"><i class="icofont-pencil-alt-2"></i></button>
-																<button type="button" class="del_user" data-userid="<?php echo encode_url($val['userid']); ?>" data-fullname="<?php echo $val['fullname']; ?>"><i class="fas fa-trash-alt"></i></button>
+																<button type="button" onclick="location.href='<?php echo base_url() . 'profile/' . encode_url($val['userid']); ?>'" title="Edit"><i class="icofont-pencil-alt-2"></i></button>
+
+																<button type="button" class="del_user" data-userid="<?php echo encode_url($val['userid']); ?>" data-fullname="<?php echo $val['fullname']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
 															<?php } ?>
 														</td>
 													</tr>
