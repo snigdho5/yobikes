@@ -4,12 +4,12 @@ $(document).ready(function () {
 			placeholder: "Select VIN",
 			allowClear: true,
 		});
-
-		$("#dealer_user_id_" + index).select2({
-			placeholder: "Select User",
-			allowClear: true,
-		});
 	}
+
+	$("#dealer_user_id").select2({
+		placeholder: "Select User",
+		allowClear: true,
+	});
 
 	$(document).on("click", ".del_row", function () {
 		var delid = $(this).attr("data-delid");

@@ -108,7 +108,7 @@ class Auth_model extends MY_Model
 
 
 
-	public function getCNFBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_cnf_billing.billing_id')
+	public function getCNFBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_cnf_billing.billing_id', $group_by = FALSE)
 	{
 
 		$this->db->select('tbl_cnf_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name');
@@ -118,6 +118,10 @@ class Auth_model extends MY_Model
 
 		if ($param != null) {
 			$this->db->where($param);
+		}
+
+		if ($group_by == TRUE) {
+			$this->db->group_by('billing_uniqid');
 		}
 
 		$this->db->order_by($order_by, $order);

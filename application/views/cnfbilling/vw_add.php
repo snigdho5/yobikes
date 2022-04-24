@@ -87,29 +87,6 @@
 												</select>
 											</div>
 
-											<label for="dealer_user_id_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">Choose Dealer</label>
-											<div class="col-sm-4">
-												<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="dealer_user_id_<?php echo $sl; ?>" name="dealer_user_id_<?php echo $sl; ?>">
-													<option value="">Select</option>
-													<?php
-													if (!empty($user_data)) {
-														foreach ($user_data as $key => $value) {
-													?>
-															<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname'] . ' [' . $value['username'] . ']'; ?></option>
-													<?php
-														}
-													}
-													?>
-												</select>
-											</div>
-										</div>
-
-										<div class="form-group row">
-											<label for="cnf_notes_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">CNF Notes</label>
-											<div class="col-sm-4">
-												<textarea class="form-control" id="cnf_notes_<?php echo $sl; ?>" name="cnf_notes_<?php echo $sl; ?>" placeholder="Notes.." autocomplete="off"></textarea>
-											</div>
-
 											<label for="amount_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">Amount</label>
 											<div class="col-sm-4">
 												<input type="number" class="form-control" id="amount_<?php echo $sl; ?>" name="amount_<?php echo $sl; ?>" placeholder="Amount.." autocomplete="off">
@@ -125,6 +102,28 @@
 									<?php
 									}
 									?>
+									<div class="form-group row">
+										<label for="dealer_user_id" class="col-sm-2 text-right control-label col-form-label">Choose Dealer</label>
+										<div class="col-sm-4">
+											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="dealer_user_id" name="dealer_user_id">
+												<option value="">Select</option>
+												<?php
+												if (!empty($user_data)) {
+													foreach ($user_data as $key => $value) {
+												?>
+														<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname'] . ' [' . $value['username'] . ']'; ?></option>
+												<?php
+													}
+												}
+												?>
+											</select>
+										</div>
+										
+										<label for="cnf_notes" class="col-sm-2 text-right control-label col-form-label">CNF Notes</label>
+										<div class="col-sm-4">
+											<textarea class="form-control" id="cnf_notes" name="cnf_notes" placeholder="Notes.." autocomplete="off"></textarea>
+										</div>
+									</div>
 
 									<div class="form-group row">
 										<label for="gst_per" class="col-sm-2 text-right control-label col-form-label">GST %</label>

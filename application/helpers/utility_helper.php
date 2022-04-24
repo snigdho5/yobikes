@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
 
@@ -9,18 +9,18 @@
  *
  * @return 	object
  */
-if (!function_exists('CI'))
-{
-	function CI() {
-	    if (!function_exists('get_instance')) return FALSE;
+if (!function_exists('CI')) {
+	function CI()
+	{
+		if (!function_exists('get_instance')) return FALSE;
 
-	    $CI =& get_instance();
-	    return $CI;
+		$CI = &get_instance();
+		return $CI;
 	}
 }
 
 
-	
+
 
 // --------------------------------------------------------------------
 
@@ -31,26 +31,18 @@ if (!function_exists('CI'))
  * @param	string	if set to 'all', will clear end the buffer and clean it
  * @return 	string	return buffered content
  */
-if (!function_exists('capture'))
-{
+if (!function_exists('capture')) {
 	function capture($on = TRUE, $clean = 'all')
 	{
 		$str = '';
-		if ($on)
-		{
+		if ($on) {
 			ob_start();
-		}
-		else
-		{
+		} else {
 			$str = ob_get_contents();
-			if (!empty($str))
-			{
-				if ($clean == 'all')
-				{
+			if (!empty($str)) {
+				if ($clean == 'all') {
 					ob_end_clean();
-				}
-				else if ($clean)
-				{
+				} else if ($clean) {
 					ob_clean();
 				}
 			}
@@ -67,12 +59,11 @@ if (!function_exists('capture'))
  * @param	mixed	possible true value
  * @return 	string	formatted true value
  */
-if (!function_exists('is_true_val'))
-{
+if (!function_exists('is_true_val')) {
 	function is_true_val($val)
 	{
 		$val = strtolower($val);
-		return ($val == 'y' || $val == 'yes' || $val === 1  || $val == '1' || $val== 'true' || $val == 't');
+		return ($val == 'y' || $val == 'yes' || $val === 1  || $val == '1' || $val == 'true' || $val == 't');
 	}
 }
 
@@ -84,30 +75,29 @@ if (!function_exists('is_true_val'))
  * @param	mixed	possible serialized string
  * @return 	boolean
  */
-if (!function_exists('is_serialized_str'))
-{
+if (!function_exists('is_serialized_str')) {
 	function is_serialized_str($data)
 	{
-		if ( !is_string($data))
+		if (!is_string($data))
 			return false;
 		$data = trim($data);
-		if ( 'N;' == $data )
+		if ('N;' == $data)
 			return true;
-		if ( !preg_match('/^([adObis]):/', $data, $badions))
+		if (!preg_match('/^([adObis]):/', $data, $badions))
 			return false;
-		switch ( $badions[1] ) :
-		case 'a' :
-		case 'O' :
-		case 's' :
-			if ( preg_match("/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data))
-				return true;
-			break;
-		case 'b' :
-		case 'i' :
-		case 'd' :
-			if ( preg_match("/^{$badions[1]}:[0-9.E-]+;\$/", $data))
-				return true;
-			break;
+		switch ($badions[1]):
+			case 'a':
+			case 'O':
+			case 's':
+				if (preg_match("/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data))
+					return true;
+				break;
+			case 'b':
+			case 'i':
+			case 'd':
+				if (preg_match("/^{$badions[1]}:[0-9.E-]+;\$/", $data))
+					return true;
+				break;
 		endswitch;
 		return false;
 	}
@@ -121,14 +111,12 @@ if (!function_exists('is_serialized_str'))
  * @param	mixed	possible serialized string
  * @return 	boolean
  */
-if (!function_exists('is_json_str'))
-{
+if (!function_exists('is_json_str')) {
 	function is_json_str($data)
 	{
-		if (is_string($data))
-		{
+		if (is_string($data)) {
 			$json = json_decode($data, TRUE);
-			return ($json !== NULL AND $data != $json);
+			return ($json !== NULL and $data != $json);
 		}
 		return NULL;
 	}
@@ -143,35 +131,24 @@ if (!function_exists('is_json_str'))
  * @param	boolean	Return string
  * @return 	string
  */
-if (!function_exists('print_obj'))
-{
+if (!function_exists('print_obj')) {
 	function print_obj($obj, $return = FALSE)
 	{
 		$str = "<pre>";
-		if (is_array($obj))
-		{
+		if (is_array($obj)) {
 			// to prevent circular references
-			if (is_a(current($obj), 'Data_record'))
-			{
-				foreach($obj as $key => $val)
-				{
-					$str .= '['.$key.']';
+			if (is_a(current($obj), 'Data_record')) {
+				foreach ($obj as $key => $val) {
+					$str .= '[' . $key . ']';
 					$str .= $val;
 				}
-			}
-			else
-			{
+			} else {
 				$str .= print_r($obj, TRUE);
 			}
-		}
-		else
-		{
-			if (is_a($obj, 'Data_record'))
-			{
+		} else {
+			if (is_a($obj, 'Data_record')) {
 				$str .= $obj;
-			}
-			else
-			{
+			} else {
 				$str .= print_r($obj, TRUE);
 			}
 		}
@@ -189,9 +166,8 @@ if (!function_exists('print_obj'))
  * @param	string	Error message
  * @return 	void
  */
-if (!function_exists('log_error'))
-{
-	function log_error($error) 
+if (!function_exists('log_error')) {
+	function log_error($error)
 	{
 		log_message('error', $error);
 	}
@@ -204,8 +180,7 @@ if (!function_exists('log_error'))
  *
  * @return 	boolean
  */
-if (!function_exists('is_dev_mode'))
-{
+if (!function_exists('is_dev_mode')) {
 	function is_dev_mode()
 	{
 		return (ENVIRONMENT != 'production');
@@ -219,20 +194,17 @@ if (!function_exists('is_dev_mode'))
  *
  * @return 	boolean
  */
-if (!function_exists('is_environment'))
-{
+if (!function_exists('is_environment')) {
 	function is_environment($environment)
 	{
 		return (strtolower(ENVIRONMENT) == strtolower($environment));
 	}
 }
 
-if (!function_exists('json_headers'))
-{
+if (!function_exists('json_headers')) {
 	function json_headers($no_cache = TRUE)
 	{
-		if ($no_cache)
-		{
+		if ($no_cache) {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		}
@@ -240,45 +212,49 @@ if (!function_exists('json_headers'))
 	}
 }
 
-if(!function_exists('char_separated')){
+if (!function_exists('char_separated')) {
 
-	function char_separated($array,$char=','){
+	function char_separated($array, $char = ',')
+	{
 		$char_separated = implode($char, $array);
 		return $char_separated;
 	}
 }
 
 
-if(!function_exists('char_separated_to_array')){
+if (!function_exists('char_separated_to_array')) {
 
-	function char_separated_to_array($string,$char=','){
+	function char_separated_to_array($string, $char = ',')
+	{
 		$char_separated_to_array = explode($char, $string);
 		return $char_separated_to_array;
 	}
 }
 
-if(!function_exists('ordinal')){
-	function ordinal($number) {
-	    $ends = array('th','st','nd','rd','th','th','th','th','th','th');
-	    if ((($number % 100) >= 11) && (($number%100) <= 13))
-	        return $number. 'th';
-	    else
-	        return $number. $ends[$number % 10];
+if (!function_exists('ordinal')) {
+	function ordinal($number)
+	{
+		$ends = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
+		if ((($number % 100) >= 11) && (($number % 100) <= 13))
+			return $number . 'th';
+		else
+			return $number . $ends[$number % 10];
 	}
 }
-	
 
 
-function uniqidReal($lenght = 13) {
-    // uniqid gives 13 chars, but you could adjust it to your needs.
-    if (function_exists("random_bytes")) {
-        $bytes = random_bytes(ceil($lenght / 2));
-    } elseif (function_exists("openssl_random_pseudo_bytes")) {
-        $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
-    } else {
-        throw new Exception("no cryptographically secure random function available");
-    }
-    return substr(bin2hex($bytes), 0, $lenght);
+
+function uniqidReal($lenght = 13)
+{
+	// uniqid gives 13 chars, but you could adjust it to your needs.
+	if (function_exists("random_bytes")) {
+		$bytes = random_bytes(ceil($lenght / 2));
+	} elseif (function_exists("openssl_random_pseudo_bytes")) {
+		$bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+	} else {
+		throw new Exception("no cryptographically secure random function available");
+	}
+	return substr(bin2hex($bytes), 0, $lenght);
 }
 
 
@@ -289,39 +265,40 @@ function uniqidReal($lenght = 13) {
 =            			EMAIL HELPER           	 				=
 =================================================================*/
 
-if( ! function_exists('sendmail')){
+if (!function_exists('sendmail')) {
 
 
-	function sendmail($mail_data=array(),$mail_type='html'){
+	function sendmail($mail_data = array(), $mail_type = 'html')
+	{
 
 		CI()->load->library('email');
 
 		CI()->email->from($mail_data['from'], $mail_data['from_name']);
 		CI()->email->to($mail_data['to']);
 
-		if(isset($mail_data['cc'])){
+		if (isset($mail_data['cc'])) {
 			CI()->email->cc($mail_data['cc']);
 		}
 
-		if(isset($mail_data['bcc'])){
+		if (isset($mail_data['bcc'])) {
 			CI()->email->bcc($mail_data['bcc']);
 		}
 
 		CI()->email->subject($mail_data['subject']);
 
-		if(isset($mail_data['has_attachment']) && $mail_data['has_attachment']==FALSE){
+		if (isset($mail_data['has_attachment']) && $mail_data['has_attachment'] == FALSE) {
 			CI()->email->attach($mail_data['attachment']);
 		}
 
-		if($mail_type=='text'){	
-			$message=$mail_data['data'];
-		}else if($mail_type=='html'){
-			$message=CI()->load->view($mail_data['view'],$mail_data['data']);
+		if ($mail_type == 'text') {
+			$message = $mail_data['data'];
+		} else if ($mail_type == 'html') {
+			$message = CI()->load->view($mail_data['view'], $mail_data['data']);
 		}
 
 		CI()->email->message($mail_data['data']);
 
-		if(!CI()->email->send()){
+		if (!CI()->email->send()) {
 			CI()->email->print_debugger(array('headers'));
 		}
 	}
@@ -334,126 +311,128 @@ if( ! function_exists('sendmail')){
 =================================================================*/
 
 
-if( ! function_exists('assets_url')){
+if (!function_exists('assets_url')) {
 
-	function assets_url(){
-		return base_url().'common/assets/';
+	function assets_url()
+	{
+		return base_url() . 'common/assets/';
 	}
 }
 
-if(!function_exists('delete_files')){
+if (!function_exists('delete_files')) {
 
-	function delete_files($target) {
-	    if(is_dir($target)){
-	        $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+	function delete_files($target)
+	{
+		if (is_dir($target)) {
+			$files = glob($target . '*', GLOB_MARK); //GLOB_MARK adds a slash to directories returned
 
-	        foreach( $files as $file ){
-	            delete_files( $file );      
-	        }
-	        if(isset($target) && is_dir($target)){
-	        	rmdir( $target );
-	        }
-	       
-	    } elseif(is_file($target)) {
-	        unlink( $target );  
-	    }
-	}	
-}
-
-if(!function_exists('isHomogenous')){
-
-	function isHomogenous($arr) {
-	    $firstValue = current($arr);
-	    foreach ($arr as $val) {
-	        if ($firstValue !== $val) {
-	            return false;
-	        }
-	    }
-	    return true;
+			foreach ($files as $file) {
+				delete_files($file);
+			}
+			if (isset($target) && is_dir($target)) {
+				rmdir($target);
+			}
+		} elseif (is_file($target)) {
+			unlink($target);
+		}
 	}
+}
 
+if (!function_exists('isHomogenous')) {
+
+	function isHomogenous($arr)
+	{
+		$firstValue = current($arr);
+		foreach ($arr as $val) {
+			if ($firstValue !== $val) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
 
-if(!function_exists('post_data')){
-	function post_data($post_var){
+if (!function_exists('post_data')) {
+	function post_data($post_var)
+	{
 		return xss_clean(strip_javascript(strip_whitespace(encode_php_tags(CI()->input->post($post_var)))));
 	}
 }
 
-if(!function_exists('get_data')){
-	function get_data($get_var){
+if (!function_exists('get_data')) {
+	function get_data($get_var)
+	{
 		return xss_clean(strip_javascript(strip_whitespace(encode_php_tags(CI()->input->get($get_var)))));
 	}
 }
 
 
 
-if(!function_exists('get_percentage')){
+if (!function_exists('get_percentage')) {
 
-	function get_percentage($m,$v){
-		return (($m*$v)/100);
+	function get_percentage($m, $v)
+	{
+		return (($m * $v) / 100);
 	}
 }
 
-function encode_url($string, $key="", $url_safe=TRUE)
+function encode_url($string, $key = "", $url_safe = TRUE)
 {
-    if($key==null || $key=="")
-    {
-        $key="1158065099ec139e84a532f651c1f1d1";
-    }
+	if ($key == null || $key == "") {
+		$key = "1158065099ec139e84a532f651c1f1d1";
+	}
 
-    $CI =& get_instance();
-    
-    // if (version_compare(PHP_VERSION, '5.7', '>=')){
-    	$ret = $CI->encryption->encrypt($string);
-    // }else{
-    // 	$ret = $CI->encrypt->encode($string, $key);
-    // }
-    
+	$CI = &get_instance();
 
-    if ($url_safe)
-    {
-        $ret = strtr(
-                $ret,
-                array(
-                    '+' => '.',
-                    '=' => '-',
-                    '/' => '~'
-                )
-            );
-    }
+	// if (version_compare(PHP_VERSION, '5.7', '>=')){
+	$ret = $CI->encryption->encrypt($string);
+	// }else{
+	// 	$ret = $CI->encrypt->encode($string, $key);
+	// }
 
-    return $ret;
+
+	if ($url_safe) {
+		$ret = strtr(
+			$ret,
+			array(
+				'+' => '.',
+				'=' => '-',
+				'/' => '~'
+			)
+		);
+	}
+
+	return $ret;
 }
-function decode_url($string, $key="")
+function decode_url($string, $key = "")
 {
-     if($key==null || $key=="")
-    {
-        $key="1158065099ec139e84a532f651c1f1d1";
-    }
-        $CI =& get_instance();
-    	$string = strtr(
-            $string,
-            array(
-                '.' => '+',
-                '-' => '=',
-                '~' => '/'
-            )
-        );
+	if ($key == null || $key == "") {
+		$key = "1158065099ec139e84a532f651c1f1d1";
+	}
+	$CI = &get_instance();
+	$string = strtr(
+		$string,
+		array(
+			'.' => '+',
+			'-' => '=',
+			'~' => '/'
+		)
+	);
 
-        // if (version_compare(PHP_VERSION, '5.7', '>=')){
-	    	return $CI->encryption->decrypt($string);
-	    // }else{
-	    // 	return $CI->encrypt->decode($string, $key);
-	    // }
+	// if (version_compare(PHP_VERSION, '5.7', '>=')){
+	return $CI->encryption->decrypt($string);
+	// }else{
+	// 	return $CI->encrypt->decode($string, $key);
+	// }
 
-    
+
 }
 
 // my functions
 
-function encrypt_it($str_to_enc){
+function encrypt_it($str_to_enc)
+{
 	$enc_string = $str_to_enc;
 
 	// Store the cipher method
@@ -467,14 +446,19 @@ function encrypt_it($str_to_enc){
 	// Store the encryption key
 	$encryption_key = "KaPdSgVkYp3s5v8y/B?E(H+MbQeThWmZ";
 
-	$encrypted_str = openssl_encrypt($enc_string, $ciphering,
-		$encryption_key, $options, $encryption_iv);
+	$encrypted_str = openssl_encrypt(
+		$enc_string,
+		$ciphering,
+		$encryption_key,
+		$options,
+		$encryption_iv
+	);
 	//echo "Encrypted String: " . $encrypted_str . "\n";
-	return($encrypted_str);
-
+	return ($encrypted_str);
 }
 
-function decrypt_it($str_to_dec){
+function decrypt_it($str_to_dec)
+{
 	// Store the cipher method
 	$ciphering = "AES-256-CBC";
 
@@ -487,77 +471,110 @@ function decrypt_it($str_to_dec){
 
 	// Store the decryption key
 	$decryption_key = "KaPdSgVkYp3s5v8y/B?E(H+MbQeThWmZ";
-	$decrypted_str=openssl_decrypt ($str_to_dec, $ciphering,
-		$decryption_key, $options, $decryption_iv);
-	return($decrypted_str);
+	$decrypted_str = openssl_decrypt(
+		$str_to_dec,
+		$ciphering,
+		$decryption_key,
+		$options,
+		$decryption_iv
+	);
+	return ($decrypted_str);
 	//echo "Decrypted String: " . $decryption;
 
 }
 
-function random_strings($length_of_string) {
-
-	// String of all alphanumeric character
-	$str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-	// Shufle the $str_result and returns substring
-	// of specified length
-	return substr( str_shuffle( $str_result ),
-		0, $length_of_string );
+if (!function_exists('getUid')) {
+	function getUid($uid = null)
+	{
+		// while (! $this->isValid($uid)) {
+		$uid = sprintf('%04x%04x%02x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xff));
+		// }
+		return $uid;
+	}
 }
 
-function random_numbers($length_of_string) {
 
-	// String of all alphanumeric character
-	$str_result = '0123456789';
+if (!function_exists('random_strings')) {
+	function random_strings($length_of_string)
+	{
 
-	// Shufle the $str_result and returns substring
-	// of specified length
-	return substr( str_shuffle( $str_result ),
-		0, $length_of_string );
+		// String of all alphanumeric character
+		$str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+		// Shufle the $str_result and returns substring
+		// of specified length
+		return substr(
+			str_shuffle($str_result),
+			0,
+			$length_of_string
+		);
+	}
 }
 
-if(!function_exists('isUrlExists')){
-    function isUrlExists($tblName, $col_name, $urlSlug){
-        if(!empty($tblName) && !empty($urlSlug)){
-            $ci = & get_instance();
-            $ci->db->from($tblName);
-            $ci->db->where($col_name,$urlSlug);
-            $rowNum = $ci->db->count_all_results();
-            return ($rowNum>0)?true:false;
-        }else{
-            return true;
-        }
-    }
+if (!function_exists('random_numbers')) {
+	function random_numbers($length_of_string)
+	{
+
+		// String of all alphanumeric character
+		$str_result = '0123456789';
+
+		// Shufle the $str_result and returns substring
+		// of specified length
+		return substr(
+			str_shuffle($str_result),
+			0,
+			$length_of_string
+		);
+	}
 }
 
-if(!function_exists('addViewCount')){
-    function addViewCount($table,$id_col,$id_val){
-        if(!empty($id_val)){
-            $ci = & get_instance();
-            $ci->db->set('total_hits', '`total_hits`+ 1', FALSE);
+
+
+if (!function_exists('isUrlExists')) {
+	function isUrlExists($tblName, $col_name, $urlSlug)
+	{
+		if (!empty($tblName) && !empty($urlSlug)) {
+			$ci = &get_instance();
+			$ci->db->from($tblName);
+			$ci->db->where($col_name, $urlSlug);
+			$rowNum = $ci->db->count_all_results();
+			return ($rowNum > 0) ? true : false;
+		} else {
+			return true;
+		}
+	}
+}
+
+if (!function_exists('addViewCount')) {
+	function addViewCount($table, $id_col, $id_val)
+	{
+		if (!empty($id_val)) {
+			$ci = &get_instance();
+			$ci->db->set('total_hits', '`total_hits`+ 1', FALSE);
 			$ci->db->where($id_col, $id_val);
 			$ci->db->update($table);
-            //return ($rowNum>0)?true:false;
-        }else{
-           // return true;
-        }
-    }
+			//return ($rowNum>0)?true:false;
+		} else {
+			// return true;
+		}
+	}
 }
 
-if(!function_exists('getiplocation')){
-    function getiplocation($ip){
-        if(!empty($ip)){
-        	//get location
+if (!function_exists('getiplocation')) {
+	function getiplocation($ip)
+	{
+		if (!empty($ip)) {
+			//get location
 			//$ip = '185.220.101.136';
-		    //$location = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']);
-		    $location = file_get_contents('http://ip-api.com/json/'.$ip);
-		    //you can also use ipinfo.io or any other ip location provider API
-		    $data_loc = json_decode($location);
-		    return $data_loc;
-        }else{
-            //return true;
-        }
-    }
+			//$location = file_get_contents('http://freegeoip.net/json/'.$_SERVER['REMOTE_ADDR']);
+			$location = file_get_contents('http://ip-api.com/json/' . $ip);
+			//you can also use ipinfo.io or any other ip location provider API
+			$data_loc = json_decode($location);
+			return $data_loc;
+		} else {
+			//return true;
+		}
+	}
 }
 
 
