@@ -62,6 +62,30 @@ class Auth_model extends MY_Model
 		}
 	}
 
+	
+	public function getCNFEntryUserData($param = null, $many = FALSE, $order = 'DESC', $order_by = 'mt_cnf_entry.entry_id', $group_by = FALSE)
+	{
+
+		$this->db->select('mt_cnf_entry.*, users.full_name AS full_name');
+
+		$this->db->join('users', 'users.user_id = mt_cnf_entry.added_by', 'inner');
+
+		if ($param != null) {
+			$this->db->where($param);
+		}
+
+		$this->db->order_by($order_by, $order);
+
+		$query = $this->db->get('mt_cnf_entry');
+		// echo $this->db->last_query();die;
+
+		if ($many != TRUE) {
+			return $query->row();
+		} else {
+			return $query->result();
+		}
+	}
+
 	public function updateCNFEntry($data, $param)
 	{
 		$this->table = 'mt_cnf_entry';

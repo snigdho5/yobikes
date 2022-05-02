@@ -13,7 +13,7 @@ class Users extends CI_Controller
 	public function index()
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
-			if ($this->session->userdata('userid') != '') {
+			if ($this->session->userdata('usergroup') != 1) {
 				$userdata = $this->am->getUserData(array('user_id !=' => 1, 'created_by' => $this->session->userdata('userid')), TRUE);
 			} else {
 				$userdata = $this->am->getUserData(array('user_id !=' => 1), TRUE);

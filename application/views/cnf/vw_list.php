@@ -61,9 +61,10 @@
 										<thead>
 											<tr class="textcen">
 												<th>Sl</th>
-												<th>Created On</th>
+												<th>Entry On</th>
 												<th>Name</th>
 												<th>VIN</th>
+												<th>Entry By</th>
 												<th>Edited On</th>
 												<th>Action</th>
 
@@ -81,6 +82,7 @@
 														<td><?php echo $val['dtime']; ?></td>
 														<td><?php echo $val['name']; ?></td>
 														<td><?php echo $val['vin_no']; ?></td>
+														<td><?php echo $val['full_name']; ?></td>
 														<td><?php echo $val['edited_dtime']; ?></td>
 														<td>
 															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {  ?>

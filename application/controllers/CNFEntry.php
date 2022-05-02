@@ -13,13 +13,14 @@ class CNFEntry extends CI_Controller
 	{
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 			$this->data['page_title'] = 'CNF Entry';
-			$custdata = $this->am->getCNFEntryData(array('status' => 1), TRUE);
+			$custdata = $this->am->getCNFEntryUserData(array('status' => 1), TRUE);
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
 					$this->data['comp_data'][] = array(
 						'dtime'  => $value->added_dtime,
 						'rwid'  => encode_url($value->entry_id),
 						'name'  => $value->name,
+						'full_name'  => $value->full_name,
 						'vin_no'  => $value->vin_no,
 						'status'  => $value->status,
 						'added_by'  => $value->added_by,
@@ -176,6 +177,24 @@ class CNFEntry extends CI_Controller
 		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
 			$this->data['page_title'] = 'CNF Entry';
+
+			$userdata = $this->am->getUserData(array('user_id !=' => 1, 'user_group ' => 2), TRUE);
+
+			if ($userdata) {
+				foreach ($userdata as $key => $value) {
+					$this->data['user_data'][] = array(
+						'userid'  => $value->user_id,
+						'fullname'  => $value->full_name
+					);
+				}
+
+				//print_obj($this->data['user_data']);die;
+
+			} else {
+				$this->data['user_data'] = '';
+			}
+
+
 			$this->load->view('cnf/vw_add', $this->data, false);
 
 		} else {
@@ -223,7 +242,12 @@ class CNFEntry extends CI_Controller
 					$battery_sl5 = xss_clean($this->input->post('battery_sl5'));
 					$battery_sl6 = xss_clean($this->input->post('battery_sl6'));
 
-					$chkdata = array('name'  => $name);
+					if ($this->session->userdata('usergroup') == 1) {
+						$created_user = xss_clean($this->input->post('created_user'));
+					}else{
+						$created_user = $this->session->userdata('userid');
+					}
+					$chkdata = array('vin_no'  => $vin_no);
 					$getdata = $this->am->getCNFEntryData($chkdata, FALSE);
 
 					if (!$getdata) {
@@ -247,7 +271,7 @@ class CNFEntry extends CI_Controller
 							'battery_sl5'  => $battery_sl5,
 							'battery_sl6'  => $battery_sl6,
 							'added_dtime'  => dtime,
-							'added_by'  => $this->session->userdata('userid')
+							'added_by'  => $created_user
 						);
 						// print_obj($ins_data);die;
 						$addcust = $this->am->addCNFEntry($ins_data);

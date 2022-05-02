@@ -120,7 +120,7 @@
 											<input type="text" class="form-control" id="converter_no" name="converter_no" placeholder="Converter No.." autocomplete="off">
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label for="controller_no" class="col-sm-2 text-right control-label col-form-label">Controller No</label>
 										<div class="col-sm-4">
@@ -132,7 +132,7 @@
 											<input type="text" class="form-control" id="charger_no" name="charger_no" placeholder="Charger No.." autocomplete="off">
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label for="battery_sl1" class="col-sm-2 text-right control-label col-form-label">Battery Sl 1</label>
 										<div class="col-sm-4">
@@ -145,7 +145,7 @@
 										</div>
 									</div>
 
-									
+
 									<div class="form-group row">
 										<label for="battery_sl3" class="col-sm-2 text-right control-label col-form-label">Battery Sl 3</label>
 										<div class="col-sm-4">
@@ -157,7 +157,7 @@
 											<input type="text" class="form-control" id="battery_sl4" name="battery_sl4" placeholder="Battery Sl 4.." autocomplete="off">
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label for="battery_sl5" class="col-sm-2 text-right control-label col-form-label">Battery Sl 5</label>
 										<div class="col-sm-4">
@@ -169,6 +169,31 @@
 											<input type="text" class="form-control" id="battery_sl6" name="battery_sl6" placeholder="Battery Sl 6.." autocomplete="off">
 										</div>
 									</div>
+
+									<?php
+									if ($this->session->userdata('usergroup') == 1) {
+									?>
+										<div class="form-group row">
+											<label for="created_user" class="col-sm-2 text-right control-label col-form-label">Select CNF</label>
+											<div class="col-sm-4">
+												<select class="form-control" style="width: 100%; height:36px;" id="created_user" name="created_user">
+													<option value="">Select</option>
+													<?php
+													if (!empty($user_data)) {
+														$sl = 1;
+														foreach ($user_data as $key => $val) {
+													?>
+															<option value="<?php echo $val['userid']; ?>"><?php echo $val['fullname']; ?></option>
+													<?php
+														}
+													}
+													?>
+												</select>
+											</div>
+										</div>
+									<?php
+									}
+									?>
 								</div>
 								<div class="border-top">
 									<div class="card-body">
