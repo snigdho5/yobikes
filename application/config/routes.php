@@ -46,5 +46,5 @@ $route['cnfbilling/edit/(:any)'] = 'CNFBilling/onGetEdit/$1';
 $route['cnfbilling/change'] = 'CNFBilling/onChange';
 $route['cnfbilling/delete'] = 'CNFBilling/onDelete';
 $route['cnfbilling/invoice/(:any)'] = 'CNFBilling/onGetInvoice/$1';
-$route['cnfbilling/dealer-billing'] = 'CNFBilling/onGetDealerBilling';
+$route['cnfbilling/sub-dealer-billing'] = 'CNFBilling/onGetSubDealerBilling';
 $route['cnfbilling/create_dealer_billing'] = 'CNFBilling/onCreateDealerBilling';

@@ -173,10 +173,24 @@
 										</div>
 									</div>
 
+									<div class="form-group row">
+
+											<label for="manual_no" class="col-sm-2 text-right control-label col-form-label">Manual No</label>
+											<div class="col-sm-4">
+												<input type="text" class="form-control" id="manual_no" name="manual_no" placeholder="Manual No.." value="<?php echo ($comp_data) ? $comp_data['manual_no'] : ''; ?>" autocomplete="off">
+											</div>
+										</div>
+
 								</div>
 								<div class="border-top">
 									<div class="card-body">
+									<?php if (isset($comp_data) && $comp_data['is_billed'] == 0){
+										?>
 										<button type="submit" id="submit" class="btn btn-primary customer_btn_submit">Submit</button>
+										<?php
+									}
+									?>
+										
 									</div>
 								</div>
 							</form>

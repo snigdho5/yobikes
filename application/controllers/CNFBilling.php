@@ -19,7 +19,7 @@ class CNFBilling extends CI_Controller
 			} else if ($this->session->userdata('usergroup') == 2) {
 				$custdata = $this->am->getCNFBillingList(array('cnf_user_id' => $this->session->userdata('userid')), TRUE, null, null, TRUE);
 			} else if ($this->session->userdata('usergroup') == 3) {
-				$custdata = $this->am->getCNFBillingList(array('dealer_user_id' => $this->session->userdata('userid')), TRUE, null, null, TRUE);
+				$custdata = $this->am->getCNFBillingList(array('dealer_user_id' => $this->session->userdata('userid')), TRUE);
 			} else {
 				$custdata = [];
 			}
@@ -32,7 +32,7 @@ class CNFBilling extends CI_Controller
 						'rwid'  => encode_url($value->billing_id),
 						'name'  => $value->name,
 						'vin_no'  => $value->vin_no,
-						'dealer_full_name'  => $value->dealer_full_name,
+						'dealer_full_name'  => ($value->dealer_full_name != '') ? $value->dealer_full_name : 'User deleted!',
 						'cnf_full_name'  => (!empty($cnf_user)) ? $cnf_user->full_name : '',
 						'added_by'  => $value->cnf_user_id,
 						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
@@ -261,6 +261,7 @@ class CNFBilling extends CI_Controller
 					$gst = xss_clean($this->input->post('gst_per'));
 					$discount = xss_clean($this->input->post('discount'));
 					$billing_uniqid = 'CNF' . getUid();
+					$subtotal_f = 0.00;
 
 					for ($sl = 1; $sl <= 3; $sl++) {
 						$cnf_entry_id = decode_url(xss_clean($this->input->post('cnf_entry_id_' . $sl)));
@@ -273,13 +274,7 @@ class CNFBilling extends CI_Controller
 							if (!$getdata) {
 
 								$subtotal = $rate * $qty;
-								$gst_amt = ($subtotal * $gst) / 100;
-
-								if ($discount > 0) {
-									$grand_total = ($subtotal + $gst_amt) - $discount;
-								} else {
-									$grand_total = ($subtotal + $gst_amt);
-								}
+								$subtotal_f += $subtotal;
 
 
 								//add
@@ -293,8 +288,8 @@ class CNFBilling extends CI_Controller
 									'subtotal'  => number_format((float)$subtotal, 2, '.', ''),
 									'discount'  => $discount,
 									'gst'  => $gst,
-									'gst_amt'  => number_format((float)$gst_amt, 2, '.', ''),
-									'grand_total'  => number_format((float)$grand_total, 2, '.', ''),
+									// 'gst_amt'  => number_format((float)$gst_amt, 2, '.', ''),
+									// 'grand_total'  => number_format((float)$grand_total, 2, '.', ''),
 									'added_dtime'  => dtime,
 									'cnf_user_id'  => $this->session->userdata('userid')
 								);
@@ -304,12 +299,13 @@ class CNFBilling extends CI_Controller
 								if ($addcust) {
 
 									$upd = $this->am->updateCNFEntry(array(
-										'is_billed'  => 1
+										'is_billed'  => 1,
+										'billled_for_dealer_user_id'  => $dealer_user_id
 									), array(
 										'entry_id'  => $cnf_entry_id
 									));
 
-									$return['added'] = 'success';
+									// $return['added'] = 'success';
 								} else {
 									$return['added'] = 'failure';
 								}
@@ -324,6 +320,27 @@ class CNFBilling extends CI_Controller
 							}
 						}
 					}
+					//calculate gst and discount
+					$gst_amt = ($subtotal_f * $gst) / 100;
+
+					if ($discount > 0) {
+						$grand_total = ($subtotal_f + $gst_amt) - $discount;
+					} else {
+						$grand_total = ($subtotal_f + $gst_amt);
+					}
+
+					$upd_data = array(
+						// 'subtotal'  => number_format((float)$subtotal, 2, '.', ''),
+						// 'discount'  => $discount,
+						// 'gst'  => $gst,
+						'gst_amt'  => number_format((float)$gst_amt, 2, '.', ''),
+						'grand_total'  => number_format((float)$grand_total, 2, '.', '')
+					);
+
+					$upd = $this->am->updateCNFBilling($upd_data, array(
+						'billing_uniqid' => $billing_uniqid
+					));
+					$return['added'] = 'success';
 				}
 
 				header('Content-Type: application/json');
@@ -353,7 +370,8 @@ class CNFBilling extends CI_Controller
 
 						foreach ($getdata2 as $key => $value) {
 							$upd = $this->am->updateCNFEntry(array(
-								'is_billed'  => 0
+								'is_billed'  => 0,
+								'billled_for_dealer_user_id'  => 0
 							), array(
 								'entry_id'  => $value->cnf_entry_id
 							));
@@ -390,29 +408,111 @@ class CNFBilling extends CI_Controller
 			);
 			$getdata = $this->am->getCNFBillingList($chkdata, FALSE);
 			if ($getdata) {
-				$this->data['comp_data'] = array(
-					'dtime'  => $getdata->added_dtime,
-					'rwid'  => encode_url($getdata->entry_id),
-					'name'  => $getdata->name,
-					'et_invoice_no'  => $getdata->et_invoice_no,
-					'et_invoice_date'  => $getdata->et_invoice_date,
-					'model'  => $getdata->model,
-					'color'  => $getdata->color,
-					'vin_no'  => $getdata->vin_no,
-					'motor_no'  => $getdata->motor_no,
-					'converter_no'  => $getdata->converter_no,
-					'controller_no'  => $getdata->controller_no,
-					'charger_no'  => $getdata->charger_no,
-					'status'  => $getdata->status,
-					'added_by'  => $getdata->added_by,
-					'edited_dtime'  => ($getdata->edited_dtime != '') ? $getdata->edited_dtime : 'NA'
-				);
-				print_obj($this->data['comp_data']);
+
+				$getdata = $this->am->getCNFBillingList(['billing_uniqid' => $getdata->billing_uniqid], TRUE);
+
+				if (!empty($getdata)) {
+					foreach ($getdata as $key => $value) {
+						$billingdata[] = array(
+							'dtime'  => $value->added_dtime,
+							'rwid'  => encode_url($value->entry_id),
+							'name'  => $value->name,
+							'et_invoice_no'  => $value->et_invoice_no,
+							'et_invoice_date'  => $value->et_invoice_date,
+							'model'  => $value->model,
+							'color'  => $value->color,
+							'vin_no'  => $value->vin_no,
+							'motor_no'  => $value->motor_no,
+							'converter_no'  => $value->converter_no,
+							'controller_no'  => $value->controller_no,
+							'charger_no'  => $value->charger_no,
+							'status'  => $value->status,
+							'added_by'  => $value->added_by,
+							'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
+						);
+					}
+				}
+
+				print_obj($billingdata);
 				die;
+				$this->data['billingdata'] = $billingdata;
 				$this->load->view('cnfbilling/vw_invoice', $this->data, false);
 			} else {
 				redirect(base_url());
 			}
+		} else {
+			redirect(base_url());
+		}
+	}
+
+
+
+	public function onGetSubDealerBilling()
+	{
+		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
+
+			$this->data['page_title'] = 'Customer / Sub Dealer Billing';
+
+			if ($this->session->userdata('usergroup') == 1) {
+				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0), TRUE);
+			} else if ($this->session->userdata('usergroup') == 2) {
+				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0, 'added_by' => $this->session->userdata('userid')), TRUE);
+			} else if ($this->session->userdata('usergroup') == 3) {
+				$bikedata = $this->am->getCNFEntryData(array('billled_for_dealer_user_id' => $this->session->userdata('userid')), TRUE);
+			} else {
+				$bikedata = [];
+			}
+
+
+
+			if (!empty($bikedata)) {
+				foreach ($bikedata as $key => $value) {
+					$this->data['bike_data'][] = array(
+						'dtime'  => $value->added_dtime,
+						'rwid'  => encode_url($value->entry_id),
+						'name'  => $value->vin_no,
+						'status'  => $value->status,
+						'added_by'  => $value->added_by,
+						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
+					);
+				}
+
+				//print_obj($this->data['bike_data']);die;
+
+			} else {
+				$this->data['bike_data'] = '';
+			}
+
+
+			if ($this->session->userdata('usergroup') == 2) {
+				$userdata = $this->am->getUserData(array('parent_id' => $this->session->userdata('userid'), 'user_group' => 3), TRUE);
+			} else {
+				$userdata = $this->am->getUserData(array('user_id !=' => 1, 'user_group' => 3), TRUE);
+			}
+
+
+			if ($userdata) {
+				foreach ($userdata as $key => $value) {
+					$this->data['user_data'][] = array(
+						'dtime'  => $value->dtime,
+						'userid'  => encode_url($value->user_id),
+						'usergroup'  => $value->user_group,
+						'username'  => $value->user_name,
+						//'password'  => decrypt_it($value->pass),
+						'fullname'  => $value->full_name,
+						'lastlogin'  => $value->last_login,
+						'lastloginip'  => $value->last_login_ip,
+						'lastupdated'  => $value->last_updated
+					);
+				}
+
+				//print_obj($this->data['user_data']);die;
+
+			} else {
+				$this->data['user_data'] = '';
+			}
+
+			$this->load->view('cnfbilling/vw_sub_dealer_add', $this->data, false);
 		} else {
 			redirect(base_url());
 		}

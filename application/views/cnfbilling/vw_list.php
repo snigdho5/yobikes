@@ -63,7 +63,7 @@
 									<?php
 									}else{
 										?>
-										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/dealer-billing'; ?>'">New Deeler Billing</button>
+										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/sub-dealer-billing'; ?>'">Customer / Sub-Dealer Billing</button>
 										<?php
 									}
 									?>

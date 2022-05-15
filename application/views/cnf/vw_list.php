@@ -61,11 +61,12 @@
 										<thead>
 											<tr class="textcen">
 												<th>Sl</th>
-												<th>Entry On</th>
+												<th>EntryOn</th>
 												<th>Name</th>
 												<th>VIN</th>
-												<th>Entry By</th>
-												<th>Edited On</th>
+												<th>EntryBy</th>
+												<th>EditedOn</th>
+												<th>Billing</th>
 												<th>Action</th>
 
 											</tr>
@@ -84,11 +85,26 @@
 														<td><?php echo $val['vin_no']; ?></td>
 														<td><?php echo $val['full_name']; ?></td>
 														<td><?php echo $val['edited_dtime']; ?></td>
+														<td><?php echo ($val['is_billed'] == 1)? 
+														'<i class="icofont-tick-boxed" style="color:green; font-size:25px;"></i> <br/>Billed to : ' .$val['cnf_full_name']:
+														'<i class="icofont-close-squared-alt" style="color:orange; font-size:25px;"></i> <br/>Not Billed!'; ?></td>
 														<td>
-															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) {  ?>
+															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) { 
+																if ($val['is_billed'] == 0){
+																?>
 																<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'" title="Edit"><i class="icofont-pencil-alt-2"></i></button>
+
+																<?php }else{
+																	?>
+																	<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'" title="View only"><i class="icofont-eye-alt"></i></button>
+																	<?php
+																}
+																if ($val['is_billed'] == 0){ ?>
 																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['name']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
-															<?php } ?>
+															<?php }else{
+																// echo 'N/A';
+																}
+														 	} ?>
 														</td>
 													</tr>
 												<?php

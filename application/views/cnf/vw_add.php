@@ -190,6 +190,11 @@
 													?>
 												</select>
 											</div>
+
+											<label for="manual_no" class="col-sm-2 text-right control-label col-form-label">Manual No</label>
+											<div class="col-sm-4">
+												<input type="text" class="form-control" id="manual_no" name="manual_no" placeholder="Manual No.." autocomplete="off">
+											</div>
 										</div>
 									<?php
 									}

@@ -16,6 +16,12 @@ class CNFEntry extends CI_Controller
 			$custdata = $this->am->getCNFEntryUserData(array('status' => 1), TRUE);
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
+					if($value->is_billed == 1){
+						$cnf_user = $this->am->getUserData(array('user_id' => $value->billled_for_dealer_user_id));
+					}else{
+						$cnf_user = [];
+					}
+					
 					$this->data['comp_data'][] = array(
 						'dtime'  => $value->added_dtime,
 						'rwid'  => encode_url($value->entry_id),
@@ -24,6 +30,8 @@ class CNFEntry extends CI_Controller
 						'vin_no'  => $value->vin_no,
 						'status'  => $value->status,
 						'added_by'  => $value->added_by,
+						'is_billed'  => $value->is_billed,
+						'cnf_full_name'  => (!empty($cnf_user)) ? $cnf_user->full_name : '',
 						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
 					);
 				}
@@ -89,6 +97,7 @@ class CNFEntry extends CI_Controller
 					'converter_no'  => $getdata->converter_no,
 					'controller_no'  => $getdata->controller_no,
 					'charger_no'  => $getdata->charger_no,
+					'manual_no'  => $getdata->manual_no,
 					'battery_sl1'  => $getdata->battery_sl1,
 					'battery_sl2'  => $getdata->battery_sl2,
 					'battery_sl3'  => $getdata->battery_sl3,
@@ -97,6 +106,7 @@ class CNFEntry extends CI_Controller
 					'battery_sl6'  => $getdata->battery_sl6,
 					'status'  => $getdata->status,
 					'added_by'  => $getdata->added_by,
+					'is_billed'  => $getdata->is_billed,
 					'edited_dtime'  => ($getdata->edited_dtime != '') ? $getdata->edited_dtime : 'NA'
 				);
 				//print_obj($this->data['comp_data']);die;
@@ -127,6 +137,7 @@ class CNFEntry extends CI_Controller
 			$converter_no = xss_clean($this->input->post('converter_no'));
 			$controller_no = xss_clean($this->input->post('controller_no'));
 			$charger_no = xss_clean($this->input->post('charger_no'));
+			$manual_no = xss_clean($this->input->post('manual_no'));
 			$battery_sl1 = xss_clean($this->input->post('battery_sl1'));
 			$battery_sl2 = xss_clean($this->input->post('battery_sl2'));
 			$battery_sl3 = xss_clean($this->input->post('battery_sl3'));
@@ -151,6 +162,7 @@ class CNFEntry extends CI_Controller
 					'converter_no'  => $converter_no,
 					'controller_no'  => $controller_no,
 					'charger_no'  => $charger_no,
+					'manual_no'  => $manual_no,
 					'battery_sl1'  => $battery_sl1,
 					'battery_sl2'  => $battery_sl2,
 					'battery_sl3'  => $battery_sl3,
@@ -217,6 +229,7 @@ class CNFEntry extends CI_Controller
 				$this->form_validation->set_rules('converter_no', 'Converter No', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('controller_no', 'Controller No', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('charger_no', 'Charger No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('manual_no', 'Manual No', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('battery_sl1', 'Battery Sl 1', 'trim|required|xss_clean|htmlentities');
 
 				if ($this->form_validation->run() == FALSE) {
@@ -235,6 +248,7 @@ class CNFEntry extends CI_Controller
 					$converter_no = xss_clean($this->input->post('converter_no'));
 					$controller_no = xss_clean($this->input->post('controller_no'));
 					$charger_no = xss_clean($this->input->post('charger_no'));
+					$manual_no = xss_clean($this->input->post('manual_no'));
 					$battery_sl1 = xss_clean($this->input->post('battery_sl1'));
 					$battery_sl2 = xss_clean($this->input->post('battery_sl2'));
 					$battery_sl3 = xss_clean($this->input->post('battery_sl3'));
@@ -264,6 +278,7 @@ class CNFEntry extends CI_Controller
 							'converter_no'  => $converter_no,
 							'controller_no'  => $controller_no,
 							'charger_no'  => $charger_no,
+							'manual_no'  => $manual_no,
 							'battery_sl1'  => $battery_sl1,
 							'battery_sl2'  => $battery_sl2,
 							'battery_sl3'  => $battery_sl3,

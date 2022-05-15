@@ -110,7 +110,7 @@
                                     <div class="form-group row">
                                         <label for="gst" class="col-sm-2 text-right control-label col-form-label">GST</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="gst" name="gst" placeholder="GST.." value="<?php echo ($user_data) ? $user_data['phone'] : ''; ?>">
+                                            <input type="text" class="form-control" id="gst" name="gst" placeholder="GST.." value="<?php echo ($user_data) ? $user_data['gst'] : ''; ?>">
                                         </div>
                                         <label for="address" class="col-sm-2 text-right control-label col-form-label">Address</label>
                                         <div class="col-sm-4">
