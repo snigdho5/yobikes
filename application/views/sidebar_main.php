@@ -14,7 +14,7 @@ $page =  $this->uri->segment(1);
 					if ($this->session->userdata('usergroup') == 1) {
 				?>
 						<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Manage </span></a>
-							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'add-user' || $page == 'profile' || $page == 'cnf' || $page == 'cnfbilling' || $page == 'edit-segment') ? 'in' : ''; ?>">
+							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'add-user' || $page == 'profile' || $page == 'cnf') ? 'in' : ''; ?>">
 
 								<li class="sidebar-item <?php echo ($page == 'add-user' || $page == 'profile') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>users" class="sidebar-link <?php echo ($page == 'add-user' || $page == 'profile') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> User Management</span></a></li>
 
@@ -24,10 +24,11 @@ $page =  $this->uri->segment(1);
 						</li>
 
 						<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Billing </span></a>
-							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'cnfbilling') ? 'in' : ''; ?>">
+							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'cnfbilling' || $page == 'dealerbilling') ? 'in' : ''; ?>">
 
 								<li class="sidebar-item <?php echo ($page == 'cnfbilling') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>cnfbilling/list" class="sidebar-link <?php echo ($page == 'cnfbilling') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> CNF Billing Management</span></a></li>
 
+								<li class="sidebar-item <?php echo ($page == 'dealerbilling') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>dealerbilling/list" class="sidebar-link <?php echo ($page == 'dealerbilling') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> Dealer Billing Management</span></a></li>
 
 							</ul>
 						</li>
@@ -40,7 +41,7 @@ $page =  $this->uri->segment(1);
 						//cnf
 					?>
 						<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Manage </span></a>
-							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'add-user' || $page == 'cnf' || $page == 'cnfbilling' || $page == 'edit-segment') ? 'in' : ''; ?>">
+							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'add-user' || $page == 'cnf') ? 'in' : ''; ?>">
 
 								<li class="sidebar-item <?php echo ($page == 'cnf') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>cnf/list" class="sidebar-link <?php echo ($page == 'cnf') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> CNF Management</span></a></li>
 
@@ -48,9 +49,11 @@ $page =  $this->uri->segment(1);
 						</li>
 
 						<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Billing </span></a>
-							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'cnfbilling') ? 'in' : ''; ?>">
+							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'cnfbilling' || $page == 'dealerbilling') ? 'in' : ''; ?>">
 
 								<li class="sidebar-item <?php echo ($page == 'cnfbilling') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>cnfbilling/list" class="sidebar-link <?php echo ($page == 'cnfbilling') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> CNF Billing Management</span></a></li>
+
+								<li class="sidebar-item <?php echo ($page == 'dealerbilling') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>dealerbilling/list" class="sidebar-link <?php echo ($page == 'dealerbilling') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> Dealer Billing Management</span></a></li>
 
 							</ul>
 						</li>
@@ -64,9 +67,11 @@ $page =  $this->uri->segment(1);
 					?>
 
 						<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Billing </span></a>
-							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'cnfbilling') ? 'in' : ''; ?>">
+							<ul aria-expanded="false" class="collapse  first-level <?php echo ($page == 'cnfbilling' || $page == 'dealerbilling') ? 'in' : ''; ?>">
 
 								<li class="sidebar-item <?php echo ($page == 'cnfbilling') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>cnfbilling/list" class="sidebar-link <?php echo ($page == 'cnfbilling') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> CNF Billing Management</span></a></li>
+
+								<li class="sidebar-item <?php echo ($page == 'dealerbilling') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>dealerbilling/list" class="sidebar-link <?php echo ($page == 'dealerbilling') ? 'active' : ''; ?>"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu"> Dealer Billing Management</span></a></li>
 
 							</ul>
 						</li>

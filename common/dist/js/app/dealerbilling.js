@@ -11,6 +11,75 @@ $(document).ready(function () {
 		allowClear: true,
 	});
 
+	$(document).on("change", "#bill_type", function () {
+		var billtype = $(this).val();
+		if (billtype != "" && billtype == "customer") {
+			$(".text-name").html("Customer Name");
+			$(".text-address").html("Customer Address");
+		} else if (billtype != "" && billtype == "subdealer") {
+			$(".text-name").html("Sub Dealer Name");
+			$(".text-address").html("Sub Dealer Address");
+		} else {
+			$(".text-name").html("Name");
+			$(".text-address").html("Address");
+		}
+	});
+
+    $(document).on("click", ".change_bill_type", function () {
+		var delid = $(this).attr("data-id");
+		var rowname = $(this).attr("data-rowname");
+
+		Swal.fire({
+			title: "Are you sure?",
+			text: rowname + " will be changes to Customer RETAIL!",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes",
+			cancelButtonText: "No",
+		}).then((willDelete) => {
+			if (willDelete.isConfirmed == true) {
+				$.ajax({
+					type: "POST",
+
+					url: BASE_URL + "dealerbilling/change-bill-type",
+
+					data: { delid: delid },
+
+					success: function (d) {
+						if (d.deleted == "success") {
+							Swal.fire({
+								icon: "success",
+								title: "Changed!",
+								confirmButtonText: "Close",
+								confirmButtonColor: "#d33",
+								allowOutsideClick: false,
+							});
+							window.location.reload();
+						} else if (d.deleted == "not_exists") {
+							Swal.fire({
+								icon: "error",
+								title: "Does not exists!",
+								confirmButtonText: "Close",
+								confirmButtonColor: "#d33",
+								allowOutsideClick: false,
+							});
+						} else {
+							Swal.fire({
+								icon: "error",
+								title: "Something went wrong!",
+								confirmButtonText: "Close",
+								confirmButtonColor: "#d33",
+								allowOutsideClick: false,
+							});
+						}
+					},
+				});
+			} else {
+				//Swal.fire("Okay!");
+			}
+		});
+	});
+
 	$(document).on("click", ".del_row", function () {
 		var delid = $(this).attr("data-delid");
 		var rowname = $(this).attr("data-rowname");
@@ -27,7 +96,7 @@ $(document).ready(function () {
 				$.ajax({
 					type: "POST",
 
-					url: BASE_URL + "cnfbilling/delete",
+					url: BASE_URL + "dealerbilling/delete",
 
 					data: { delid: delid },
 
@@ -44,7 +113,7 @@ $(document).ready(function () {
 						} else if (d.deleted == "not_exists") {
 							Swal.fire({
 								icon: "error",
-								title: "Does not exists or dealer already billed!",
+								title: "Does not exists!",
 								confirmButtonText: "Close",
 								confirmButtonColor: "#d33",
 								allowOutsideClick: false,
@@ -193,7 +262,7 @@ $(document).ready(function () {
 
 		$.ajax({
 			type: "POST",
-			url: BASE_URL + "cnfbilling/create",
+			url: BASE_URL + "dealerbilling/create",
 			cache: false,
 			data: $("#create_form").serialize(),
 			beforeSend: function () {

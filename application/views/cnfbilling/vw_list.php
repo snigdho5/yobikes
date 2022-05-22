@@ -63,7 +63,7 @@
 									<?php
 									}else{
 										?>
-										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/sub-dealer-billing'; ?>'">Customer / Sub-Dealer Billing</button>
+										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'dealerbilling/add'; ?>'">Customer / Sub-Dealer Billing</button>
 										<?php
 									}
 									?>
@@ -102,7 +102,7 @@
 
 																<!-- <button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button> -->
 
-																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['name']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
+																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['vin_no']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
 															<?php } ?>
 															<?php
 															if ($this->session->userdata('usergroup') == 3) {

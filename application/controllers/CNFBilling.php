@@ -173,9 +173,9 @@ class CNFBilling extends CI_Controller
 			$this->data['page_title'] = 'CNF Billing';
 
 			if ($this->session->userdata('usergroup') == 1) {
-				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0), TRUE);
+				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0, 'is_dealer_billed' => 0), TRUE);
 			} else if ($this->session->userdata('usergroup') == 2) {
-				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0, 'added_by' => $this->session->userdata('userid')), TRUE);
+				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0, 'is_dealer_billed' => 0, 'added_by' => $this->session->userdata('userid')), TRUE);
 			}
 			// else if ($this->session->userdata('usergroup') == 3) {
 			// 	$custdata = $this->am->getCNFBillingList(array('dealer_user_id' => $this->session->userdata('userid')), TRUE);
@@ -361,26 +361,34 @@ class CNFBilling extends CI_Controller
 				$billing_id  = decode_url(xss_clean($this->input->post('delid')));
 				$getdata = $this->am->getCNFBillingData(array('billing_id'  => $billing_id), FALSE);
 
+
 				if (!empty($getdata)) {
-					$getdata2 = $this->am->getCNFBillingData(array('billing_uniqid'  => $getdata->billing_uniqid), TRUE);
-					//del
-					$del = $this->am->delCNFBilling(array('billing_uniqid' => $getdata->billing_uniqid));
 
-					if ($del) {
+					$dealerBdata = $this->am->getDealerBillingList(array('cnf_entry_id' => $getdata->cnf_entry_id), TRUE);
 
-						foreach ($getdata2 as $key => $value) {
-							$upd = $this->am->updateCNFEntry(array(
-								'is_billed'  => 0,
-								'billled_for_dealer_user_id'  => 0
-							), array(
-								'entry_id'  => $value->cnf_entry_id
-							));
+					if (empty($dealerBdata)) {
+						$getdata2 = $this->am->getDealerBillingData(array('billing_uniqid'  => $getdata->billing_uniqid));
+						//del
+						$del = $this->am->delCNFBilling(array('billing_uniqid' => $getdata->billing_uniqid));
+
+						if ($del) {
+
+							foreach ($getdata2 as $key => $value) {
+								$upd = $this->am->updateCNFEntry(array(
+									'is_billed'  => 0,
+									'billled_for_dealer_user_id'  => 0
+								), array(
+									'entry_id'  => $value->cnf_entry_id
+								));
+							}
+
+
+							$return['deleted'] = 'success';
+						} else {
+							$return['deleted'] = 'failure';
 						}
-
-
-						$return['deleted'] = 'success';
 					} else {
-						$return['deleted'] = 'failure';
+						$return['deleted'] = 'not_exists';
 					}
 				} else {
 					$return['deleted'] = 'not_exists';
@@ -440,79 +448,6 @@ class CNFBilling extends CI_Controller
 			} else {
 				redirect(base_url());
 			}
-		} else {
-			redirect(base_url());
-		}
-	}
-
-
-
-	public function onGetSubDealerBilling()
-	{
-		if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
-
-			$this->data['page_title'] = 'Customer / Sub Dealer Billing';
-
-			if ($this->session->userdata('usergroup') == 1) {
-				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0), TRUE);
-			} else if ($this->session->userdata('usergroup') == 2) {
-				$bikedata = $this->am->getCNFEntryData(array('status' => 1, 'is_billed' => 0, 'added_by' => $this->session->userdata('userid')), TRUE);
-			} else if ($this->session->userdata('usergroup') == 3) {
-				$bikedata = $this->am->getCNFEntryData(array('billled_for_dealer_user_id' => $this->session->userdata('userid')), TRUE);
-			} else {
-				$bikedata = [];
-			}
-
-
-
-			if (!empty($bikedata)) {
-				foreach ($bikedata as $key => $value) {
-					$this->data['bike_data'][] = array(
-						'dtime'  => $value->added_dtime,
-						'rwid'  => encode_url($value->entry_id),
-						'name'  => $value->vin_no,
-						'status'  => $value->status,
-						'added_by'  => $value->added_by,
-						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
-					);
-				}
-
-				//print_obj($this->data['bike_data']);die;
-
-			} else {
-				$this->data['bike_data'] = '';
-			}
-
-
-			if ($this->session->userdata('usergroup') == 2) {
-				$userdata = $this->am->getUserData(array('parent_id' => $this->session->userdata('userid'), 'user_group' => 3), TRUE);
-			} else {
-				$userdata = $this->am->getUserData(array('user_id !=' => 1, 'user_group' => 3), TRUE);
-			}
-
-
-			if ($userdata) {
-				foreach ($userdata as $key => $value) {
-					$this->data['user_data'][] = array(
-						'dtime'  => $value->dtime,
-						'userid'  => encode_url($value->user_id),
-						'usergroup'  => $value->user_group,
-						'username'  => $value->user_name,
-						//'password'  => decrypt_it($value->pass),
-						'fullname'  => $value->full_name,
-						'lastlogin'  => $value->last_login,
-						'lastloginip'  => $value->last_login_ip,
-						'lastupdated'  => $value->last_updated
-					);
-				}
-
-				//print_obj($this->data['user_data']);die;
-
-			} else {
-				$this->data['user_data'] = '';
-			}
-
-			$this->load->view('cnfbilling/vw_sub_dealer_add', $this->data, false);
 		} else {
 			redirect(base_url());
 		}

@@ -55,19 +55,33 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<h5 class="card-title"><?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnf/add'; ?>'">Add <?php echo $page_title; ?></button></h5>
+								<h5 class="card-title"><?php echo $page_title; ?>
+
+									<?php
+									if ($this->session->userdata('usergroup') != 2) {
+									?>
+										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'dealerbilling/add'; ?>'">Customer / Sub-Dealer Billing</button>
+									<?php
+									} else {
+									?>
+
+									<?php
+									}
+									?>
+								</h5>
 								<div class="table-responsive">
 									<table id="zero_config" class="table table-striped table-bordered">
 										<thead>
 											<tr class="textcen">
 												<th>Sl</th>
-												<th>EntryOn</th>
-												<th>Name</th>
+												<th>Billed On</th>
+												<th>Bike Name</th>
 												<th>VIN</th>
-												<th>EntryBy</th>
-												<th>EditedOn</th>
-												<th>CNF Billing</th>
-												<th>Dealer Billing</th>
+												<th>Dealer Name</th>
+												<!-- <th>Billed By (CNF)</th> -->
+												<th>Bill Type</th>
+												<th>Name</th>
+												<th>Address</th>
 												<th>Action</th>
 
 											</tr>
@@ -84,31 +98,41 @@
 														<td><?php echo $val['dtime']; ?></td>
 														<td><?php echo $val['name']; ?></td>
 														<td><?php echo $val['vin_no']; ?></td>
-														<td><?php echo $val['full_name']; ?></td>
-														<td><?php echo $val['edited_dtime']; ?></td>
-														<td><?php echo ($val['is_billed'] == 1)? 
-														'<i class="icofont-tick-boxed" style="color:green; font-size:25px;"></i> <br/>Billed to : ' .$val['cnf_full_name']:
-														'<i class="icofont-close-squared-alt" style="color:orange; font-size:25px;"></i> <br/>Not Billed!'; ?></td>
-														<td><?php echo ($val['is_dealer_billed'] == 1)? 
-														'<i class="icofont-tick-boxed" style="color:green; font-size:25px;"></i> <br/>Billed to : ' .$val['dealer_billed_text']:
-														'<i class="icofont-close-squared-alt" style="color:orange; font-size:25px;"></i> <br/>Not Billed!'; ?></td>
+														<td><?php echo $val['dealer_full_name']; ?></td>
+														<!-- <td><?php echo $val['cnf_full_name']; ?></td> -->
+														<td><?php echo $val['bill_type']; ?></td>
+														<td><?php echo $val['billed_to_name']; ?></td>
+														<td><?php echo $val['billed_to_address']; ?></td>
 														<td>
-															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) { 
-																if ($val['is_billed'] == 0){
-																?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'" title="Edit"><i class="icofont-pencil-alt-2"></i></button>
+															<?php if ($this->session->userdata('usergroup') != 3) {  ?>
+																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="Dealer Invoice"><i class="icofont-copy-invert"></i></button>
 
-																<?php }else{
-																	?>
-																	<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'" title="View only"><i class="icofont-eye-alt"></i></button>
-																	<?php
+																<!-- <button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button> -->
+																<?php
+																if ($val['is_billed_to_cust'] == 2) {
+																?>
+																	<button type="button" class="change_bill_type" data-id="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['vin_no']; ?>" title="Change Bill Type"><i class="icofont-checked"></i></button>
+																<?php
 																}
-																if ($val['is_billed'] == 0){ ?>
-																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['name']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
-															<?php }else{
-																// echo 'N/A';
+																?>
+
+																<button type="button" class="del_row" data-delid="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['vin_no']; ?>" title="Delete"><i class="fas fa-trash-alt"></i></button>
+															<?php } ?>
+															<?php
+															if ($this->session->userdata('usergroup') == 3) {
+															?>
+																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="Dealer Invoice"><i class="icofont-copy-invert"></i></button>
+
+																<?php
+																if ($val['is_billed_to_cust'] == 2) {
+																?>
+																	<button type="button" class="change_bill_type" data-id="<?php echo $val['rwid']; ?>" data-rowname="<?php echo $val['vin_no']; ?>" title="Change Bill Type"><i class="icofont-checked"></i></button>
+																<?php
 																}
-														 	} ?>
+																?>
+															<?php
+															}
+															?>
 														</td>
 													</tr>
 												<?php
@@ -117,7 +141,7 @@
 											} else {
 												?>
 												<tr>
-													<td colspan="6">No data found</td>
+													<td colspan="9">No data found</td>
 												</tr>
 											<?php
 											}
@@ -154,7 +178,7 @@
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/datatable-checkbox-init.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/jquery.multicheck.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/DataTables/datatables.min.js'; ?>"></script>
-	<script src="<?php echo base_url() . 'common/dist/js/app/cnf.js?v=' . random_strings(6); ?>"></script>
+	<script src="<?php echo base_url() . 'common/dist/js/app/dealerbilling.js?v=' . random_strings(6); ?>"></script>
 	<script>
 		$('#zero_config').DataTable();
 	</script>

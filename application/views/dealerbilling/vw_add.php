@@ -65,7 +65,7 @@
 							?>
 							<form class="form-horizontal" id="create_form" autocomplete="off">
 								<div class="card-body">
-									<h4 class="card-title">Create New <?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnfbilling/list'; ?>'"><?php echo $page_title; ?>s List</button></h4>
+									<h4 class="card-title">Create New <?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'dealerbilling/list'; ?>'"><?php echo $page_title; ?>s List</button></h4>
 
 									<?php
 									for ($sl = 1; $sl <= 3; $sl++) {
@@ -103,25 +103,29 @@
 									}
 									?>
 									<div class="form-group row">
-										<label for="dealer_user_id" class="col-sm-2 text-right control-label col-form-label">Choose Dealer</label>
+										<label for="bill_type" class="col-sm-2 text-right control-label col-form-label">Bill Type</label>
 										<div class="col-sm-4">
-											<select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="dealer_user_id" name="dealer_user_id">
-												<option value="">Select</option>
-												<?php
-												if (!empty($user_data)) {
-													foreach ($user_data as $key => $value) {
-												?>
-														<option value="<?php echo $value['userid']; ?>"><?php echo $value['fullname'] . ' [' . $value['username'] . ']'; ?></option>
-												<?php
-													}
-												}
-												?>
+											<select class="form-control" style="width: 100%; height:36px;" id="bill_type" name="bill_type">
+												<option value="customer">Customer</option>
+												<option value="subdealer">Sub Dealer</option>
 											</select>
 										</div>
 
-										<label for="cnf_notes" class="col-sm-2 text-right control-label col-form-label">Dealer Notes</label>
+										<!-- <label for="billed_to_address" class="col-sm-2 text-right control-label col-form-label">Customer Address</label>
 										<div class="col-sm-4">
-											<textarea class="form-control" id="cnf_notes" name="cnf_notes" placeholder="Notes.." autocomplete="off"></textarea>
+											<textarea class="form-control" id="billed_to_address" name="billed_to_address" placeholder="Address.." autocomplete="off"></textarea>
+										</div> -->
+									</div>
+
+									<div class="form-group row">
+										<label for="billed_to_name" class="col-sm-2 text-right control-label col-form-label text-name">Customer Name</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="billed_to_name" name="billed_to_name" placeholder="Name.." autocomplete="off">
+										</div>
+
+										<label for="billed_to_address" class="col-sm-2 text-right control-label col-form-label text-address">Customer Address</label>
+										<div class="col-sm-4">
+											<textarea class="form-control" id="billed_to_address" name="billed_to_address" placeholder="Address.." autocomplete="off"></textarea>
 										</div>
 									</div>
 
@@ -175,7 +179,7 @@
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/datatable-checkbox-init.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/multicheck/jquery.multicheck.js'; ?>"></script>
 	<script src="<?php echo base_url() . 'common/assets/extra-libs/DataTables/datatables.min.js'; ?>"></script>
-	<script src="<?php echo base_url() . 'common/dist/js/app/cnfbilling.js?v=' . random_strings(6); ?>"></script>
+	<script src="<?php echo base_url() . 'common/dist/js/app/dealerbilling.js?v=' . random_strings(6); ?>"></script>
 
 </body>
 

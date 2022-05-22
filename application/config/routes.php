@@ -46,5 +46,10 @@ $route['cnfbilling/edit/(:any)'] = 'CNFBilling/onGetEdit/$1';
 $route['cnfbilling/change'] = 'CNFBilling/onChange';
 $route['cnfbilling/delete'] = 'CNFBilling/onDelete';
 $route['cnfbilling/invoice/(:any)'] = 'CNFBilling/onGetInvoice/$1';
-$route['cnfbilling/sub-dealer-billing'] = 'CNFBilling/onGetSubDealerBilling';
-$route['cnfbilling/create_dealer_billing'] = 'CNFBilling/onCreateDealerBilling';
+
+//dealer billing
+$route['dealerbilling/list'] = 'DealerBilling/index';
+$route['dealerbilling/add'] = 'DealerBilling/onCreateView';
+$route['dealerbilling/create'] = 'DealerBilling/onCreate';
+$route['dealerbilling/delete'] = 'DealerBilling/onDelete';
+$route['dealerbilling/change-bill-type'] = 'DealerBilling/onChangeBillType';

@@ -16,12 +16,12 @@ class CNFEntry extends CI_Controller
 			$custdata = $this->am->getCNFEntryUserData(array('status' => 1), TRUE);
 			if (!empty($custdata)) {
 				foreach ($custdata as $key => $value) {
-					if($value->is_billed == 1){
+					if ($value->is_billed == 1) {
 						$cnf_user = $this->am->getUserData(array('user_id' => $value->billled_for_dealer_user_id));
-					}else{
+					} else {
 						$cnf_user = [];
 					}
-					
+
 					$this->data['comp_data'][] = array(
 						'dtime'  => $value->added_dtime,
 						'rwid'  => encode_url($value->entry_id),
@@ -31,6 +31,8 @@ class CNFEntry extends CI_Controller
 						'status'  => $value->status,
 						'added_by'  => $value->added_by,
 						'is_billed'  => $value->is_billed,
+						'is_dealer_billed'  => $value->is_dealer_billed,
+						'dealer_billed_text'  => ($value->is_billed_to_cust == 1) ? 'Customer on ' . $value->dealer_billed_dtime : 'Sub Dealer on ' . $value->dealer_billed_dtime,
 						'cnf_full_name'  => (!empty($cnf_user)) ? $cnf_user->full_name : '',
 						'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
 					);
@@ -208,7 +210,6 @@ class CNFEntry extends CI_Controller
 
 
 			$this->load->view('cnf/vw_add', $this->data, false);
-
 		} else {
 			redirect(base_url());
 		}
@@ -258,7 +259,7 @@ class CNFEntry extends CI_Controller
 
 					if ($this->session->userdata('usergroup') == 1) {
 						$created_user = xss_clean($this->input->post('created_user'));
-					}else{
+					} else {
 						$created_user = $this->session->userdata('userid');
 					}
 					$chkdata = array('vin_no'  => $vin_no);

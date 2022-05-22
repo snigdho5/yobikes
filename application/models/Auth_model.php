@@ -164,16 +164,17 @@ class Auth_model extends MY_Model
 
 
 
-	//checklist
-	public function addChecklist($data)
+
+	//dealer billing
+	public function addDealerBilling($data)
 	{
-		$this->table = 'tbl_checklists';
+		$this->table = 'tbl_dealer_billing';
 		return $this->store($data);
 	}
 
-	public function getChecklistData($param = null, $many = FALSE, $order_by = 'checklist_id', $order = 'DESC')
+	public function getDealerBillingData($param = null, $many = FALSE, $order_by = 'dealer_billing_id', $order = 'DESC')
 	{
-		$this->table = 'tbl_checklists';
+		$this->table = 'tbl_dealer_billing';
 		if ($param != null && $many == FALSE) {
 			return $this->get_one($param);
 		} else if ($param != null && $many == TRUE) {
@@ -183,22 +184,39 @@ class Auth_model extends MY_Model
 		}
 	}
 
-	public function getChecklists($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_checklists.checklist_id')
+	public function updateDealerBilling($data, $param)
+	{
+		$this->table = 'tbl_dealer_billing';
+		return $this->modify($data, $param);
+	}
+
+	public function delDealerBilling($param)
+	{
+		$this->table = 'tbl_dealer_billing';
+		return $this->remove($param);
+	}
+
+
+
+	public function getDealerBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_dealer_billing.dealer_billing_id', $group_by = FALSE)
 	{
 
-		$this->db->select('tbl_checklists.*, mt_company.company_name, mt_segment.segment_name, mt_cycle.cycle_name');
+		$this->db->select('tbl_dealer_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name');
 
-		$this->db->join('mt_cycle', 'mt_cycle.cycle_id = tbl_checklists.cycle_id', 'inner');
-		$this->db->join('mt_company', 'mt_company.company_id = tbl_checklists.company_id', 'inner');
-		$this->db->join('mt_segment', 'mt_segment.segment_id = tbl_checklists.segment_id', 'inner');
+		$this->db->join('mt_cnf_entry', 'mt_cnf_entry.entry_id = tbl_dealer_billing.cnf_entry_id', 'inner');
+		$this->db->join('users', 'users.user_id = tbl_dealer_billing.dealer_user_id', 'left');
 
 		if ($param != null) {
 			$this->db->where($param);
 		}
 
+		if ($group_by == TRUE) {
+			$this->db->group_by('billing_uniqid');
+		}
+
 		$this->db->order_by($order_by, $order);
 
-		$query = $this->db->get('tbl_checklists');
+		$query = $this->db->get('tbl_dealer_billing');
 		// echo $this->db->last_query();die;
 
 		if ($many != TRUE) {
@@ -208,15 +226,6 @@ class Auth_model extends MY_Model
 		}
 	}
 
-	public function updateChecklist($data, $param)
-	{
-		$this->table = 'tbl_checklists';
-		return $this->modify($data, $param);
-	}
 
-	public function delChecklist($param)
-	{
-		$this->table = 'tbl_checklists';
-		return $this->remove($param);
-	}
+
 }
