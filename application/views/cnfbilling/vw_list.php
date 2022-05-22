@@ -91,14 +91,14 @@
 											?>
 													<tr>
 														<td><?php echo $sl; ?></td>
-														<td><?php echo $val['dtime']; ?></td>
+														<td><?php echo date('j F, Y, g:i a', strtotime($val['dtime'])); ?></td>
 														<td><?php echo $val['name']; ?></td>
 														<td><?php echo $val['vin_no']; ?></td>
 														<td><?php echo $val['dealer_full_name']; ?></td>
 														<td><?php echo $val['cnf_full_name']; ?></td>
 														<td>
 															<?php if ($this->session->userdata('usergroup') != 3) {  ?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="Invoice"><i class="icofont-copy-invert"></i></button>
+																<button type="button" onclick="window.open('<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>')" title="Invoice"><i class="icofont-printer"></i></button>
 
 																<!-- <button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button> -->
 
@@ -107,7 +107,7 @@
 															<?php
 															if ($this->session->userdata('usergroup') == 3) {
 															?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="CNF Invoice"><i class="icofont-copy-invert"></i></button>
+																<button type="button" onclick="window.open('<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>')" title="CNF Invoice"><i class="icofont-printer"></i></button>
 
 															<?php
 															}

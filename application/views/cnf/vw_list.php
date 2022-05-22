@@ -56,6 +56,7 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title"><?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnf/add'; ?>'">Add <?php echo $page_title; ?></button></h5>
+								<p>Download sample excel format: <button type="button" class="btn badge badge-pill badge-info" onclick="location.href='<?php echo base_url() . 'common/files/sample-format.xlsx'; ?>'">Download</button></p>
 								<div class="table-responsive">
 									<table id="zero_config" class="table table-striped table-bordered">
 										<thead>
@@ -93,7 +94,7 @@
 														'<i class="icofont-tick-boxed" style="color:green; font-size:25px;"></i> <br/>Billed to : ' .$val['dealer_billed_text']:
 														'<i class="icofont-close-squared-alt" style="color:orange; font-size:25px;"></i> <br/>Not Billed!'; ?></td>
 														<td>
-															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1 && $this->session->userdata('usergroup') == 1) { 
+															<?php if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) { 
 																if ($val['is_billed'] == 0){
 																?>
 																<button type="button" onclick="location.href='<?php echo base_url() . 'cnf/edit/' . $val['rwid']; ?>'" title="Edit"><i class="icofont-pencil-alt-2"></i></button>

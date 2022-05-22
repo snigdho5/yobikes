@@ -14,12 +14,15 @@ $(document).ready(function () {
 	$(document).on("change", "#bill_type", function () {
 		var billtype = $(this).val();
 		if (billtype != "" && billtype == "customer") {
+			$(".text-phone").html("Customer Phone");
 			$(".text-name").html("Customer Name");
 			$(".text-address").html("Customer Address");
 		} else if (billtype != "" && billtype == "subdealer") {
+			$(".text-phone").html("Sub Dealer Phone");
 			$(".text-name").html("Sub Dealer Name");
 			$(".text-address").html("Sub Dealer Address");
 		} else {
+			$(".text-phone").html("Phone");
 			$(".text-name").html("Name");
 			$(".text-address").html("Address");
 		}

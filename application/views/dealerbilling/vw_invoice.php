@@ -56,26 +56,20 @@
                     <td colspan="2">
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tbody style="text-align:center;">
-                                <tr>
+                                <!-- <tr>
                                     <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">ORIGINAL FOR BUYER/ DUPLICATE FOR TRANSPORTER/ OFF. RECORD</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
-                                    <td height="49" valign="bottom" style=" font-size:20px; color:#d04e00; font-weight:800; font-family: 'Muli', sans-serif;">TARA AGENCIES</td>
-                                </tr>
-                                <tr>
-                                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">AUTHORISED C & F AGENT FOR ELECTROTHERM (I) LTD. FOR WEST BENGAL</td>
+                                    <td height="49" valign="bottom" style=" font-size:20px; color:#d04e00; font-weight:800; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? strtoupper($billingdata[0]['dealer_full_name']) : 'NA'; ?></td>
                                 </tr>
                                 <tr>
                                     <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">AUTHORISED YO BYKE SALES & SERVICE</td>
                                 </tr>
                                 <tr>
-                                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">53/A 853 /F, BAG STATION ROAD, KUMARPARA, KANCHRAPARA, DIST-24,PGS (N) PIN-743145</td>
+                                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Address: <?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_address'] : 'NA'; ?></td>
                                 </tr>
                                 <tr>
-                                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">GODOWN-2, B-6 /161, CENTRAL PARK KALYANI, DIRT: NADIA PIN-741235</td>
-                                </tr>
-                                <tr>
-                                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">GST No: 19ACUPT1844K1ZQ Moble: 9630358025 /6291477116 Phone: 25857046/ 25823790 </td>
+                                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Phone: <?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_phone'] : 'NA'; ?>. GSTIN: <?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_gst'] : 'NA'; ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -96,59 +90,20 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="16%" height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Name</span>:</strong></td>
-                                                    <td width="49%"><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_full_name'] : 'NA'; ?></span></td>
+                                                    <td width="49%"><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billed_to_name'] : 'NA'; ?></span></td>
                                                     <td width="20%"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Invoice Date</span>:</strong></td>
                                                     <td width="15%"><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dtime'] : 'NA'; ?></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Address</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_address'] : 'NA'; ?></span></td>
+                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billed_to_address'] : 'NA'; ?></span></td>
                                                     <td><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Invoice Number</span>:</strong></td>
                                                     <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">#<?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billing_uniqid'] : 'NA'; ?></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Mobile</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_phone'] : 'NA'; ?></span></td>
-                                                    <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">LR / LR Date</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['lr_date'] : 'NA'; ?></span></td>
+                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billed_to_phone'] : 'NA'; ?></span></td>
                                                 </tr>
-                                                <tr>
-                                                    <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">GSTIN</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_gst'] : 'NA'; ?></span></td>
-
-                                                    <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Vehicle No</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['vehicle_no'] : 'NA'; ?></span></td>
-
-                                                </tr>
-
-                                                <tr>
-                                                    <td height="25">&nbsp;</td>
-                                                    <td>&nbsp;</td>
-
-                                                    <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Transporter</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['transporter'] : 'NA'; ?></span></td>
-
-                                                </tr>
-
-                                                <tr>
-                                                    <td height="25">&nbsp;</td>
-                                                    <td>&nbsp;</td>
-
-                                                    <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Driver Name</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['driver_name'] : 'NA'; ?></span></td>
-
-                                                </tr>
-
-
-                                                <tr>
-                                                    <td height="25">&nbsp;</td>
-                                                    <td>&nbsp;</td>
-
-                                                    <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Contact No</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['driver_phone'] : 'NA'; ?></span></td>
-
-                                                </tr>
-
                                             </tbody>
                                         </table>
                                     </td>
@@ -241,7 +196,6 @@
                                                         $gst = $value['gst'];
                                                         $discount = $value['discount'];
                                                         $dtime = $value['dtime'];
-                                                        $cnf_notes = $value['cnf_notes'];
                                                     }
                                                 }
                                                 ?>
@@ -277,7 +231,7 @@
                                                 $grand_total = number_format((float)$grand_total, 2, '.', '');;
                                                 ?>
                                                 <tr style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">
-                                                    <td width="67%" height="48" colspan="2"><span style="font-weight:bolder;">Remarks:</span><br> <?php echo $cnf_notes; ?></td>
+                                                    <td width="67%" height="48" colspan="2"><span style="font-weight:bolder;">Remarks:</span><br> </td>
                                                     <td align="center">CGST <?php echo $gst_per_d; ?>%: <br>SGST <?php echo $gst_per_d; ?>%:</td>
                                                     <td width="13%" align="center"><?php echo number_format((float)$gst_amt_d, 2, '.', ''); ?> <br><?php echo number_format((float)$gst_amt_d, 2, '.', ''); ?></td>
                                                 </tr>
@@ -304,13 +258,14 @@
                 <tr>
                     <td height="6">&nbsp;</td>
                     <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;" width="47%" height="32"><strong>Date : <?php echo date('F j, Y', strtotime($dtime)); ?></strong></td>
-                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;" width="47%" align="right"><strong>For : TARA AGENCIES</strong></td>
+                    <td>&nbsp;</td>
+                    <!-- <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;" width="47%" align="right"><strong>For :</strong></td> -->
                     <td height="6">&nbsp;</td>
                 </tr>
                 <!-- <tr>
                     <td colspan="4">&nbsp;</td>
                 </tr> -->
-                <tr>
+                <?php /*<tr>
                     <td height="5">&nbsp;</td>
                     <td style=" font-size:11px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">
                         <strong>Note:</strong><br><br>
@@ -319,11 +274,11 @@
                     </td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                </tr>
+                </tr>*/ ?>
                 <tr>
-                    <td height="20">&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;" align="right" valign="bottom"><strong>Authorised Signature</strong></td>
+                    <td height="40">&nbsp;</td>
+                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;" height="32"><strong>Signature of Buyer</strong></td>
+                    <td style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;" align="right" valign="bottom"><strong>Signature of Seller</strong></td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>

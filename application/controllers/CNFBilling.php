@@ -28,7 +28,7 @@ class CNFBilling extends CI_Controller
 				foreach ($custdata as $key => $value) {
 					$cnf_user = $this->am->getUserData(array('user_id' => $value->cnf_user_id));
 					$this->data['comp_data'][] = array(
-						'dtime'  => $value->added_dtime,
+						'dtime'  => $value->billing_dtime,
 						'rwid'  => encode_url($value->billing_id),
 						'name'  => $value->name,
 						'vin_no'  => $value->vin_no,
@@ -250,6 +250,11 @@ class CNFBilling extends CI_Controller
 				$this->form_validation->set_rules('dealer_user_id', 'Choose Dealer', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('gst_per', 'GST %', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('discount', 'Discount', 'trim|required|numeric|xss_clean|htmlentities');
+				$this->form_validation->set_rules('lr_date', 'LR Date', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('vehicle_no', 'Vehicle No', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('transporter', 'Transporter', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('driver_name', 'Driver Name', 'trim|required|xss_clean|htmlentities');
+				$this->form_validation->set_rules('driver_phone', 'Driver Phone', 'trim|required|numeric|xss_clean|htmlentities');
 
 				if ($this->form_validation->run() == FALSE) {
 					$this->form_validation->set_error_delimiters('', '');
@@ -260,6 +265,11 @@ class CNFBilling extends CI_Controller
 					$dealer_user_id = decode_url(xss_clean($this->input->post('dealer_user_id')));
 					$gst = xss_clean($this->input->post('gst_per'));
 					$discount = xss_clean($this->input->post('discount'));
+					$lr_date = xss_clean($this->input->post('lr_date'));
+					$vehicle_no = xss_clean($this->input->post('vehicle_no'));
+					$transporter = xss_clean($this->input->post('transporter'));
+					$driver_name = xss_clean($this->input->post('driver_name'));
+					$driver_phone = xss_clean($this->input->post('driver_phone'));
 					$billing_uniqid = 'CNF' . getUid();
 					$subtotal_f = 0.00;
 
@@ -274,7 +284,7 @@ class CNFBilling extends CI_Controller
 							if (!$getdata) {
 
 								$subtotal = $rate * $qty;
-								$subtotal_f += $subtotal;
+								// $subtotal_f += $subtotal;
 
 
 								//add
@@ -290,6 +300,11 @@ class CNFBilling extends CI_Controller
 									'gst'  => $gst,
 									// 'gst_amt'  => number_format((float)$gst_amt, 2, '.', ''),
 									// 'grand_total'  => number_format((float)$grand_total, 2, '.', ''),
+									'lr_date'  => $lr_date,
+									'vehicle_no'  => $vehicle_no,
+									'transporter'  => $transporter,
+									'driver_name'  => $driver_name,
+									'driver_phone'  => $driver_phone,
 									'added_dtime'  => dtime,
 									'cnf_user_id'  => $this->session->userdata('userid')
 								);
@@ -321,25 +336,24 @@ class CNFBilling extends CI_Controller
 						}
 					}
 					//calculate gst and discount
-					$gst_amt = ($subtotal_f * $gst) / 100;
+					// $gst_amt = ($subtotal_f * $gst) / 100;
 
-					if ($discount > 0) {
-						$grand_total = ($subtotal_f + $gst_amt) - $discount;
-					} else {
-						$grand_total = ($subtotal_f + $gst_amt);
-					}
+					// if ($discount > 0) {
+					// 	$grand_total = ($subtotal_f + $gst_amt) - $discount;
+					// } else {
+					// 	$grand_total = ($subtotal_f + $gst_amt);
+					// }
 
-					$upd_data = array(
-						// 'subtotal'  => number_format((float)$subtotal, 2, '.', ''),
+					// $upd_data = array(
 						// 'discount'  => $discount,
 						// 'gst'  => $gst,
-						'gst_amt'  => number_format((float)$gst_amt, 2, '.', ''),
-						'grand_total'  => number_format((float)$grand_total, 2, '.', '')
-					);
+					// 	'gst_amt'  => number_format((float)$gst_amt, 2, '.', ''),
+					// 	'grand_total'  => number_format((float)$grand_total, 2, '.', '')
+					// );
 
-					$upd = $this->am->updateCNFBilling($upd_data, array(
-						'billing_uniqid' => $billing_uniqid
-					));
+					// $upd = $this->am->updateCNFBilling($upd_data, array(
+					// 	'billing_uniqid' => $billing_uniqid
+					// ));
 					$return['added'] = 'success';
 				}
 
@@ -422,27 +436,46 @@ class CNFBilling extends CI_Controller
 				if (!empty($getdata)) {
 					foreach ($getdata as $key => $value) {
 						$billingdata[] = array(
-							'dtime'  => $value->added_dtime,
-							'rwid'  => encode_url($value->entry_id),
+							'dtime'  => $value->billing_dtime,
+							'rwid'  => encode_url($value->billing_id),
+							'billing_uniqid'  => $value->billing_uniqid,
 							'name'  => $value->name,
+							'dealer_full_name'  => ($value->dealer_full_name != '') ? $value->dealer_full_name : 'User deleted!',
+							'dealer_address'  => ($value->dealer_address != '') ? $value->dealer_address : 'User deleted!',
+							'dealer_phone'  => ($value->dealer_phone != '') ? $value->dealer_phone : 'User deleted!',
+							'dealer_gst'  => ($value->dealer_gst != '') ? $value->dealer_gst : 'User deleted!',
 							'et_invoice_no'  => $value->et_invoice_no,
 							'et_invoice_date'  => $value->et_invoice_date,
 							'model'  => $value->model,
 							'color'  => $value->color,
 							'vin_no'  => $value->vin_no,
 							'motor_no'  => $value->motor_no,
+							'manual_no'  => $value->manual_no,
+							'battery_sl1'  => $value->battery_sl1,
+							'battery_sl2'  => $value->battery_sl2,
+							'battery_sl3'  => $value->battery_sl3,
+							'battery_sl4'  => $value->battery_sl4,
 							'converter_no'  => $value->converter_no,
 							'controller_no'  => $value->controller_no,
 							'charger_no'  => $value->charger_no,
+							'subtotal'  => $value->subtotal,
+							'discount'  => $value->discount,
+							'gst'  => $value->gst,
+							// 'grand_total'  => $value->grand_total,
+							'cnf_notes'  => $value->cnf_notes,
+							'lr_date'  => $value->lr_date,
+							'vehicle_no'  => $value->vehicle_no,
+							'transporter'  => $value->transporter,
+							'driver_name'  => $value->driver_name,
+							'driver_phone'  => $value->driver_phone,
 							'status'  => $value->status,
 							'added_by'  => $value->added_by,
-							'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
+							// 'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
 						);
 					}
 				}
 
-				print_obj($billingdata);
-				die;
+				// print_obj($billingdata);die;
 				$this->data['billingdata'] = $billingdata;
 				$this->load->view('cnfbilling/vw_invoice', $this->data, false);
 			} else {

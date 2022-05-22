@@ -17,7 +17,7 @@ class DealerBilling extends CI_Controller
             if ($this->session->userdata('usergroup') == 1) {
                 $custdata = $this->am->getDealerBillingList(null, TRUE, null, null, TRUE);
             } else if ($this->session->userdata('usergroup') == 2) {
-                $custdata = $this->am->getDealerBillingList(array('cnf_user_id' => $this->session->userdata('userid')), TRUE, null, null, TRUE);
+                $custdata = $this->am->getDealerBillingList(array('dealer_user_id' => $this->session->userdata('userid')), TRUE, null, null, TRUE);
             } else if ($this->session->userdata('usergroup') == 3) {
                 $custdata = $this->am->getDealerBillingList(array('dealer_user_id' => $this->session->userdata('userid')), TRUE);
             } else {
@@ -28,7 +28,7 @@ class DealerBilling extends CI_Controller
                 foreach ($custdata as $key => $value) {
                     // $cnf_user = $this->am->getUserData(array('user_id' => $value->cnf_user_id));
                     $this->data['comp_data'][] = array(
-                        'dtime'  => $value->added_dtime,
+                        'dtime'  => $value->billing_dtime,
                         'rwid'  => encode_url($value->dealer_billing_id),
                         'name'  => $value->name,
                         'vin_no'  => $value->vin_no,
@@ -253,6 +253,7 @@ class DealerBilling extends CI_Controller
                 $this->form_validation->set_rules('bill_type', 'Bill Type', 'trim|required|xss_clean|htmlentities');
                 $this->form_validation->set_rules('billed_to_name', 'Name', 'trim|required|xss_clean|htmlentities');
                 $this->form_validation->set_rules('billed_to_address', 'Address', 'trim|required|xss_clean|htmlentities');
+                $this->form_validation->set_rules('billed_to_phone', 'Phone', 'trim|required|numeric|xss_clean|htmlentities');
                 $this->form_validation->set_rules('gst_per', 'GST %', 'trim|required|xss_clean|htmlentities');
                 $this->form_validation->set_rules('discount', 'Discount', 'trim|required|numeric|xss_clean|htmlentities');
 
@@ -264,6 +265,7 @@ class DealerBilling extends CI_Controller
                     $bill_type = xss_clean($this->input->post('bill_type'));
                     $billed_to_name = xss_clean($this->input->post('billed_to_name'));
                     $billed_to_address = xss_clean($this->input->post('billed_to_address'));
+                    $billed_to_phone = xss_clean($this->input->post('billed_to_phone'));
                     $gst = xss_clean($this->input->post('gst_per'));
                     $discount = xss_clean($this->input->post('discount'));
                     $billing_uniqid = 'DLR' . getUid();
@@ -290,6 +292,7 @@ class DealerBilling extends CI_Controller
                                     'bill_type'  => $bill_type,
                                     'billed_to_name'  => $billed_to_name,
                                     'billed_to_address'  => $billed_to_address,
+                                    'billed_to_phone'  => $billed_to_phone,
                                     'rate'  => $rate,
                                     'qty'  => $qty,
                                     'subtotal'  => number_format((float)$subtotal, 2, '.', ''),
@@ -459,42 +462,57 @@ class DealerBilling extends CI_Controller
     {
         if (!empty($this->session->userdata('userid')) && $this->session->userdata('usr_logged_in') == 1) {
 
-            $this->data['page_title'] = 'CNF Invoice';
-            $billing_id = decode_url(xss_clean($this->uri->segment(3)));
+            $this->data['page_title'] = 'Customer Invoice';
+            $dealer_billing_id  = decode_url(xss_clean($this->uri->segment(3)));
             $chkdata = array(
-                'billing_id'  => $billing_id
+                'dealer_billing_id '  => $dealer_billing_id
             );
-            $getdata = $this->am->getCNFBillingList($chkdata, FALSE);
+            $getdata = $this->am->getDealerBillingList($chkdata, FALSE);
             if ($getdata) {
 
-                $getdata = $this->am->getCNFBillingList(['billing_uniqid' => $getdata->billing_uniqid], TRUE);
+                $getdata = $this->am->getDealerBillingList(['billing_uniqid' => $getdata->billing_uniqid], TRUE);
 
                 if (!empty($getdata)) {
                     foreach ($getdata as $key => $value) {
                         $billingdata[] = array(
-                            'dtime'  => $value->added_dtime,
-                            'rwid'  => encode_url($value->entry_id),
-                            'name'  => $value->name,
-                            'et_invoice_no'  => $value->et_invoice_no,
-                            'et_invoice_date'  => $value->et_invoice_date,
-                            'model'  => $value->model,
-                            'color'  => $value->color,
-                            'vin_no'  => $value->vin_no,
-                            'motor_no'  => $value->motor_no,
-                            'converter_no'  => $value->converter_no,
-                            'controller_no'  => $value->controller_no,
-                            'charger_no'  => $value->charger_no,
-                            'status'  => $value->status,
-                            'added_by'  => $value->added_by,
-                            'edited_dtime'  => ($value->edited_dtime != '') ? $value->edited_dtime : 'NA'
+                            'dtime'  => $value->billing_dtime,
+							'rwid'  => encode_url($value->dealer_billing_id),
+							'billing_uniqid'  => $value->billing_uniqid,
+							'name'  => $value->name,
+							'dealer_full_name'  => ($value->dealer_full_name != '') ? $value->dealer_full_name : 'User deleted!',
+							'dealer_address'  => ($value->dealer_address != '') ? $value->dealer_address : 'User deleted!',
+							'dealer_phone'  => ($value->dealer_phone != '') ? $value->dealer_phone : 'User deleted!',
+							'dealer_gst'  => ($value->dealer_gst != '') ? $value->dealer_gst : 'User deleted!',
+							'et_invoice_no'  => $value->et_invoice_no,
+							'et_invoice_date'  => $value->et_invoice_date,
+							'model'  => $value->model,
+							'color'  => $value->color,
+							'vin_no'  => $value->vin_no,
+							'motor_no'  => $value->motor_no,
+							'manual_no'  => $value->manual_no,
+							'battery_sl1'  => $value->battery_sl1,
+							'battery_sl2'  => $value->battery_sl2,
+							'battery_sl3'  => $value->battery_sl3,
+							'battery_sl4'  => $value->battery_sl4,
+							'converter_no'  => $value->converter_no,
+							'controller_no'  => $value->controller_no,
+							'charger_no'  => $value->charger_no,
+							'subtotal'  => $value->subtotal,
+							'discount'  => $value->discount,
+							'gst'  => $value->gst,
+							// 'grand_total'  => $value->grand_total,
+							'status'  => $value->status,
+							'added_by'  => $value->added_by,
+							'billed_to_name'  => $value->billed_to_name,
+							'billed_to_phone'  => $value->billed_to_phone,
+							'billed_to_address'  => $value->billed_to_address,
                         );
                     }
                 }
 
-                print_obj($billingdata);
-                die;
+                // print_obj($billingdata);die;
                 $this->data['billingdata'] = $billingdata;
-                $this->load->view('cnfbilling/vw_invoice', $this->data, false);
+                $this->load->view('dealerbilling/vw_invoice', $this->data, false);
             } else {
                 redirect(base_url());
             }

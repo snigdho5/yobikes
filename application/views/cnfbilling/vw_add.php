@@ -89,7 +89,7 @@
 
 											<label for="amount_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">Amount</label>
 											<div class="col-sm-4">
-												<input type="number" class="form-control" id="amount_<?php echo $sl; ?>" name="amount_<?php echo $sl; ?>" placeholder="Amount.." autocomplete="off">
+												<input type="text" class="form-control" id="amount_<?php echo $sl; ?>" name="amount_<?php echo $sl; ?>" placeholder="Amount.." autocomplete="off">
 											</div>
 
 										</div>
@@ -139,6 +139,42 @@
 										<div class="col-sm-4">
 											<input type="number" class="form-control" id="discount" name="discount" placeholder="Discount.." value="0" autocomplete="off">
 										</div>
+									</div>
+
+									<div class="form-group row">
+										<label for="lr_date" class="col-sm-2 text-right control-label col-form-label">LR Date</label>
+										<div class="col-sm-4">
+											<input type="date" class="form-control" id="lr_date" name="lr_date" placeholder="LR Date.." autocomplete="off">
+										</div>
+
+										<label for="vehicle_no" class="col-sm-2 text-right control-label col-form-label">Vehicle No</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="vehicle_no" name="vehicle_no" placeholder="Vehicle No.." autocomplete="off">
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label for="transporter" class="col-sm-2 text-right control-label col-form-label">Transporter</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="transporter" name="transporter" placeholder="Transporter.." autocomplete="off">
+										</div>
+
+										<label for="driver_name" class="col-sm-2 text-right control-label col-form-label">Driver Name</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="driver_name" name="driver_name" placeholder="Driver Name.." autocomplete="off">
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label for="driver_phone" class="col-sm-2 text-right control-label col-form-label">Driver Phone</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="driver_phone" name="driver_phone" placeholder="Driver Phone.." autocomplete="off">
+										</div>
+
+										<!-- <label for="vehicle_no" class="col-sm-2 text-right control-label col-form-label">Vehicle No</label>
+										<div class="col-sm-4">
+											<input type="number" class="form-control" id="vehicle_no" name="vehicle_no" placeholder="Vehicle No.." value="0" autocomplete="off">
+										</div> -->
 									</div>
 
 								</div>

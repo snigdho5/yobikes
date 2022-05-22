@@ -58,15 +58,15 @@
 								<h5 class="card-title"><?php echo $page_title; ?>
 
 									<?php
-									if ($this->session->userdata('usergroup') != 2) {
+									// if ($this->session->userdata('usergroup') != 2) {
 									?>
 										<button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'dealerbilling/add'; ?>'">Customer / Sub-Dealer Billing</button>
 									<?php
-									} else {
+									// } else {
 									?>
 
 									<?php
-									}
+									// }
 									?>
 								</h5>
 								<div class="table-responsive">
@@ -95,7 +95,7 @@
 											?>
 													<tr>
 														<td><?php echo $sl; ?></td>
-														<td><?php echo $val['dtime']; ?></td>
+														<td><?php echo date('j F, Y, g:i a', strtotime($val['dtime'])); ?></td>
 														<td><?php echo $val['name']; ?></td>
 														<td><?php echo $val['vin_no']; ?></td>
 														<td><?php echo $val['dealer_full_name']; ?></td>
@@ -105,7 +105,7 @@
 														<td><?php echo $val['billed_to_address']; ?></td>
 														<td>
 															<?php if ($this->session->userdata('usergroup') != 3) {  ?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="Dealer Invoice"><i class="icofont-copy-invert"></i></button>
+																<button type="button" onclick="window.open('<?php echo base_url() . 'dealerbilling/invoice/' . $val['rwid']; ?>')" title="Dealer Invoice"><i class="icofont-printer"></i></button>
 
 																<!-- <button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/edit/' . $val['rwid']; ?>'"><i class="icofont-pencil-alt-2"></i></button> -->
 																<?php
@@ -121,7 +121,7 @@
 															<?php
 															if ($this->session->userdata('usergroup') == 3) {
 															?>
-																<button type="button" onclick="location.href='<?php echo base_url() . 'cnfbilling/invoice/' . $val['rwid']; ?>'" title="Dealer Invoice"><i class="icofont-copy-invert"></i></button>
+																<button type="button" onclick="window.open('<?php echo base_url() . 'dealerbilling/invoice/' . $val['rwid']; ?>')" title="Dealer Invoice"><i class="icofont-printer"></i></button>
 
 																<?php
 																if ($val['is_billed_to_cust'] == 2) {

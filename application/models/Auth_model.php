@@ -135,7 +135,7 @@ class Auth_model extends MY_Model
 	public function getCNFBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_cnf_billing.billing_id', $group_by = FALSE)
 	{
 
-		$this->db->select('tbl_cnf_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name');
+		$this->db->select('tbl_cnf_billing.added_dtime AS billing_dtime, tbl_cnf_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name, users.address AS dealer_address, users.phone AS dealer_phone, users.gst AS dealer_gst');
 
 		$this->db->join('mt_cnf_entry', 'mt_cnf_entry.entry_id = tbl_cnf_billing.cnf_entry_id', 'inner');
 		$this->db->join('users', 'users.user_id = tbl_cnf_billing.dealer_user_id', 'left');
@@ -201,7 +201,7 @@ class Auth_model extends MY_Model
 	public function getDealerBillingList($param = null, $many = FALSE, $order = 'DESC', $order_by = 'tbl_dealer_billing.dealer_billing_id', $group_by = FALSE)
 	{
 
-		$this->db->select('tbl_dealer_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name');
+		$this->db->select('tbl_dealer_billing.added_dtime AS billing_dtime, tbl_dealer_billing.*, mt_cnf_entry.*, users.full_name AS dealer_full_name, users.address AS dealer_address, users.phone AS dealer_phone, users.gst AS dealer_gst');
 
 		$this->db->join('mt_cnf_entry', 'mt_cnf_entry.entry_id = tbl_dealer_billing.cnf_entry_id', 'inner');
 		$this->db->join('users', 'users.user_id = tbl_dealer_billing.dealer_user_id', 'left');

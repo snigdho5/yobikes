@@ -53,3 +53,4 @@ $route['dealerbilling/add'] = 'DealerBilling/onCreateView';
 $route['dealerbilling/create'] = 'DealerBilling/onCreate';
 $route['dealerbilling/delete'] = 'DealerBilling/onDelete';
 $route['dealerbilling/change-bill-type'] = 'DealerBilling/onChangeBillType';
+$route['dealerbilling/invoice/(:any)'] = 'DealerBilling/onGetInvoice/$1';

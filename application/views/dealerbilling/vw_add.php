@@ -89,7 +89,7 @@
 
 											<label for="amount_<?php echo $sl; ?>" class="col-sm-2 text-right control-label col-form-label">Amount</label>
 											<div class="col-sm-4">
-												<input type="number" class="form-control" id="amount_<?php echo $sl; ?>" name="amount_<?php echo $sl; ?>" placeholder="Amount.." autocomplete="off">
+												<input type="text" class="form-control" id="amount_<?php echo $sl; ?>" name="amount_<?php echo $sl; ?>" placeholder="Amount.." autocomplete="off">
 											</div>
 
 										</div>
@@ -111,10 +111,10 @@
 											</select>
 										</div>
 
-										<!-- <label for="billed_to_address" class="col-sm-2 text-right control-label col-form-label">Customer Address</label>
+										<label for="billed_to_phone" class="col-sm-2 text-right control-label col-form-label text-phone">Customer Phone</label>
 										<div class="col-sm-4">
-											<textarea class="form-control" id="billed_to_address" name="billed_to_address" placeholder="Address.." autocomplete="off"></textarea>
-										</div> -->
+											<input type="text" class="form-control" id="billed_to_phone" name="billed_to_phone" placeholder="Phone.." autocomplete="off">
+										</div>
 									</div>
 
 									<div class="form-group row">
@@ -144,6 +144,7 @@
 											<input type="number" class="form-control" id="discount" name="discount" placeholder="Discount.." value="0" autocomplete="off">
 										</div>
 									</div>
+
 
 								</div>
 								<div class="border-top">
