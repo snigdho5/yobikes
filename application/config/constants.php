@@ -87,7 +87,9 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 //custom
 $now = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
 $dtime =  $now->format("Y-m-d H:i:s");
+$dtime2 =  $now->format("Y-m-d-H-i-s");
 define("dtime",$dtime);
+define("DTIME_FILE",$dtime2);
 define('DT',date('Y-m-d'));
 
 define('comp_name','ETBilling Admin');
