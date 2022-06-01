@@ -98,7 +98,7 @@
                                                     <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Address</span>:</strong></td>
                                                     <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billed_to_address'] : 'NA'; ?></span></td>
                                                     <td><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Invoice Number</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">#<?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billing_uniqid'] : 'NA'; ?></span></td>
+                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['manual_billing_sl'] : 'NA'; ?></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Mobile</span>:</strong></td>
@@ -196,6 +196,7 @@
                                                         $gst = $value['gst'];
                                                         $discount = $value['discount'];
                                                         $dtime = $value['dtime'];
+                                                        $notes = $value['notes'];
                                                     }
                                                 }
                                                 ?>
@@ -231,7 +232,7 @@
                                                 $grand_total = number_format((float)$grand_total, 2, '.', '');;
                                                 ?>
                                                 <tr style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">
-                                                    <td width="67%" height="48" colspan="2"><span style="font-weight:bolder;">Remarks:</span><br> </td>
+                                                    <td width="67%" height="48" colspan="2"><span style="font-weight:bolder;">Remarks:</span><br> <?php echo $notes; ?></td>
                                                     <td align="center">CGST <?php echo $gst_per_d; ?>%: <br>SGST <?php echo $gst_per_d; ?>%:</td>
                                                     <td width="13%" align="center"><?php echo number_format((float)$gst_amt_d, 2, '.', ''); ?> <br><?php echo number_format((float)$gst_amt_d, 2, '.', ''); ?></td>
                                                 </tr>

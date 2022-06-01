@@ -56,24 +56,28 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title"><?php echo $page_title; ?> <button type="button" class="btn badge badge-pill badge-success" onclick="location.href='<?php echo base_url() . 'cnf/add'; ?>'">Add <?php echo $page_title; ?></button></h5>
-								<p>Download sample excel format: <button type="button" class="btn badge badge-pill badge-info" onclick="location.href='<?php echo base_url() . 'common/files/sample-format1.xlsx'; ?>'">Download</button></p>
+								<hr />
+								<p>Download sample excel format: <button type="button" class="btn badge badge-pill badge-info" onclick="location.href='<?php echo base_url() . 'common/files/sample-format-blank2.xlsx'; ?>'">Download</button></p>
 
 								<?php if (!isset($upload_status) && !isset($file_error)) { ?>
 									<form action="<?php echo base_url(); ?>cnf/fileupload" method="post" enctype="multipart/form-data">
 										<b>Upload File</b> (Allowed: xlsx/xls/csv) :
 
 										<input type="file" name="uploadFile" value="" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required />
+
 										<input type="submit" name="submit" value="Upload" />
+										<!-- <button type="submit" name="submit" class="btn btn-md badge-primary" >Upload</button> -->
 									</form>
 								<?php } ?>
 
 
-								<?php if (isset($upload_status) && $upload_status == 'success') {
+								<?php
+								if (isset($upload_status) && $upload_status == 'success') {
 									echo '<br><i class="icofont-tick-mark" style="color:green;"></i> Successfully Uploaded.';
-									echo ' <a href="' . base_url() . 'uploads/' . $module_name . '/' . $module_id . '">View</a>';
-								} elseif (isset($file_error)) {
+									//echo ' <a href="' . base_url() . 'uploads/' . $module_name . '/' . $module_id . '">View</a>';
+								} else if (isset($file_error)) {
 									echo '<br><i class="icofont-close-circled" style="color:red;"></i> ' . $file_error . ' ';
-								} elseif (isset($upload_status) && $upload_status == 'failure') {
+								} else if (isset($upload_status) && $upload_status == 'failure') {
 									echo '<br><i class="icofont-close-circled" style="color:red;"></i> Something went wrong!';
 								} ?>
 
@@ -139,7 +143,7 @@
 											} else {
 												?>
 												<tr>
-													<td colspan="6">No data found</td>
+													<td colspan="9">No data found</td>
 												</tr>
 											<?php
 											}

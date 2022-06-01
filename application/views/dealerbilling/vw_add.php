@@ -135,13 +135,26 @@
 											<select class="form-control" style="width: 100%; height:36px;" id="gst_per" name="gst_per">
 												<option value="">Select</option>
 												<option value="5" selected>5</option>
-												<option value="10">10</option>
+												<option value="10">18</option>
 											</select>
 										</div>
 
 										<label for="discount" class="col-sm-2 text-right control-label col-form-label">Discount</label>
 										<div class="col-sm-4">
 											<input type="number" class="form-control" id="discount" name="discount" placeholder="Discount.." value="0" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="form-group row">
+
+										<label for="manual_billing_sl" class="col-sm-2 text-right control-label col-form-label">Invoice No</label>
+										<div class="col-sm-4">
+											<input type="number" class="form-control" id="manual_billing_sl" name="manual_billing_sl" placeholder="Invoice No.." value="0" autocomplete="off">
+										</div>
+
+										<label for="notes" class="col-sm-2 text-right control-label col-form-label">Notes</label>
+										<div class="col-sm-4">
+											<textarea class="form-control" id="notes" name="notes" placeholder="Notes.." autocomplete="off"></textarea>
 										</div>
 									</div>
 

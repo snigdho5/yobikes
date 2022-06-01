@@ -256,6 +256,8 @@ class DealerBilling extends CI_Controller
                 $this->form_validation->set_rules('billed_to_phone', 'Phone', 'trim|required|numeric|xss_clean|htmlentities');
                 $this->form_validation->set_rules('gst_per', 'GST %', 'trim|required|xss_clean|htmlentities');
                 $this->form_validation->set_rules('discount', 'Discount', 'trim|required|numeric|xss_clean|htmlentities');
+				$this->form_validation->set_rules('manual_billing_sl', 'Invoice No', 'trim|required|numeric|xss_clean|htmlentities');
+				$this->form_validation->set_rules('notes', 'Notes', 'trim|required|xss_clean|htmlentities');
 
                 if ($this->form_validation->run() == FALSE) {
                     $this->form_validation->set_error_delimiters('', '');
@@ -268,6 +270,8 @@ class DealerBilling extends CI_Controller
                     $billed_to_phone = xss_clean($this->input->post('billed_to_phone'));
                     $gst = xss_clean($this->input->post('gst_per'));
                     $discount = xss_clean($this->input->post('discount'));
+					$manual_billing_sl = xss_clean($this->input->post('manual_billing_sl'));
+					$notes = xss_clean($this->input->post('notes'));
                     $billing_uniqid = 'DLR' . getUid();
                     $subtotal_f = 0.00;
 
@@ -287,12 +291,14 @@ class DealerBilling extends CI_Controller
 
                                 //add
                                 $ins_data = array(
+									'manual_billing_sl'  => $manual_billing_sl,
                                     'billing_uniqid' => $billing_uniqid,
                                     'cnf_entry_id'  => $cnf_entry_id,
                                     'bill_type'  => $bill_type,
                                     'billed_to_name'  => $billed_to_name,
                                     'billed_to_address'  => $billed_to_address,
                                     'billed_to_phone'  => $billed_to_phone,
+                                    'notes'  => $notes,
                                     'rate'  => $rate,
                                     'qty'  => $qty,
                                     'subtotal'  => number_format((float)$subtotal, 2, '.', ''),
@@ -478,6 +484,8 @@ class DealerBilling extends CI_Controller
                             'dtime'  => $value->billing_dtime,
 							'rwid'  => encode_url($value->dealer_billing_id),
 							'billing_uniqid'  => $value->billing_uniqid,
+							'manual_billing_sl'  => $value->manual_billing_sl,
+							'notes'  => $value->notes,
 							'name'  => $value->name,
 							'dealer_full_name'  => ($value->dealer_full_name != '') ? $value->dealer_full_name : 'User deleted!',
 							'dealer_address'  => ($value->dealer_address != '') ? $value->dealer_address : 'User deleted!',

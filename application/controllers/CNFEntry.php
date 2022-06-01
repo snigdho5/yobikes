@@ -401,7 +401,7 @@ class CNFEntry extends CI_Controller
 					}
 
 					$inputFileName = $path . $import_xls_file;
-					
+
 					try {
 						$inputFileType = PHPExcel_IOFactory::identify($inputFileName);
 						$objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -409,19 +409,27 @@ class CNFEntry extends CI_Controller
 						$allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
 						$flag = true;
 
-						print_obj($allDataInSheet);die;
+						// print_obj($allDataInSheet);die;
 						$xl_length = count($allDataInSheet[1]);
 						//echo $xl_length;die;
 
 						$my_header = array(
-							'Created',
+							'ET Invoice No',
+							'ET Invoice Date',
 							'Name',
-							'Email address',
-							'Phone number',
-							'Stage',
-							'Owner',
-							'Source',
-							'Labels'
+							'Color',
+							'VIN No',
+							'VIN Sl',
+							'Motor No',
+							'Converter No',
+							'Controller No',
+							'Charger No',
+							'Manual No',
+							'Battery Sl 1',
+							'Battery Sl 2',
+							'Battery Sl 3',
+							'Battery Sl 4',
+							'Battery Sl 5'
 						);
 						$ar_length = count($my_header);
 
@@ -435,68 +443,97 @@ class CNFEntry extends CI_Controller
 								$allDataInSheet[1]['E'],
 								$allDataInSheet[1]['F'],
 								$allDataInSheet[1]['G'],
-								$allDataInSheet[1]['H']
+								$allDataInSheet[1]['H'],
+								$allDataInSheet[1]['I'],
+								$allDataInSheet[1]['J'],
+								$allDataInSheet[1]['K'],
+								$allDataInSheet[1]['L'],
+								$allDataInSheet[1]['M'],
+								$allDataInSheet[1]['N'],
+								$allDataInSheet[1]['O'],
+								$allDataInSheet[1]['P']
 							);
 
 							$diff = array_diff($my_header, $excel_header);
-							//print_obj($diff);
 
-							//print_obj($allDataInSheet);die;
+							// print_obj($diff);
+
+							// print_obj($allDataInSheet);die;
 							if (empty($diff)) {
 								foreach ($allDataInSheet as $value) {
 									if ($flag) {
 										$flag = false;
 										continue;
 									}
-									$data = array(
-										'lead_created' => $value['A'],
-										'name' => $value['B'],
-										'email' => $value['C'],
-										'phone' => $value['D'],
-										'stage' => $value['E'],
-										'owner' => $value['F'],
-										'source' => $value['G'],
-										'lebels' => $value['H'],
-										'added_user' => $this->session->userdata('userid'),
-										'created_dtime' => dtime
-									);
-									//print_obj($data);die;
 
-									$chkdata = array(
-										'name' => $value['B'],
-										'email' => $value['C'],
-										'phone' => $value['D']
-									);
-
-									$leaddata = $this->am->getCNFEntryData($chkdata, FALSE);
-									if ($leaddata) {
-										$result = $this->am->updateCNFEntry($data, $chkdata);
+									if ($value['E'] != '' && $value['F'] != '') {
+										$vin_no = $value['E'] . $value['F'];
 									} else {
-										$result = $this->am->addCNFEntry($data);
+										$vin_no = '';
+									}
+
+									$et_dt = $value['B'];
+									$et_inv_dt = date("Y-m-d", strtotime($et_dt));
+
+									if ($value['A'] != '') {
+										$data = array(
+											'et_invoice_no' => $value['A'],
+											'et_invoice_date' => $et_inv_dt,
+											'name' => $value['C'],
+											'color' => $value['D'],
+											'vin_no' => $vin_no,
+											'motor_no' => ($value['G'] != '') ? $value['G'] : '',
+											'converter_no' => ($value['H'] != '') ? $value['H'] : '',
+											'controller_no' => ($value['I'] != '') ? $value['I'] : '',
+											'charger_no' => ($value['J'] != '') ? $value['J'] : '',
+											'manual_no' => ($value['K'] != '') ? $value['K'] : '',
+											'battery_sl1' => ($value['L'] != '') ? $value['L'] : '',
+											'battery_sl2' => ($value['M'] != '') ? $value['M'] : '',
+											'battery_sl3' => ($value['N'] != '') ? $value['N'] : '',
+											'battery_sl4' => ($value['O'] != '') ? $value['O'] : '',
+											'battery_sl5' => ($value['P'] != '') ? $value['P'] : '',
+											'battery_sl6' => '',
+											'added_by' => $this->session->userdata('userid'),
+											'added_dtime' => dtime
+										);
+										// print_obj($data);die;
+
+										$chkdata = array(
+											'vin_no' => $vin_no
+										);
+
+										$leadData = $this->am->getCNFEntryData($chkdata, FALSE);
+										if ($leadData) {
+											//update
+											$result = $this->am->updateCNFEntry($data, $chkdata);
+										} else {
+											//insert
+											$result = $this->am->addCNFEntry($data);
+										}
 									}
 								}
 
 
 								if ($result) {
-									$this->data['import_status'] = "success";
+									$this->data['upload_status'] = "success";
 								} else {
-									$this->data['import_status'] = "error";
+									$this->data['upload_status'] = "error";
 								}
 							} else {
-								$this->data['import_status'] = "Mismatch in Excel Column Names!";
+								$this->data['upload_status'] = "Mismatch in Excel Column Names!";
 							}
 						} else {
-							$this->data['import_status'] = "Mismatch in Excel Column Header!";
+							$this->data['upload_status'] = "Mismatch in Excel Column Header!";
 						}
 					} catch (Exception $e) {
-						$this->data['import_status'] = 'Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+						$this->data['upload_status'] = 'Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
 							. '": ' . $e->getMessage();
 					}
 				} else {
-					$this->data['import_status'] = 'Error2';
+					$this->data['upload_status'] = 'Error2';
 				}
 			}
-			// $this->load->view('main/vw_fbleads2', $this->data, false);
+			redirect('cnf/list');
 		} else {
 			redirect(base_url());
 		}

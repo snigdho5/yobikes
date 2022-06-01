@@ -104,7 +104,7 @@
                                                     <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Address</span>:</strong></td>
                                                     <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['dealer_address'] : 'NA'; ?></span></td>
                                                     <td><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Invoice Number</span>:</strong></td>
-                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">#<?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['billing_uniqid'] : 'NA'; ?></span></td>
+                                                    <td><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;"><?php echo (isset($billingdata) && !empty($billingdata)) ? $billingdata[0]['manual_billing_sl'] : 'NA'; ?></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td height="25"><strong><span style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">Mobile</span>:</strong></td>

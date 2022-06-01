@@ -255,6 +255,7 @@ class CNFBilling extends CI_Controller
 				$this->form_validation->set_rules('transporter', 'Transporter', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('driver_name', 'Driver Name', 'trim|required|xss_clean|htmlentities');
 				$this->form_validation->set_rules('driver_phone', 'Driver Phone', 'trim|required|numeric|xss_clean|htmlentities');
+				$this->form_validation->set_rules('manual_billing_sl', 'Invoice No', 'trim|required|numeric|xss_clean|htmlentities');
 
 				if ($this->form_validation->run() == FALSE) {
 					$this->form_validation->set_error_delimiters('', '');
@@ -270,6 +271,7 @@ class CNFBilling extends CI_Controller
 					$transporter = xss_clean($this->input->post('transporter'));
 					$driver_name = xss_clean($this->input->post('driver_name'));
 					$driver_phone = xss_clean($this->input->post('driver_phone'));
+					$manual_billing_sl = xss_clean($this->input->post('manual_billing_sl'));
 					$billing_uniqid = 'CNF' . getUid();
 					$subtotal_f = 0.00;
 
@@ -289,6 +291,7 @@ class CNFBilling extends CI_Controller
 
 								//add
 								$ins_data = array(
+									'manual_billing_sl'  => $manual_billing_sl,
 									'billing_uniqid' => $billing_uniqid,
 									'cnf_entry_id'  => $cnf_entry_id,
 									'dealer_user_id'  => $dealer_user_id,
@@ -439,6 +442,7 @@ class CNFBilling extends CI_Controller
 							'dtime'  => $value->billing_dtime,
 							'rwid'  => encode_url($value->billing_id),
 							'billing_uniqid'  => $value->billing_uniqid,
+							'manual_billing_sl'  => $value->manual_billing_sl,
 							'name'  => $value->name,
 							'dealer_full_name'  => ($value->dealer_full_name != '') ? $value->dealer_full_name : 'User deleted!',
 							'dealer_address'  => ($value->dealer_address != '') ? $value->dealer_address : 'User deleted!',

@@ -131,7 +131,7 @@
 											<select class="form-control" style="width: 100%; height:36px;" id="gst_per" name="gst_per">
 												<option value="">Select</option>
 												<option value="5" selected>5</option>
-												<option value="10">10</option>
+												<option value="10">18</option>
 											</select>
 										</div>
 
@@ -171,10 +171,10 @@
 											<input type="text" class="form-control" id="driver_phone" name="driver_phone" placeholder="Driver Phone.." autocomplete="off">
 										</div>
 
-										<!-- <label for="vehicle_no" class="col-sm-2 text-right control-label col-form-label">Vehicle No</label>
+										<label for="manual_billing_sl" class="col-sm-2 text-right control-label col-form-label">Invoice No</label>
 										<div class="col-sm-4">
-											<input type="number" class="form-control" id="vehicle_no" name="vehicle_no" placeholder="Vehicle No.." value="0" autocomplete="off">
-										</div> -->
+											<input type="number" class="form-control" id="manual_billing_sl" name="manual_billing_sl" placeholder="Invoice No.." value="0" autocomplete="off">
+										</div>
 									</div>
 
 								</div>
